@@ -30,8 +30,8 @@ public class FiveStarApartmentTest {
 
         FiveStarApartment apartment1 = new FiveStarApartment(1, 23, 32, "Darmowe napoje", "Kakuter");
         FiveStarApartment apartment2 = new FiveStarApartment(1, 23, 32, "Darmowe napoje", "Kakuter");
-        FieldUtils.writeField(apartment1, "apartmentId", new UUID(12345678, 87654321), true);
-        FieldUtils.writeField(apartment2, "apartmentId", new UUID(12345678, 87654321), true);
+        FieldUtils.writeField(apartment1, "apartmentId", new UUID(12345678, 87654321).toString(), true);
+        FieldUtils.writeField(apartment2, "apartmentId", new UUID(12345678, 87654321).toString(), true);
         apartments.add(apartment1);
         apartments.add(apartment2);
 

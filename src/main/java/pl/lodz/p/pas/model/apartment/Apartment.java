@@ -3,19 +3,18 @@ package pl.lodz.p.pas.model.apartment;
 import lombok.Getter;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
-import org.apache.commons.lang3.builder.ToStringBuilder;
 import pl.lodz.p.pas.model.apartment.exception.ApartmentException;
 
 import java.util.UUID;
 
 @Getter
 public abstract class Apartment {
-    private final UUID apartmentId;
+    private final String apartmentId;
     private final int howManyBeds;
     private final int doorNumber;
     private final double basePricePerDay;
 
-    public Apartment(UUID apartmentId, int howManyBeds, int doorNumber, double basePricePerDay) throws ApartmentException {
+    public Apartment(String apartmentId, int howManyBeds, int doorNumber, double basePricePerDay) throws ApartmentException {
         if (howManyBeds <= 0) {
             throw new ApartmentException("Apartment beds number is not correct.");
         }
@@ -29,21 +28,16 @@ public abstract class Apartment {
     }
 
     public Apartment(int howManyBeds, int doorNumber, double basePricePerDay) throws ApartmentException {
-        this(UUID.randomUUID(), howManyBeds, doorNumber, basePricePerDay);
+        this(UUID.randomUUID().toString(), howManyBeds, doorNumber, basePricePerDay);
     }
 
     public abstract double actualPricePerDay();
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this)
-                .append("apartmentId", apartmentId)
-                .append("howManyBeds", howManyBeds)
-                .append("doorNumber", doorNumber)
-                .append("basePricePerDay", basePricePerDay)
-                .toString();
+        return "Apartment{" + "apartmentId=" + apartmentId + ", howManyBeds=" + howManyBeds + ", doorNumber=" + doorNumber + ", basePricePerDay=" + basePricePerDay + '}';
     }
-
+    
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

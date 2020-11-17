@@ -11,7 +11,7 @@ public class FiveStarApartment extends Apartment {
     private String bonus;
     private String pcName;
 
-    public FiveStarApartment(UUID apartmentId, int howManyBeds, int doorNumber, double basePricePerDay, String bonus, String pcName) throws ApartmentException {
+    public FiveStarApartment(String apartmentId, int howManyBeds, int doorNumber, double basePricePerDay, String bonus, String pcName) throws ApartmentException {
         super(apartmentId, howManyBeds, doorNumber, basePricePerDay);
         this.bonus = bonus;
         this.pcName = pcName;

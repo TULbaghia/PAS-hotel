@@ -29,8 +29,8 @@ public class ThreeStarApartmentTest {
 
         ThreeStarApartment apartment1 = new ThreeStarApartment(1, 23, 32, "Darmowe napoje");
         ThreeStarApartment apartment2 = new ThreeStarApartment(1, 23, 32, "Darmowe napoje");
-        FieldUtils.writeField(apartment1, "apartmentId", new UUID(12345678, 87654321), true);
-        FieldUtils.writeField(apartment2, "apartmentId", new UUID(12345678, 87654321), true);
+        FieldUtils.writeField(apartment1, "apartmentId", new UUID(12345678, 87654321).toString(), true);
+        FieldUtils.writeField(apartment2, "apartmentId", new UUID(12345678, 87654321).toString(), true);
         apartments.add(apartment1);
         apartments.add(apartment2);
 

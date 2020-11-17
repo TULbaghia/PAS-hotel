@@ -24,10 +24,19 @@
               xmlns:xsi="http://www.w3S.org/2001/XMLSchema-instance"
               xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_3.xsd">
     <navigation-rule>
-        <from-view-id>/index.xhtml</from-view-id>
+        <from-view-id>*</from-view-id>
         <navigation-case>
             <from-outcome>AddUser</from-outcome>
             <to-view-id>/AddUser.xhtml</to-view-id>
+            <redirect />
+        </navigation-case>
+    </navigation-rule>
+    <navigation-rule>
+        <from-view-id>*</from-view-id>
+        <navigation-case>
+            <from-outcome>AllUsers</from-outcome>
+            <to-view-id>/AllUsers.xhtml</to-view-id>
+            <redirect />
         </navigation-case>
     </navigation-rule>
      <navigation-rule>
@@ -35,6 +44,7 @@
         <navigation-case>
             <from-outcome>Index</from-outcome>
             <to-view-id>/index.xhtml</to-view-id>
+            <redirect />
         </navigation-case>
     </navigation-rule>
         <navigation-rule>
@@ -42,6 +52,7 @@
         <navigation-case>
             <from-outcome>UserAdded</from-outcome>
             <to-view-id>/UserAdded.xhtml</to-view-id>
+            <redirect />
         </navigation-case>
     </navigation-rule>
 </faces-config>

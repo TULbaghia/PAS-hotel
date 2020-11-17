@@ -10,7 +10,7 @@ import java.util.UUID;
 public class ThreeStarApartment extends Apartment {
     private String bonus;
 
-    public ThreeStarApartment(UUID apartmentId, int howManyBeds, int doorNumber, double basePricePerDay, String bonus) throws ApartmentException {
+    public ThreeStarApartment(String apartmentId, int howManyBeds, int doorNumber, double basePricePerDay, String bonus) throws ApartmentException {
         super(apartmentId, howManyBeds, doorNumber, basePricePerDay);
         this.bonus = bonus;
     }

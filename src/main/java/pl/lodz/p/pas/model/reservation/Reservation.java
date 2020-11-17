@@ -15,7 +15,7 @@ import java.util.UUID;
 
 public class Reservation {
 
-    private @Getter UUID rentId;
+    private @Getter String rentId;
     private @Getter Apartment apartment;
     private @Getter Guest guest;
     private @Getter LocalDateTime reservationStartDate;
@@ -24,7 +24,7 @@ public class Reservation {
     private @Getter
     Boolean isEnded;
 
-    public Reservation(UUID uuid, Apartment apartment, Guest guest, LocalDateTime reservationStartDate) throws ReservationException {
+    public Reservation(String rentId, Apartment apartment, Guest guest, LocalDateTime reservationStartDate) throws ReservationException {
         if (apartment == null) {
             throw new ReservationException("Apartment is null.");
         }
@@ -34,7 +34,7 @@ public class Reservation {
         if (reservationStartDate == null) {
             throw new ReservationException("Reservation start date is null.");
         }
-        this.rentId = uuid;
+        this.rentId = rentId;
         this.apartment = apartment;
         this.guest = guest;
         this.reservationStartDate = reservationStartDate;
@@ -42,17 +42,16 @@ public class Reservation {
     }
 
     public Reservation(Apartment apartment, Guest guest, LocalDateTime reservationStartDate) throws ReservationException {
-        this(UUID.randomUUID(), apartment, guest, reservationStartDate);
+        this(UUID.randomUUID().toString(), apartment, guest, reservationStartDate);
     }
 
-    // region Reservation ending
     public void endReservation() throws ReservationException, GuestException {
         this.isEnded = true;
-        LocalDateTime reservationEndDate = LocalDateTime.now();
-        if (reservationEndDate.isBefore(this.getReservationStartDate())) {
+        LocalDateTime reservationEnd= LocalDateTime.now();
+        if (reservationEnd.isBefore(this.getReservationStartDate())) {
             throw new ReservationException("Reservation ended before start date.");
         }
-        this.reservationEndDate = reservationEndDate;
+        this.reservationEndDate = reservationEnd;
         setEndedReservationPrice();
     }
 
@@ -68,7 +67,6 @@ public class Reservation {
             return duration == 0 ? 1 : duration;
         } else return 0;
     }
-    // endregion
 
     public double getPrice() {
         return isEnded ? price : 0;
@@ -76,16 +74,9 @@ public class Reservation {
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this)
-                .append("rentId", rentId)
-                .append("apartment", apartment)
-                .append("guest", guest)
-                .append("reservationStartDate", reservationStartDate)
-                .append("reservationEndDate", reservationEndDate)
-                .append("price", price)
-                .append("isEnded", isEnded)
-                .toString();
+        return "Reservation{" + "rentId=" + rentId + ", apartment=" + apartment + ", guest=" + guest + ", reservationStartDate=" + reservationStartDate + ", reservationEndDate=" + reservationEndDate + ", price=" + price + ", isEnded=" + isEnded + '}';
     }
+    
 
     @Override
     public boolean equals(Object o) {
