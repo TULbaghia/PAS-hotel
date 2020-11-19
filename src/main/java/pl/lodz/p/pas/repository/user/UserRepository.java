@@ -11,7 +11,7 @@ import pl.lodz.p.pas.repository.IRepository;
 @ApplicationScoped
 public class UserRepository implements IRepository<User> {
 
-    private final List<User> users = new ArrayList<>();
+    private List<User> users = new ArrayList<>();
 
     @Override
     public void add(User item) {
@@ -51,8 +51,8 @@ public class UserRepository implements IRepository<User> {
         for (User user : users) {
             if (user.getId().equals(id)) {
                 users.remove(user);
+                return;
             }
-            return;
         }
 
         throw new IllegalArgumentException();
@@ -61,9 +61,9 @@ public class UserRepository implements IRepository<User> {
     @PostConstruct
     private void initRepository() {
         users.add(new User("user1l", "user1n", "user1s"));
-        users.add(new User("user2l", "user1n", "user1s"));
-        users.add(new User("user3l", "user1n", "user1s"));
-        users.add(new User("user4l", "user1n", "user1s"));
+        users.add(new User("user2l", "user2n", "user2s"));
+        users.add(new User("user3l", "user3n", "user3s"));
+        users.add(new User("user4l", "user4n", "user4s"));
     }
 
 }

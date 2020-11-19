@@ -1,5 +1,6 @@
 <?xml version='1.0' encoding='UTF-8' ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition template="resources/templates/master-template.xhtml"
                 xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:f="http://java.sun.com/jsf/core"
@@ -18,11 +19,17 @@
                     <f:facet name="header">Name</f:facet>
                     ${u.name}
                 </h:column>
-                 <h:column>
+                <h:column>
                     <f:facet name="header">Surname</f:facet>
                     ${u.surname}
                 </h:column>
+                <h:column>
+                    <f:facet name="header">Actions</f:facet>
+                    <h:commandButton value="Delete" action="#{userController.deleteUser(u)}"/>
+                </h:column>
             </h:dataTable>
+            <h:commandButton value="Refresh" action="#{userController.initCurrentPersons()}" immediate="true"/>
+            <h:commandButton value="Cancel" action="Index" immediate="true"/>
         </h:form>
     </ui:define>
 </ui:composition>

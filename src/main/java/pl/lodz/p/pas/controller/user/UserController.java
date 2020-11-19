@@ -3,6 +3,7 @@ package pl.lodz.p.pas.controller.user;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
@@ -24,23 +25,31 @@ public class UserController implements Serializable {
     public List<User> getAllUsers(){
         return currentUsers;
     }
-    
-    public String processNewPerson(){
-        return "UserAdded";
-    }
-    
-    public String confirmNewUser() {
-        userRepository.add(newUser);
-        return "Index";
-    }
 
     public User getNewUser() {
         return newUser;
     }
-    
+
+    public String processNewPerson(){
+        newUser.setId(UUID.randomUUID().toString());
+        return "UserAdded";
+    }
+
+    public String confirmNewUser() {
+        if (newUser.getLogin() == null) throw new IllegalArgumentException("Try to create user without personal data");
+        userRepository.add(newUser);
+        newUser = new User();
+        initCurrentPersons();
+        return "Index";
+    }
+
+    public void deleteUser(User user) {
+        userRepository.delete(user.getId());
+        initCurrentPersons();
+    }
+
     @PostConstruct
     public void initCurrentPersons() {
-        System.out.println(userRepository.getAll());
         currentUsers = userRepository.getAll();
     }
     

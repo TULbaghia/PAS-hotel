@@ -1,17 +1,21 @@
 <?xml version='1.0' encoding='UTF-8' ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html">
-    <h:head>
-        <title>Facelet Title</title>
-    </h:head>
-    <h:body>
-        <h:form> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition template="resources/templates/master-template.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets">
+    <ui:define name="title">Starting Page</ui:define>
+
+    <ui:define name="content">
+        <h:form>
             Login <h:inputText value="#{userController.newUser.login}" required="true" requiredMessage="Login is required"/><br/>
             Name <h:inputText value="#{userController.newUser.name}" required="true" requiredMessage="Name is required"/><br/>
             Surname <h:inputText value="#{userController.newUser.surname}" required="true" requiredMessage="Name is required"/><br/>
             <h:commandButton value="Add" action="#{userController.processNewPerson()}"/>
+            <h:commandButton value="Cancel" action="Index" immediate="true"/>
         </h:form>
-    </h:body>
-</html>
+    </ui:define>
+</ui:composition>
 
