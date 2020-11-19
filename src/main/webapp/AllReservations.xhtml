@@ -5,13 +5,16 @@
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:ui="http://java.sun.com/jsf/facelets">
-<ui:define name="title">Starting Page</ui:define>
+    <ui:define name="title">Reservations List</ui:define>
 
-<ui:define name="content">
-    <ul>
-        <li><h:link outcome="AddUser"> Add new user </h:link></li>
-        <li><h:link outcome="AllUsers"> All user </h:link></li>
-    </ul>
-</ui:define>
+    <ui:define name="content">
+        <h:form>
+            <h:dataTable value="#{reservationsController.allReservations}" var="r">
+                <h:column>
+                    <f:facet name="header">Login</f:facet>
+                    ${u.rentId}
+                </h:column>
+            </h:dataTable>
+        </h:form>
+    </ui:define>
 </ui:composition>
-

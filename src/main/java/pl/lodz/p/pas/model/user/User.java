@@ -28,7 +28,6 @@ public class User implements Serializable {
     public User() {
     }
 
-    
     public String getId() {
         return id;
     }
@@ -65,11 +64,5 @@ public class User implements Serializable {
     public String toString() {
         return "User{" + "id=" + id + ", login=" + login + ", name=" + name + ", surname=" + surname + '}';
     }
-    
-    
-
-   
-    
-    
 
 }

@@ -26,7 +26,6 @@ public class UserController implements Serializable {
     }
     
     public String processNewPerson(){
-        System.out.println(newUser);
         return "UserAdded";
     }
     
