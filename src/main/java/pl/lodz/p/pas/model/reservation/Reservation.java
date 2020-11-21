@@ -1,6 +1,9 @@
 package pl.lodz.p.pas.model.reservation;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -9,31 +12,28 @@ import pl.lodz.p.pas.model.guest.Guest;
 import pl.lodz.p.pas.model.guest.exception.GuestException;
 import pl.lodz.p.pas.model.reservation.exception.ReservationException;
 
+import javax.enterprise.context.SessionScoped;
+import javax.inject.Named;
+import java.io.Serializable;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-public class Reservation {
+@SessionScoped
+@Named
+@NoArgsConstructor
+@ToString
+public class Reservation implements Serializable {
 
-    private @Getter String rentId;
-    private @Getter Apartment apartment;
-    private @Getter Guest guest;
-    private @Getter LocalDateTime reservationStartDate;
+    private @Getter @Setter String rentId;
+    private @Getter @Setter Apartment apartment;
+    private @Getter @Setter Guest guest;
+    private @Getter @Setter LocalDateTime reservationStartDate;
     private LocalDateTime reservationEndDate = null;
     private double price;
-    private @Getter
-    Boolean isEnded;
+    private @Getter Boolean isEnded;
 
-    public Reservation(String rentId, Apartment apartment, Guest guest, LocalDateTime reservationStartDate) throws ReservationException {
-        if (apartment == null) {
-            throw new ReservationException("Apartment is null.");
-        }
-        if (guest == null) {
-            throw new ReservationException("Guest is null.");
-        }
-        if (reservationStartDate == null) {
-            throw new ReservationException("Reservation start date is null.");
-        }
+    public Reservation(String rentId, Apartment apartment, Guest guest, LocalDateTime reservationStartDate) {
         this.rentId = rentId;
         this.apartment = apartment;
         this.guest = guest;
@@ -41,7 +41,7 @@ public class Reservation {
         this.isEnded = false;
     }
 
-    public Reservation(Apartment apartment, Guest guest, LocalDateTime reservationStartDate) throws ReservationException {
+    public Reservation(Apartment apartment, Guest guest, LocalDateTime reservationStartDate) {
         this(UUID.randomUUID().toString(), apartment, guest, reservationStartDate);
     }
 
@@ -71,12 +71,6 @@ public class Reservation {
     public double getPrice() {
         return isEnded ? price : 0;
     }
-
-    @Override
-    public String toString() {
-        return "Reservation{" + "rentId=" + rentId + ", apartment=" + apartment + ", guest=" + guest + ", reservationStartDate=" + reservationStartDate + ", reservationEndDate=" + reservationEndDate + ", price=" + price + ", isEnded=" + isEnded + '}';
-    }
-    
 
     @Override
     public boolean equals(Object o) {

@@ -5,6 +5,7 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
 
+import pl.lodz.p.pas.model.guest.Guest;
 import pl.lodz.p.pas.model.user.User;
 import pl.lodz.p.pas.repository.IRepository;
 
@@ -60,10 +61,10 @@ public class UserRepository implements IRepository<User> {
 
     @PostConstruct
     private void initRepository() {
-        users.add(new User("user1l", "user1n", "user1s"));
-        users.add(new User("user2l", "user2n", "user2s"));
-        users.add(new User("user3l", "user3n", "user3s"));
-        users.add(new User("user4l", "user4n", "user4s"));
+        users.add(new Guest("user1l", "user1n", "user1s"));
+        users.add(new Guest("user2l", "user2n", "user2s"));
+        users.add(new Guest("user3l", "user3n", "user3s"));
+        users.add(new Guest("user4l", "user4n", "user4s"));
     }
 
 }

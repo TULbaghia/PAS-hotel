@@ -1,13 +1,20 @@
 package pl.lodz.p.pas.model.apartment;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import pl.lodz.p.pas.model.apartment.exception.ApartmentException;
 
+import javax.enterprise.context.SessionScoped;
+import javax.inject.Named;
+import java.io.Serializable;
 import java.util.UUID;
 
+@SessionScoped
+@Named
 @Getter
-public class FiveStarApartment extends Apartment {
+@NoArgsConstructor
+public class FiveStarApartment extends Apartment implements Serializable {
     private String bonus;
     private String pcName;
 

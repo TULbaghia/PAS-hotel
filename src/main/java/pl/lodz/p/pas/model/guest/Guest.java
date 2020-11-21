@@ -1,45 +1,35 @@
 package pl.lodz.p.pas.model.guest;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import pl.lodz.p.pas.model.guest.exception.GuestException;
 import pl.lodz.p.pas.model.guest.guesttype.BasicGuestType;
 import pl.lodz.p.pas.model.guest.guesttype.GuestType;
+import pl.lodz.p.pas.model.user.User;
 
+import javax.enterprise.context.SessionScoped;
+import javax.inject.Named;
+import java.io.Serializable;
+import java.util.Objects;
 import java.util.UUID;
 
+@NoArgsConstructor
+@SessionScoped
+@Named
 @Getter
-public class Guest {
-    private final UUID guestId;
-    private final String firstName;
-    private final String surname;
-    private final String address;
-    private final int numberOfStays;
+@ToString
+public class Guest extends User implements Serializable {
+    private int numberOfStays;
     private GuestType guestType;
 
-    public Guest(UUID guestId, String firstName, String surname, String address) throws GuestException {
-        if (firstName.matches("")) {
-            throw new GuestException("Empty firstname.");
-        }
-        if (surname.matches("")) {
-            throw new GuestException("Empty surname.");
-        }
-        if (address.matches("")) {
-            throw new GuestException("Empty address.");
-        }
-
-        this.guestId = guestId;
-        this.firstName = firstName;
-        this.surname = surname;
-        this.address = address;
+    public Guest(String login, String firstname, String surname) {
+        super(login, firstname, surname);
         this.guestType = new BasicGuestType();
         this.numberOfStays = 0;
-    }
-
-    public Guest(String firstName, String surname, String address) throws GuestException {
-        this(UUID.randomUUID(), firstName, surname, address);
     }
 
     public double getDiscount(double price) throws GuestException {
@@ -60,35 +50,18 @@ public class Guest {
     }
     // endregion
 
-    @Override
-    public String toString() {
-        return new ToStringBuilder(this)
-                .append("guestId", guestId)
-                .append("firstName", firstName)
-                .append("surName", surname)
-                .append("address", address)
-                .append("numberOfStays", numberOfStays)
-                .append("guestType", guestType)
-                .toString();
-    }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-
         if (o == null || getClass() != o.getClass()) return false;
-
         Guest guest = (Guest) o;
-
-        return new EqualsBuilder()
-                .append(guestId, guest.guestId)
-                .isEquals();
+        return numberOfStays == guest.numberOfStays &&
+                guestType.equals(guest.guestType);
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder(17, 37)
-                .append(guestId)
-                .toHashCode();
+        return Objects.hash(numberOfStays, guestType);
     }
 }

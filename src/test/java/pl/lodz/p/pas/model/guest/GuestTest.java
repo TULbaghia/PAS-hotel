@@ -11,11 +11,11 @@ public class GuestTest {
 
     @Test
     public void creationGuestTestCase() throws GuestException {
-        Guest guest = new Guest("Jan", "Kowalski", "Test");
+        Guest guest = new Guest("Jan1", "Jan", "Test");
 
-        assertEquals(guest.getFirstName(), "Jan");
-        assertEquals(guest.getSurname(), "Kowalski");
-        assertEquals(guest.getAddress(), "Test");
+        assertEquals(guest.getLogin(), "Jan1");
+        assertEquals(guest.getFirstname(), "Jan");
+        assertEquals(guest.getSurname(), "Test");
         assertEquals(guest.getNumberOfStays(), 0);
         assertEquals(guest.getMaxApartmentsNumber(), new BasicGuestType().getMaxApartmentsNumber());
     }

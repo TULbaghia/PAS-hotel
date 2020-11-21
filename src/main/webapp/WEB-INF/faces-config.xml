@@ -26,32 +26,41 @@
     <navigation-rule>
         <from-view-id>*</from-view-id>
         <navigation-case>
-            <from-outcome>AddUser</from-outcome>
-            <to-view-id>/AddUser.xhtml</to-view-id>
+            <from-outcome>AddGuest</from-outcome>
+            <to-view-id>/add/AddGuest.xhtml</to-view-id>
             <redirect />
         </navigation-case>
-    </navigation-rule>
-    <navigation-rule>
-        <from-view-id>*</from-view-id>
         <navigation-case>
             <from-outcome>AllUsers</from-outcome>
-            <to-view-id>/AllUsers.xhtml</to-view-id>
+            <to-view-id>/list/AllUsers.xhtml</to-view-id>
             <redirect />
         </navigation-case>
-    </navigation-rule>
-     <navigation-rule>
-        <from-view-id>*</from-view-id>
+        <navigation-case>
+            <from-outcome>AllApartments</from-outcome>
+            <to-view-id>/list/AllApartments.xhtml</to-view-id>
+            <redirect />
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>AllReservations</from-outcome>
+            <to-view-id>/list/AllReservations.xhtml</to-view-id>
+            <redirect />
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>SelectApartment</from-outcome>
+            <to-view-id>/reservation/SelectApartment.xhtml</to-view-id>
+            <redirect />
+        </navigation-case>
         <navigation-case>
             <from-outcome>Index</from-outcome>
             <to-view-id>/index.xhtml</to-view-id>
             <redirect />
         </navigation-case>
     </navigation-rule>
-        <navigation-rule>
-        <from-view-id>/AddUser.xhtml</from-view-id>
+    <navigation-rule>
+        <from-view-id>/add/AddGuest.xhtml</from-view-id>
         <navigation-case>
-            <from-outcome>UserAdded</from-outcome>
-            <to-view-id>/UserAdded.xhtml</to-view-id>
+            <from-outcome>GuestAdded</from-outcome>
+            <to-view-id>/add/GuestAdded.xhtml</to-view-id>
             <redirect />
         </navigation-case>
     </navigation-rule>

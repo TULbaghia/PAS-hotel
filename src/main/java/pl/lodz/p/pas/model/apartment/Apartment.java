@@ -1,18 +1,25 @@
 package pl.lodz.p.pas.model.apartment;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import pl.lodz.p.pas.model.apartment.exception.ApartmentException;
 
+import javax.enterprise.context.SessionScoped;
+import javax.inject.Named;
 import java.util.UUID;
 
+@ToString
 @Getter
+@NoArgsConstructor
 public abstract class Apartment {
-    private final String apartmentId;
-    private final int howManyBeds;
-    private final int doorNumber;
-    private final double basePricePerDay;
+    private @Setter String apartmentId;
+    private int howManyBeds;
+    private int doorNumber;
+    private double basePricePerDay;
 
     public Apartment(String apartmentId, int howManyBeds, int doorNumber, double basePricePerDay) throws ApartmentException {
         if (howManyBeds <= 0) {
@@ -33,11 +40,6 @@ public abstract class Apartment {
 
     public abstract double actualPricePerDay();
 
-    @Override
-    public String toString() {
-        return "Apartment{" + "apartmentId=" + apartmentId + ", howManyBeds=" + howManyBeds + ", doorNumber=" + doorNumber + ", basePricePerDay=" + basePricePerDay + '}';
-    }
-    
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
