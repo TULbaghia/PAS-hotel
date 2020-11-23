@@ -10,12 +10,12 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class GuestTest {
 
     @Test
-    public void creationGuestTestCase() throws GuestException {
+    public void creationGuestTestCase() {
         Guest guest = new Guest("Jan1", "Jan", "Test");
 
         assertEquals(guest.getLogin(), "Jan1");
-        assertEquals(guest.getFirstname(), "Jan");
-        assertEquals(guest.getSurname(), "Test");
+        assertEquals(guest.getLastname(), "Jan");
+        assertEquals(guest.getPassword(), "Test");
         assertEquals(guest.getNumberOfStays(), 0);
         assertEquals(guest.getMaxApartmentsNumber(), new BasicGuestType().getMaxApartmentsNumber());
     }

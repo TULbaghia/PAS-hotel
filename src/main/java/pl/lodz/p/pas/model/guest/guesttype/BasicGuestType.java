@@ -1,9 +1,11 @@
 package pl.lodz.p.pas.model.guest.guesttype;
 
-import org.apache.commons.lang3.builder.ToStringBuilder;
+import lombok.ToString;
 import pl.lodz.p.pas.model.guest.exception.BasicGuestTypeException;
 
+@ToString(callSuper = true)
 public class BasicGuestType extends GuestType {
+
     public BasicGuestType(int maxApartmentsNumber) {
         super(maxApartmentsNumber);
     }
@@ -14,15 +16,9 @@ public class BasicGuestType extends GuestType {
 
     @Override
     public double calculateDiscount(double price) throws BasicGuestTypeException {
-        if(price < 0) {
+        if (price < 0) {
             throw new BasicGuestTypeException("Price is smaller than 0.");
-        } else return price;
-    }
-
-    @Override
-    public String toString() {
-        return new ToStringBuilder(this)
-                .appendSuper(super.toString())
-                .toString();
+        }
+        return price;
     }
 }

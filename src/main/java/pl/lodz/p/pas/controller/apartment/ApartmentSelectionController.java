@@ -4,16 +4,16 @@ import pl.lodz.p.pas.model.apartment.Apartment;
 import pl.lodz.p.pas.repository.apartment.ApartmentRepository;
 
 import javax.annotation.PostConstruct;
-import javax.faces.view.ViewScoped;
+import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-@ViewScoped
+@SessionScoped
 @Named
-public class ApartmentListController implements Serializable {
+public class ApartmentSelectionController implements Serializable {
 
     @Inject
     private ApartmentRepository apartmentRepository;
@@ -24,14 +24,18 @@ public class ApartmentListController implements Serializable {
         return currentApartments;
     }
 
-    public String deleteApartment(Apartment apartment) {
-        apartmentRepository.delete(apartment.getApartmentId());
-        return "AllApartments";
+    @PostConstruct
+    public void initCurrentPersons() {
+        currentApartments = apartmentRepository.getAll();
     }
 
-    @PostConstruct
-    public void initCurrentApartments() {
-        currentApartments = apartmentRepository.getAll();
+    public String connectApartment(Apartment a) {
+        if (a == null) {
+            throw new IllegalArgumentException("Invalid apartment");
+        } else {
+//            this. = a;
+        }
+        return "ReservationAdded";
     }
 
 }

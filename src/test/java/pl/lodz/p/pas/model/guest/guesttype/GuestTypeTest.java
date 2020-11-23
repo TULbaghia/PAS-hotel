@@ -11,7 +11,7 @@ public class GuestTypeTest {
     Guest guest;
 
     @BeforeEach
-    public void setUp() throws GuestException {
+    public void setUp() {
         guest = new Guest("Jan", "Kowalski", "Test");
     }
 

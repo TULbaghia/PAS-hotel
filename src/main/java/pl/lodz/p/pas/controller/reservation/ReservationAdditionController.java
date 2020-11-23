@@ -1,23 +1,20 @@
 package pl.lodz.p.pas.controller.reservation;
 
 import pl.lodz.p.pas.model.apartment.Apartment;
-import pl.lodz.p.pas.model.apartment.ThreeStarApartment;
 import pl.lodz.p.pas.model.guest.Guest;
 import pl.lodz.p.pas.model.reservation.Reservation;
-import pl.lodz.p.pas.model.reservation.exception.ReservationException;
 import pl.lodz.p.pas.model.user.User;
 import pl.lodz.p.pas.repository.reservation.ReservationRepository;
-import pl.lodz.p.pas.repository.user.UserRepository;
 
 import javax.enterprise.context.Conversation;
-import javax.enterprise.context.ConversationScoped;
+import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-@ConversationScoped
+@SessionScoped
 @Named
 public class ReservationAdditionController implements Serializable {
 
@@ -34,11 +31,15 @@ public class ReservationAdditionController implements Serializable {
     }
 
     public String processNewReservation(User u) {
-        conversation.begin();
+        if (u == null) {
+            throw new RuntimeException("TEST");
+        }
         newReservation.setRentId(UUID.randomUUID().toString());
         if (u instanceof Guest) {
             newReservation.setGuest((Guest) u);
-        } else throw new IllegalArgumentException("Only guest can be attached to reservation");
+        } else {
+            throw new IllegalArgumentException("Only guest can be attached to reservation");
+        }
         return "SelectApartment";
     }
 
@@ -50,11 +51,12 @@ public class ReservationAdditionController implements Serializable {
     }
 
     public String confirmNewReservation() {
-        if (newReservation.getApartment() == null) throw new IllegalArgumentException("Try to create reservation without personal data");
+        if (newReservation.getApartment() == null)
+            throw new IllegalArgumentException("Try to create reservation without personal data");
         newReservation.setReservationStartDate(LocalDateTime.now());
         reservationRepository.add(newReservation);
         newReservation = new Reservation();
-        conversation.end();
+//        conversation.end();
         return "Index";
     }
 

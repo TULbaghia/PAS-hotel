@@ -3,16 +3,14 @@ package pl.lodz.p.pas.repository.reservation;
 import java.util.ArrayList;
 import java.util.List;
 import pl.lodz.p.pas.model.reservation.Reservation;
-import pl.lodz.p.pas.model.user.User;
 import pl.lodz.p.pas.repository.IRepository;
 
-import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
 
 @ApplicationScoped
 public class ReservationRepository implements IRepository<Reservation> {
 
- private List<Reservation> reservations = new ArrayList<>();
+ private final List<Reservation> reservations = new ArrayList<>();
 
     public ReservationRepository() {
     }

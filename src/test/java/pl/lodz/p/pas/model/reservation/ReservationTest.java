@@ -23,13 +23,13 @@ public class ReservationTest {
     Apartment apartment;
 
     @BeforeEach
-    public void setUp() throws GuestException {
+    public void setUp() {
         guest = new Guest("Adam", "Kowalski", "Bezowa");
         localDateTime = LocalDateTime.of(2020, 10, 19, 15, 15);
     }
 
     @Test
-    public void reservationBasicGuestTestCase() throws ReservationException, GuestException, ApartmentException {
+    public void reservationBasicGuestTestCase() throws ReservationException, GuestException {
         apartment = new FiveStarApartment(1, 23, 32, "Darmowe napoje", "Komputer_23");
         Reservation reservation = new Reservation(apartment, guest, localDateTime);
 
@@ -41,12 +41,12 @@ public class ReservationTest {
 
         assertEquals(reservation.getApartment(), apartment);
         assertEquals(reservation.getGuest(), guest);
-        assertEquals(reservation.getDuration(), getDays());
+        assertEquals(reservation.getDurationDays(), getDays());
         assertEquals(reservation.getPrice(), getDiscount(reservation));
     }
 
     @Test
-    public void reservationSpecialGuestTestCase() throws GuestException, ApartmentException, ReservationException {
+    public void reservationSpecialGuestTestCase() throws GuestException, ReservationException {
         guest.changeGuestType(new SpecialGuestType());
         apartment = new ThreeStarApartment(1, 23, 32, "Darmowe napoje");
         Reservation reservation = new Reservation(apartment, guest, localDateTime);
@@ -59,13 +59,13 @@ public class ReservationTest {
 
         assertEquals(reservation.getApartment(), apartment);
         assertEquals(reservation.getGuest(), guest);
-        assertEquals(reservation.getDuration(), getDays());
+        assertEquals(reservation.getDurationDays(), getDays());
         assertEquals(reservation.getPrice(), getDiscount(reservation));
 
     }
 
     private double getDiscount(Reservation reservation) throws GuestException {
-        return guest.getDiscount((reservation.getDuration() * apartment.actualPricePerDay()));
+        return guest.getDiscount((reservation.getDurationDays() * apartment.actualPricePerDay()));
     }
 
     private long getDays() {

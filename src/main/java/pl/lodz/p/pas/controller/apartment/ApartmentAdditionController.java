@@ -3,9 +3,7 @@ package pl.lodz.p.pas.controller.apartment;
 import pl.lodz.p.pas.model.apartment.Apartment;
 import pl.lodz.p.pas.model.apartment.FiveStarApartment;
 import pl.lodz.p.pas.model.apartment.ThreeStarApartment;
-import pl.lodz.p.pas.model.user.User;
 import pl.lodz.p.pas.repository.apartment.ApartmentRepository;
-import pl.lodz.p.pas.repository.user.UserRepository;
 
 import javax.enterprise.context.Conversation;
 import javax.enterprise.context.ConversationScoped;

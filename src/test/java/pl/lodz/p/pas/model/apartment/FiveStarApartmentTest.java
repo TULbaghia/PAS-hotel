@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class FiveStarApartmentTest {
 
     @Test
-    public void fiveStarApartmentCreationTestCase() throws ApartmentException {
+    public void fiveStarApartmentCreationTestCase() {
         FiveStarApartment apartment = new FiveStarApartment(1, 23, 32, "Darmowe napoje", "Komputer_23");
 
         assertEquals(apartment.getHowManyBeds(), 1);

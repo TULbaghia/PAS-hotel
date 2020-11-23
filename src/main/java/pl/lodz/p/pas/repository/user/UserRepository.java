@@ -12,7 +12,7 @@ import pl.lodz.p.pas.repository.IRepository;
 @ApplicationScoped
 public class UserRepository implements IRepository<User> {
 
-    private List<User> users = new ArrayList<>();
+    private final List<User> users = new ArrayList<>();
 
     @Override
     public void add(User item) {

@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class ApartmentTest {
 
     @Test
-    public void fiveStarApartmentCreationTestCase() throws ApartmentException {
+    public void fiveStarApartmentCreationTestCase() {
         Apartment apartment = new FiveStarApartment(1, 23, 32, "Darmowe napoje", "Komputer_23");
 
         assertEquals(apartment.getHowManyBeds(), 1);
@@ -20,7 +20,7 @@ public class ApartmentTest {
     }
 
     @Test
-    public void threeStarApartmentCreationTestCase() throws ApartmentException {
+    public void threeStarApartmentCreationTestCase() {
         Apartment apartment = new ThreeStarApartment(1, 23, 32, "Darmowe napoje");
 
         assertEquals(apartment.getHowManyBeds(), 1);
@@ -30,7 +30,7 @@ public class ApartmentTest {
     }
 
     @Test
-    public void uniqueIdTestCase() throws ApartmentException {
+    public void uniqueIdTestCase() {
         Set<Apartment> apartments = new HashSet<>();
 
         int size = 25;

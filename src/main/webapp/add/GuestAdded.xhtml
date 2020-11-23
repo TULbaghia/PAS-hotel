@@ -1,21 +1,21 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<ui:composition template="../resources/templates/master-template.xhtml"
-                xmlns="http://www.w3.org/1999/xhtml"
-                xmlns:f="http://java.sun.com/jsf/core"
-                xmlns:h="http://java.sun.com/jsf/html"
-                xmlns:ui="http://java.sun.com/jsf/facelets">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+<ui:composition template="../resources/templates/master-template.xhtml">
     <ui:define name="title">Starting Page</ui:define>
 
     <ui:define name="content">
         <h:form>
-            Login: <h:outputText value="#{userAdditionController.newUser.login}"/><br/>
-            Name: <h:outputText value="#{userAdditionController.newUser.firstname}"/><br/>
-            Surname: <h:outputText value="#{userAdditionController.newUser.surname}"/><br/>
-            <h:commandButton value="Add" action="#{userAdditionController.confirmNewUser()}"/>
+            Login: <h:outputText value="#{guestAdditionController.newUser.login}"/><br/>
+            Password: <h:outputText value="#{guestAdditionController.newUser.password}"/><br/>
+            Lastname: <h:outputText value="#{guestAdditionController.newUser.lastname}"/><br/>
+            <h:commandButton value="Add" action="#{guestAdditionController.confirmNewUser()}"/>
             <h:commandButton value="Cancel" action="Index" immediate="true"/>
         </h:form>
     </ui:define>
 </ui:composition>
+</html>
 

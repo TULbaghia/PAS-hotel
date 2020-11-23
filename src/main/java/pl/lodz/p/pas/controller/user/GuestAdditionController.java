@@ -13,7 +13,7 @@ import java.util.UUID;
 
 @ConversationScoped
 @Named
-public class UserAdditionController implements Serializable {
+public class GuestAdditionController implements Serializable {
 
     @Inject
     private UserRepository userRepository;
@@ -28,7 +28,6 @@ public class UserAdditionController implements Serializable {
     }
 
     public String processNewPerson() {
-        newUser.setId(UUID.randomUUID().toString());
         conversation.begin();
         return "GuestAdded";
     }

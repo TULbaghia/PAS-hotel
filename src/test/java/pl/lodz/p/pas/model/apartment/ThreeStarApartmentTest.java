@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class ThreeStarApartmentTest {
 
     @Test
-    public void threeStarApartmentCreationTestCase() throws ApartmentException {
+    public void threeStarApartmentCreationTestCase() {
         ThreeStarApartment apartment = new ThreeStarApartment(1, 23, 32, "Darmowe napoje");
 
         assertEquals(apartment.getHowManyBeds(), 1);
@@ -24,7 +24,7 @@ public class ThreeStarApartmentTest {
 
 
     @Test
-    public void uniqueIdTestCase() throws IllegalAccessException, ApartmentException {
+    public void uniqueIdTestCase() throws IllegalAccessException {
         Set<ThreeStarApartment> apartments = new HashSet<>();
 
         ThreeStarApartment apartment1 = new ThreeStarApartment(1, 23, 32, "Darmowe napoje");

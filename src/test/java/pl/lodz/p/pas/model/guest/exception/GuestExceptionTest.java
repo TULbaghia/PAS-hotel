@@ -1,6 +1,5 @@
 package pl.lodz.p.pas.model.guest.exception;
 
-import lombok.var;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
