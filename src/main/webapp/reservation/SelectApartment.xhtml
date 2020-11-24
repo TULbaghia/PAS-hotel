@@ -10,7 +10,7 @@
 
     <ui:define name="content">
         <h:form>
-            <h:dataTable value="#{apartmentListController.allApartments}" var="a">
+            <h:dataTable value="#{apartmentSelectionController.allApartments}" var="a">
                 <h:column>
                     <f:facet name="header">Base price</f:facet>
                     ${a.basePricePerDay}
@@ -25,10 +25,10 @@
                 </h:column>
                 <h:column>
                     <f:facet name="header">Actions</f:facet>
-                    <h:commandButton value="Select" action="#{apartmentSelectionController.connectApartment(a)}"/>
+                    <h:commandButton value="Select" action="#{reservationAdditionController.connectApartment(a)}"/>
                 </h:column>
             </h:dataTable>
-            <h:commandButton value="Refresh" action="#{apartmentListController.initCurrentApartments()}"
+            <h:commandButton value="Refresh" action="#{apartmentSelectionController.getNotReservedApartments()}"
                              immediate="true"/>
             <h:commandButton value="Cancel" action="Index" immediate="true"/>
         </h:form>

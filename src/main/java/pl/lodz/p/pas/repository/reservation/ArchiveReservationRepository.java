@@ -1,20 +1,18 @@
 package pl.lodz.p.pas.repository.reservation;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import lombok.NoArgsConstructor;
 import pl.lodz.p.pas.model.reservation.Reservation;
 import pl.lodz.p.pas.repository.IRepository;
 
 import javax.enterprise.context.ApplicationScoped;
+import java.util.ArrayList;
+import java.util.List;
 
 @ApplicationScoped
-public class ReservationRepository implements IRepository<Reservation> {
+@NoArgsConstructor
+public class ArchiveReservationRepository implements IRepository<Reservation> {
 
     private final List<Reservation> reservations = new ArrayList<>();
-
-    public ReservationRepository() {
-    }
 
     @Override
     public void add(Reservation item) {

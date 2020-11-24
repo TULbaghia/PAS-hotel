@@ -10,8 +10,8 @@
     <ui:define name="content">
         <h:form>
             Rent id <h:outputText value="#{reservationAdditionController.newReservation.rentId}"/><br/>
-            Guest: <h:outputText value="#{reservationAdditionController.user}"/><br/>
-            Apartment: <h:outputText value="#{reservationAdditionController.apartment}"/><br/>
+            Guest: <h:outputText value="#{reservationAdditionController.newReservation.guest}"/><br/>
+            Apartment: <h:outputText value="#{reservationAdditionController.newReservation.apartment}"/><br/>
             <h:commandButton value="Add" action="#{reservationAdditionController.confirmNewReservation()}"/>
             <h:commandButton value="Cancel" action="Index" immediate="true"/>
         </h:form>
