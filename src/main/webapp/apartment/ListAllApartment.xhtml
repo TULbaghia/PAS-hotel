@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
+<ui:composition template="../resources/templates/master-template.xhtml" >
+    <ui:define name="title">#{msg.apartment_title}</ui:define>
+
+    <ui:define name="content">
+        <h:form>
+            <h:inputText a:placeholder="#{msg.filter_search_placeholder}" id="search" value="#{listAllApartmentController.searchData}"/>
+            <h:commandButton value="#{msg.filter_search_button}" action="#{listAllApartmentController.initCurrentApartments()}"/>
+        </h:form>
+        <h:form>
+            <h:dataTable styleClass="table table-hover table-striped table-bordered" value="#{listAllApartmentController.allApartments}" var="a">
+                <h:column>
+                    <f:facet name="header">#{msg.apartment_field_Id}</f:facet>
+                    ${a.id}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">#{msg.apartment_field_basePricePerDay}</f:facet>
+                    ${a.basePricePerDay}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">#{msg.apartment_field_doorNumber}</f:facet>
+                    ${a.doorNumber}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">#{msg.apartment_field_howManyBeds}</f:facet>
+                    ${a.howManyBeds}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">#{msg.action_text}</f:facet>
+                    <h:commandButton value="#{msg.action_delete}" action="#{deleteApartmentController.deleteApartment(a, 'ListAllApartment')}"/>
+                    <h:commandButton value="#{msg.action_edit}" action="#{editApartmentController.processToEditApartment(a)}"/>
+                    <h:commandButton value="#{msg.action_details}" action="#{detailApartmentController.processToShowDetails(a)}"/>
+                </h:column>
+            </h:dataTable>
+            <h:commandButton value="#{msg.action_refresh}" action="#{listAllApartmentController.initCurrentApartments()}" immediate="true"/>
+            <h:commandButton value="#{msg.action_cancel}" action="Index" immediate="true"/>
+        </h:form>
+    </ui:define>
+</ui:composition>
+</html>

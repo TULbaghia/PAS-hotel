@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+<ui:composition template="../../resources/templates/master-template.xhtml">
+    <ui:define name="title">#{msg.user_guest_detail_title}</ui:define>
+
+    <ui:define name="content">
+            #{msg.user_field_Id} <h:outputText value="#{detailGuestController.guest.id}"/><br/>
+            #{msg.user_field_Login} <h:outputText value="#{detailGuestController.guest.login}"/><br/>
+            #{msg.user_field_Password} <h:outputText value="#{detailGuestController.guest.password}"/><br/>
+            #{msg.user_field_Firstname} <h:outputText value="#{detailGuestController.guest.firstname}"/><br/>
+            #{msg.user_field_Lastname} <h:outputText value="#{detailGuestController.guest.lastname}"/><br/>
+            #{msg.user_field_guestType} <h:outputText value="#{detailGuestController.guest.guestType}"/><br/>
+            #{msg.user_guest_detail_reservations}
+            <h:dataTable styleClass="table table-hover table-striped table-bordered" value="#{detailGuestController.guestsReservations}" var="r">
+                <h:column>
+                    <f:facet name="header">#{msg.reservation_field_Id}</f:facet>
+                    ${r.id}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">#{msg.reservation_field_Apartment}</f:facet>
+                    ${r.apartment}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">#{msg.reservation_field_StartDate}</f:facet>
+                    ${r.reservationStartDate}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">#{msg.reservation_field_EndDate}</f:facet>
+                    ${r.reservationEndDate}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">#{msg.reservation_field_Price}</f:facet>
+                    ${r.price}
+                </h:column>
+            </h:dataTable>
+        <h:outputText value="#{detailGuestController.endTransact()}"/>
+    </ui:define>
+</ui:composition>
+</html>
+

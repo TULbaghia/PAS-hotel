@@ -1,0 +1,50 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+<ui:composition template="../resources/templates/master-template.xhtml">
+    <ui:define name="title">#{msg.apartment_detail_title}</ui:define>
+
+    <ui:define name="content">
+        #{msg.apartment_field_Id} <h:outputText value="#{detailApartmentController.apartment.id}"/><br/>
+        #{msg.apartment_field_doorNumber} <h:outputText value="#{detailApartmentController.apartment.doorNumber}"/><br/>
+        #{msg.apartment_field_basePricePerDay} <h:outputText value="#{detailApartmentController.apartment.basePricePerDay}"/><br/>
+
+        <h:panelGroup rendered='#{detailApartmentController.getInstanceName().equals("FiveStarApartment")}'>
+            <ui:include src="fivestar/DetailFiveStar.xhtml"/>
+        </h:panelGroup>
+        <h:panelGroup rendered='#{detailApartmentController.getInstanceName().equals("ThreeStarApartment")}'>
+            <ui:include src="threestar/DetailThreeStar.xhtml"/>
+        </h:panelGroup>
+
+        #{msg.apartment_detail_reservations}
+        <h:dataTable styleClass="table table-hover table-striped table-bordered" value="#{detailApartmentController.apartmentReservations}" var="r">
+            <h:column>
+                <f:facet name="header">#{msg.reservation_field_Id}</f:facet>
+                ${r.id}
+            </h:column>
+            <h:column>
+                <f:facet name="header">#{msg.reservation_field_Guest}</f:facet>
+                ${r.guest}
+            </h:column>
+            <h:column>
+                <f:facet name="header">#{msg.reservation_field_StartDate}</f:facet>
+                ${r.reservationStartDate}
+            </h:column>
+            <h:column>
+                <f:facet name="header">#{msg.reservation_field_EndDate}</f:facet>
+                ${r.reservationEndDate}
+            </h:column>
+            <h:column>
+                <f:facet name="header">#{msg.reservation_field_Price}</f:facet>
+                ${r.price}
+            </h:column>
+        </h:dataTable>
+        <h:outputText value="#{detailApartmentController.endTransact()}"/>
+    </ui:define>
+</ui:composition>
+</html>
+

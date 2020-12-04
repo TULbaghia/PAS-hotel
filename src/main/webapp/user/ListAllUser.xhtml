@@ -1,0 +1,52 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
+<ui:composition template="../resources/templates/master-template.xhtml">
+    <ui:define name="title">#{msg.user_list_title}</ui:define>
+
+    <ui:define name="content">
+        <h:form>
+            <h:inputText a:placeholder="#{msg.filter_search_placeholder}" id="search" value="#{listAllUserController.searchData}"/>
+            <h:commandButton value="#{msg.filter_search_button}" action="#{listAllUserController.initCurrentStatuses()}"/>
+        </h:form>
+        <h:form>
+            <h:dataTable styleClass="table table-hover table-striped table-bordered"
+                         value="#{listAllUserController.allUsers}" var="u">
+                <h:column>
+                    <f:facet name="header">#{msg.user_field_Id}</f:facet>
+                    ${u.id}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">#{msg.user_field_Login}</f:facet>
+                    ${u.login}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">#{msg.user_field_Password}</f:facet>
+                    ${u.password}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">#{msg.user_field_Firstname}</f:facet>
+                    ${u.firstname}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">#{msg.user_field_Lastname}</f:facet>
+                    ${u.lastname}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">#{msg.user_field_isActive}</f:facet>
+                    ${u.active ? msg.action_yes : msg.action_no}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">#{msg.action_text}</f:facet>
+                    <h:commandButton value="#{ u.active ? msg.action_disable : msg.action_enable}" action="#{toggleUserController.toggleUser(u)}"/>
+                </h:column>
+            </h:dataTable>
+        </h:form>
+    </ui:define>
+</ui:composition>
+</html>

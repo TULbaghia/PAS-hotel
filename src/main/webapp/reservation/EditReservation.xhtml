@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:f="http://java.sun.com/jsf/core" xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
+<ui:composition template="../resources/templates/master-template.xhtml">
+    <ui:define name="title">#{msg.reservation_edit_title}</ui:define>
+
+    <ui:define name="content">
+        <h:form>
+            #{msg.reservation_field_Guest}
+            <h:selectOneListbox value="#{editReservationController.reservation.guest}" required="true" size="1" requiredMessage="#{msg.reservation_field_Guest} #{msg.form_isRequired}">
+                <f:converter binding="#{userToIdConverter}"/>
+                <f:selectItems value="#{listAllGuestController.allGuest}" var="u" itemValue="${u}" itemLabel="[#{u.id}] #{u.firstname} #{u.lastname}"/>
+            </h:selectOneListbox><br/>
+            #{msg.reservation_field_Apartment}
+            <h:selectOneListbox value="#{editReservationController.reservation.apartment}" required="true" size="1" requiredMessage="#{msg.reservation_field_Apartment} #{msg.form_isRequired}">
+                <f:converter binding="#{apartmentToIdConverter}"/>
+                <f:selectItem itemValue="#{editReservationController.reservation.apartment}" itemLabel="#{editReservationController.reservation.apartment.presentYourself()}"/>
+                <f:selectItems value="#{addReservationController.avaliableApartment}" var="a" itemValue="${a}" itemLabel="#{a.presentYourself()}"/>
+            </h:selectOneListbox><br/>
+            #{msg.reservation_field_StartDate}
+            <h:inputText a:type="datetime-local" value="#{editReservationController.reservation.reservationStartDate}" required="true" requiredMessage="#{msg.reservation_field_StartDate} #{msg.form_isRequired}">
+                <f:converter converterId="pl.lodz.p.pas.converter.localDateTimeConverter"/>
+            </h:inputText><br/>
+            <h:commandButton value="#{msg.action_add}" action="#{editReservationController.editReservation()}"/>
+            <h:commandButton value="#{msg.action_cancel}" action="Index" immediate="true"/>
+        </h:form>
+    </ui:define>
+</ui:composition>
+</html>

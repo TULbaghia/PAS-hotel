@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:h="http://xmlns.jcp.org/jsf/html"
+        xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+        xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ul class="navbar-nav mr-auto">
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">#{msg.menu_tab_User}</a>
+            <div class="dropdown-menu">
+                <h:link styleClass="nav-link" outcome="ListAllUser">#{msg.menu_ListAllUser}</h:link>
+                <div class="dropdown-divider"></div>
+                <h:link styleClass="nav-link" outcome="ListAllGuest">#{msg.menu_ListAllGuest}</h:link>
+                <h:link styleClass="nav-link" outcome="AddGuest">#{msg.menu_AddGuest}</h:link>
+                <div class="dropdown-divider"></div>
+                <h:link styleClass="nav-link" outcome="ListAllManager">#{msg.menu_ListAllManager}</h:link>
+                <h:link styleClass="nav-link" outcome="AddManager">#{msg.menu_AddManager}</h:link>
+                <div class="dropdown-divider"></div>
+                <h:link styleClass="nav-link" outcome="ListAllAdmin">#{msg.menu_ListAllAdmin}</h:link>
+                <h:link styleClass="nav-link" outcome="AddAdmin">#{msg.menu_AddAdmin}</h:link>
+            </div>
+        </li>
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">#{msg.menu_tab_Apartments}</a>
+            <div class="dropdown-menu">
+                <h:link styleClass="nav-link" outcome="ListAllApartment">#{msg.menu_ListAllApartment}</h:link>
+                <div class="dropdown-divider"></div>
+                <h:link styleClass="nav-link" outcome="ListAllFiveStar">#{msg.menu_ListAllFiveStar}</h:link>
+                <h:link styleClass="nav-link" outcome="AddFiveStar">#{msg.menu_AddFiveStar}</h:link>
+                <div class="dropdown-divider"></div>
+                <h:link styleClass="nav-link" outcome="ListAllThreeStar">#{msg.menu_ListAllThreeStar}</h:link>
+                <h:link styleClass="nav-link" outcome="AddThreeStar">#{msg.menu_AddThreeStar}</h:link>
+            </div>
+        </li>
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">#{msg.menu_tab_Reservation}</a>
+            <div class="dropdown-menu">
+                <h:link styleClass="nav-link" outcome="ListAllReservation">#{msg.menu_ListAllReservation}</h:link>
+                <h:link styleClass="nav-link" outcome="AddReservation">#{msg.menu_AddReservation}</h:link>
+            </div>
+        </li>
+    </ul>
+</f:view>

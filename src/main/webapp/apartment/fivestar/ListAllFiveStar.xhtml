@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+<ui:composition template="../../resources/templates/master-template.xhtml">
+    <ui:define name="title">#{msg.apartment_fivestar_title}</ui:define>
+
+    <ui:define name="content">
+        <h:form>
+            <h:dataTable styleClass="table table-hover table-striped table-bordered" value="#{listAllFiveStarController.allApartment}" var="a">
+                <h:column>
+                    <f:facet name="header">#{msg.apartment_field_Id}</f:facet>
+                    ${a.id}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">#{msg.apartment_field_basePricePerDay}</f:facet>
+                    ${a.basePricePerDay}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">#{msg.apartment_field_doorNumber}</f:facet>
+                    ${a.doorNumber}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">#{msg.apartment_field_howManyBeds}</f:facet>
+                    ${a.howManyBeds}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">#{msg.apartment_fivestar_field_bonus}</f:facet>
+                    ${a.bonus}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">#{msg.apartment_fivestar_field_pcName}</f:facet>
+                    ${a.pcName}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">#{msg.action_text}</f:facet>
+                    <h:commandButton value="#{msg.action_edit}" action="#{editFiveStarController.processToEditFiveStar(a)}"/>
+                    <h:commandButton value="#{msg.action_delete}" action="#{deleteApartmentController.deleteApartment(a, 'ListAllFiveStar')}"/>
+                </h:column>
+            </h:dataTable>
+        </h:form>
+    </ui:define>
+</ui:composition>
+</html>
