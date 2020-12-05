@@ -2,8 +2,9 @@ package pl.lodz.p.pas.controller.user.guest;
 
 import lombok.Getter;
 import lombok.Setter;
+import pl.lodz.p.pas.manager.UserManager;
 import pl.lodz.p.pas.model.user.Guest;
-import pl.lodz.p.pas.repository.UserRepository;
+import pl.lodz.p.pas.repository.exception.RepositoryException;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
@@ -16,7 +17,7 @@ import java.io.Serializable;
 @Named
 public class AddGuestController implements Serializable {
     @Inject
-    private UserRepository userRepository;
+    private UserManager userManager;
 
     @Getter
     @Setter
@@ -24,8 +25,8 @@ public class AddGuestController implements Serializable {
 
     public String createGuest() {
         try {
-            userRepository.add(guest);
-        } catch (IllegalArgumentException e) {
+            userManager.add(guest);
+        } catch (RepositoryException e) {
             FacesContext.getCurrentInstance().addMessage("guestForm", new FacesMessage(e.getMessage()));
             return null;
         }

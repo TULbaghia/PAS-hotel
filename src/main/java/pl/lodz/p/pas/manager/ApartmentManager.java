@@ -8,12 +8,10 @@ import pl.lodz.p.pas.repository.ReservationRepository;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
-import javax.inject.Named;
 import java.util.List;
 import java.util.UUID;
 import java.util.function.Predicate;
 
-@Named
 @ApplicationScoped
 public class ApartmentManager {
     @Inject
@@ -43,10 +41,15 @@ public class ApartmentManager {
     }
 
     public void delete(@NonNull UUID id) {
+        Apartment a = apartmentRepository.get(id);
+        if (a == null) {
+            throw new ManagerException("Apartment does not exist");
+        }
         if(reservationRepository.getApartmentReservations(get(id), true).size() > 0) {
-            throw new ManagerException("Cannot delete- apartment alredy in use");
+            throw new ManagerException("Cannot delete- apartment already in use");
         }
         apartmentRepository.delete(id);
+        reservationRepository.filter(x -> a.equals(x.getApartment())).forEach(x -> x.setApartment(null));
     }
 
     public List<Apartment> filter(Predicate<Apartment> predicate) {

@@ -3,7 +3,6 @@ package pl.lodz.p.pas.model.resource;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
-import java.io.Serializable;
 
 @Data
 @SuperBuilder
@@ -16,5 +15,12 @@ public class FiveStarApartment extends Apartment {
 
     public double actualPricePerDay() {
         return 2 * super.getBasePricePerDay();
+    }
+
+    @Override
+    public String presentYourself() {
+        return super.presentYourself() +
+                "bonus(" + getBonus() + ") " +
+                "pcName(" + getPcName() + ") ";
     }
 }

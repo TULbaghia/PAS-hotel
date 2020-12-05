@@ -1,6 +1,7 @@
 package pl.lodz.p.pas.model.resource;
 
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 import pl.lodz.p.pas.model.exception.GuestException;
 import pl.lodz.p.pas.model.exception.ReservationException;
 import pl.lodz.p.pas.model.trait.IdTrait;
@@ -10,6 +11,9 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
 public class Reservation extends IdTrait {

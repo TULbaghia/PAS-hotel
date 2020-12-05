@@ -16,15 +16,15 @@ public class ApartmentRepository extends Repository<Apartment> {
     @Override
     public synchronized void add(@NonNull Apartment item) {
         if (get(item.getDoorNumber()) != null) {
-            throw new RepositoryException("Door number already exists");
+            throw new RepositoryException("doorNumberAlreadyExist");
         }
         super.add(item);
     }
 
     @Override
     public synchronized void update(@NonNull Apartment item) {
-        if(filter(x -> x.getDoorNumber() == item.getDoorNumber()).size() > 1) {
-            throw new RepositoryException("Door number already exists");
+        if(filter(x -> x.getDoorNumber() == item.getDoorNumber() && !x.getId().equals(item.getId())).size() > 0) {
+            throw new RepositoryException("doorNumberAlreadyExist");
         }
         super.update(item);
     }

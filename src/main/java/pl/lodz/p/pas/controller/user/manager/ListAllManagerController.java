@@ -1,8 +1,8 @@
 package pl.lodz.p.pas.controller.user.manager;
 
 import lombok.Getter;
+import pl.lodz.p.pas.manager.UserManager;
 import pl.lodz.p.pas.model.user.Manager;
-import pl.lodz.p.pas.repository.UserRepository;
 
 import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
@@ -20,21 +20,18 @@ import java.util.stream.Collectors;
 public class ListAllManagerController implements Serializable {
 
     @Inject
-    private UserRepository userRepository;
+    private UserManager userManager;
 
     @Getter
     private Map<UUID, Boolean> currentUserStatuses = new HashMap<>();
 
     public List<Manager> getAllManager() {
-        return userRepository.getAll().stream()
-                .filter(x -> x instanceof Manager)
-                .map(x -> (Manager) x)
-                .collect(Collectors.toList());
+        return userManager.filter(x -> x instanceof Manager).stream().map(x -> (Manager) x).collect(Collectors.toList());
     }
 
     @PostConstruct
     public void initCurrentStatuses() {
-        getAllManager().forEach(x -> currentUserStatuses.put(x.getId(), x.isActive()));
+        userManager.filter(x -> x instanceof Manager).forEach(x -> currentUserStatuses.put(x.getId(), x.isActive()));
     }
 
 }

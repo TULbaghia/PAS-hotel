@@ -1,11 +1,9 @@
-package pl.lodz.p.pas.controller.user.guest;
+package pl.lodz.p.pas.controller.reservation;
 
 import lombok.Getter;
 import lombok.Setter;
-import lombok.SneakyThrows;
-import org.apache.commons.beanutils.BeanUtils;
-import pl.lodz.p.pas.manager.UserManager;
-import pl.lodz.p.pas.model.user.Guest;
+import pl.lodz.p.pas.manager.ReservationManager;
+import pl.lodz.p.pas.model.resource.Reservation;
 import pl.lodz.p.pas.repository.exception.RepositoryException;
 
 import javax.enterprise.context.Conversation;
@@ -18,36 +16,33 @@ import java.io.Serializable;
 
 @ConversationScoped
 @Named
-public class EditGuestController implements Serializable {
-
+public class EditReservationController implements Serializable {
     @Inject
-    private UserManager userManager;
+    private ReservationManager reservationManager;
 
     @Inject
     private Conversation conversation;
 
     @Getter
     @Setter
-    private Guest guest = new Guest();
+    private Reservation reservation = new Reservation();
 
-    @SneakyThrows
-    public String processToEditGuest(Guest guest) {
+    public String processToEditReservation(Reservation reservation) {
         if (conversation.isTransient()) {
             conversation.begin();
         }
-        BeanUtils.copyProperties(this.guest, guest);
-        return "EditGuest";
+        this.reservation = reservation;
+        return "EditReservation";
     }
 
-    public String editGuest() {
+    public String editReservation() {
         try {
-            userManager.update(guest);
+            reservationManager.update(reservation);
         } catch (RepositoryException e) {
-            FacesContext.getCurrentInstance().addMessage("guestForm", new FacesMessage(e.getMessage()));
+            FacesContext.getCurrentInstance().addMessage("reservationForm", new FacesMessage(e.getMessage()));
             return null;
         }
         conversation.end();
-        return "ListAllGuest";
+        return "ListAllReservation";
     }
-
 }

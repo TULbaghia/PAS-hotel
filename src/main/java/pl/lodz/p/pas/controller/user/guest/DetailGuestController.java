@@ -2,21 +2,23 @@ package pl.lodz.p.pas.controller.user.guest;
 
 import lombok.Getter;
 import lombok.Setter;
+import pl.lodz.p.pas.manager.ReservationManager;
+import pl.lodz.p.pas.model.resource.Reservation;
 import pl.lodz.p.pas.model.user.Guest;
-import pl.lodz.p.pas.repository.ReservationRepository;
 
 import javax.enterprise.context.Conversation;
 import javax.enterprise.context.ConversationScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
+import java.util.List;
 
 @ConversationScoped
 @Named
 public class DetailGuestController implements Serializable {
 
     @Inject
-    private ReservationRepository reservationRepository;
+    private ReservationManager reservationManager;
 
     @Inject
     private Conversation conversation;
@@ -32,12 +34,9 @@ public class DetailGuestController implements Serializable {
         return "DetailGuest";
     }
 
-    public void endTransact() {
-        conversation.end();
-    }
-
     public List<Reservation> getGuestsReservations() {
-//        conversation.end();
-        return reservationRepository.getGuestsReservations(guest);
+        if(!conversation.isTransient())
+        conversation.end();
+        return reservationManager.getGuestReservations(guest);
     }
 }

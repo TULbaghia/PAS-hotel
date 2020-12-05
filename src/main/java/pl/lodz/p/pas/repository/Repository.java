@@ -30,20 +30,20 @@ public  abstract class Repository<T extends IdTrait> {
         if (get(item.getId()) == null) {
             items.add(item);
         } else {
-            throw new RepositoryException("Object already exists");
+            throw new RepositoryException("objectAlreadyExist");
         }
     }
 
     @SneakyThrows
     public synchronized void update(@NonNull T item) {
         if(item.getId() == null) {
-            throw new RepositoryException("Object id is null");
+            throw new RepositoryException("objectIdIsNull");
         }
         T old = get(item.getId());
         if (old != null) {
             BeanUtils.copyProperties(old, item);
         } else {
-            throw new RepositoryException("Object does not exists");
+            throw new RepositoryException("objectDoesNotExist");
         }
     }
 

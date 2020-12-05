@@ -3,8 +3,11 @@ package pl.lodz.p.pas.controller;
 import pl.lodz.p.pas.manager.ApartmentManager;
 import pl.lodz.p.pas.manager.ReservationManager;
 import pl.lodz.p.pas.manager.UserManager;
+import pl.lodz.p.pas.model.exception.GuestException;
+import pl.lodz.p.pas.model.exception.ReservationException;
 import pl.lodz.p.pas.model.resource.Apartment;
 import pl.lodz.p.pas.model.resource.FiveStarApartment;
+import pl.lodz.p.pas.model.resource.Reservation;
 import pl.lodz.p.pas.model.resource.ThreeStarApartment;
 import pl.lodz.p.pas.model.user.Admin;
 import pl.lodz.p.pas.model.user.Guest;
@@ -15,6 +18,7 @@ import javax.enterprise.context.Initialized;
 import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 import javax.servlet.ServletContextListener;
+import java.time.LocalDateTime;
 
 @ApplicationScoped
 public class FixtureLoader implements ServletContextListener {
@@ -55,5 +59,36 @@ public class FixtureLoader implements ServletContextListener {
     }
 
     private void loadReservationFixture() {
+        reservationManager.add(Reservation.builder()
+                .guest((Guest) userManager.get("guest1"))
+                .apartment(apartmentManager.get(1))
+                .reservationStartDate(LocalDateTime.now().minusHours(2))
+                .build());
+
+        reservationManager.add(Reservation.builder()
+                .guest((Guest) userManager.get("guest2"))
+                .apartment(apartmentManager.get(2))
+                .reservationStartDate(LocalDateTime.now().minusHours(2))
+                .build());
+
+        reservationManager.add(Reservation.builder()
+                .guest((Guest) userManager.get("guest3"))
+                .apartment(apartmentManager.get(3))
+                .reservationStartDate(LocalDateTime.now().minusHours(2))
+                .build());
+
+        reservationManager.add(Reservation.builder()
+                .guest((Guest) userManager.get("guest4"))
+                .apartment(apartmentManager.get(101))
+                .reservationStartDate(LocalDateTime.now().minusHours(2))
+                .build());
+
+        try {
+            reservationManager.endReservation(reservationManager.getApartmentReservations(apartmentManager.get(2)).get(0).getId());
+            reservationManager.endReservation(reservationManager.getApartmentReservations(apartmentManager.get(3)).get(0).getId());
+        } catch (ReservationException | GuestException ignored) {
+
+        }
+
     }
 }

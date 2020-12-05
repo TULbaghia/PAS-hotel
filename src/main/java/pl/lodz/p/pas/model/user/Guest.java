@@ -15,7 +15,6 @@ public class Guest extends User {
     private int numberOfStays;
 
     @Setter(AccessLevel.NONE)
-    @Getter(AccessLevel.NONE)
     @NonNull
     @Builder.Default
     private GuestType guestType = new BasicGuestType();

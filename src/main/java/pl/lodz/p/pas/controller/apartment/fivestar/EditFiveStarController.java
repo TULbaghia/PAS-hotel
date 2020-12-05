@@ -1,11 +1,11 @@
-package pl.lodz.p.pas.controller.user.guest;
+package pl.lodz.p.pas.controller.apartment.fivestar;
 
 import lombok.Getter;
 import lombok.Setter;
 import lombok.SneakyThrows;
 import org.apache.commons.beanutils.BeanUtils;
-import pl.lodz.p.pas.manager.UserManager;
-import pl.lodz.p.pas.model.user.Guest;
+import pl.lodz.p.pas.manager.ApartmentManager;
+import pl.lodz.p.pas.model.resource.FiveStarApartment;
 import pl.lodz.p.pas.repository.exception.RepositoryException;
 
 import javax.enterprise.context.Conversation;
@@ -18,36 +18,34 @@ import java.io.Serializable;
 
 @ConversationScoped
 @Named
-public class EditGuestController implements Serializable {
-
+public class EditFiveStarController implements Serializable {
     @Inject
-    private UserManager userManager;
+    private ApartmentManager apartmentManager;
 
     @Inject
     private Conversation conversation;
 
     @Getter
     @Setter
-    private Guest guest = new Guest();
+    private FiveStarApartment fiveStarApartment = new FiveStarApartment();
 
     @SneakyThrows
-    public String processToEditGuest(Guest guest) {
+    public String processToEditFiveStar(FiveStarApartment fiveStarApartment) {
         if (conversation.isTransient()) {
             conversation.begin();
         }
-        BeanUtils.copyProperties(this.guest, guest);
-        return "EditGuest";
+        BeanUtils.copyProperties(this.fiveStarApartment, fiveStarApartment);
+        return "EditFiveStar";
     }
 
-    public String editGuest() {
+    public String editFiveStar() {
         try {
-            userManager.update(guest);
+            apartmentManager.update(fiveStarApartment);
         } catch (RepositoryException e) {
-            FacesContext.getCurrentInstance().addMessage("guestForm", new FacesMessage(e.getMessage()));
+            FacesContext.getCurrentInstance().addMessage("fiveStarForm", new FacesMessage(e.getMessage()));
             return null;
         }
         conversation.end();
-        return "ListAllGuest";
+        return "ListAllFiveStar";
     }
-
 }

@@ -6,13 +6,12 @@ import pl.lodz.p.pas.repository.UserRepository;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
-import javax.inject.Named;
 import java.io.Serializable;
 import java.util.List;
 import java.util.UUID;
+import java.util.function.Function;
 import java.util.function.Predicate;
 
-@Named
 @ApplicationScoped
 public class UserManager implements Serializable {
     @Inject

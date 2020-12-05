@@ -22,21 +22,21 @@ public class UserRepository extends Repository<User> {
     @Override
     public synchronized void add(@NonNull User item) {
         if (get(item.getLogin()) != null) {
-            throw new RepositoryException("User already exists");
+            throw new RepositoryException("userAlreadyExists");
         }
         super.add(item);
     }
 
     @Override
     public synchronized void update(@NonNull User item) {
-        if(filter(x -> x.getLogin().equals(item.getLogin())).size() > 1) {
-            throw new RepositoryException("Login already exists");
+        if(filter(x -> x.getLogin().equals(item.getLogin()) && !x.getId().equals(item.getId())).size() > 0) {
+            throw new RepositoryException("loginAlreadyExists");
         }
         super.update(item);
     }
 
     @Override
     public synchronized void delete(@NonNull UUID id) {
-        throw new RepositoryException("Cannot delete user");
+        throw new RepositoryException("cannotDeleteUser");
     }
 }

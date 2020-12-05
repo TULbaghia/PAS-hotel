@@ -2,25 +2,24 @@ package pl.lodz.p.pas.controller.user.manager;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.SneakyThrows;
 import org.apache.commons.beanutils.BeanUtils;
+import pl.lodz.p.pas.manager.UserManager;
 import pl.lodz.p.pas.model.user.Manager;
-import pl.lodz.p.pas.repository.UserRepository;
+import pl.lodz.p.pas.repository.exception.RepositoryException;
 
 import javax.enterprise.context.Conversation;
 import javax.enterprise.context.ConversationScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
-import javax.inject.Named;
 import java.io.Serializable;
-import java.lang.reflect.InvocationTargetException;
 
 @ConversationScoped
-@Named
 public class EditManagerController implements Serializable {
 
     @Inject
-    private UserRepository userRepository;
+    private UserManager userManager;
 
     @Inject
     private Conversation conversation;
@@ -29,7 +28,8 @@ public class EditManagerController implements Serializable {
     @Setter
     private Manager manager = new Manager();
 
-    public String processToEditManager(Manager manager) throws InvocationTargetException, IllegalAccessException {
+    @SneakyThrows
+    public String processToEditManager(Manager manager) {
         if (conversation.isTransient()) {
             conversation.begin();
         }
@@ -39,8 +39,8 @@ public class EditManagerController implements Serializable {
 
     public String editManager() {
         try {
-            userRepository.update(manager.getId(), manager);
-        } catch (IllegalArgumentException e) {
+            userManager.update(manager);
+        } catch (RepositoryException e) {
             FacesContext.getCurrentInstance().addMessage("managerForm", new FacesMessage(e.getMessage()));
             return null;
         }

@@ -25,6 +25,7 @@ public class ToggleUserController {
     @Inject
     private ListAllAdminController listAllAdminController;
 
+    // TODO: managers use?
     public String toggleUser(User user) {
         user.setActive(!listAllUserController.getCurrentUserStatuses().get(user.getId()));
         listAllUserController.initCurrentStatuses();
