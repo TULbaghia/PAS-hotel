@@ -62,25 +62,25 @@ public class FixtureLoader implements ServletContextListener {
         reservationManager.add(Reservation.builder()
                 .guest((Guest) userManager.get("guest1"))
                 .apartment(apartmentManager.get(1))
-                .reservationStartDate(LocalDateTime.now().minusHours(2))
+                .reservationStartDate(LocalDateTime.now().minusMinutes(30))
                 .build());
 
         reservationManager.add(Reservation.builder()
                 .guest((Guest) userManager.get("guest2"))
                 .apartment(apartmentManager.get(2))
-                .reservationStartDate(LocalDateTime.now().minusHours(2))
+                .reservationStartDate(LocalDateTime.now().minusMinutes(30))
                 .build());
 
         reservationManager.add(Reservation.builder()
                 .guest((Guest) userManager.get("guest3"))
                 .apartment(apartmentManager.get(3))
-                .reservationStartDate(LocalDateTime.now().minusHours(2))
+                .reservationStartDate(LocalDateTime.now().minusMinutes(30))
                 .build());
 
         reservationManager.add(Reservation.builder()
                 .guest((Guest) userManager.get("guest4"))
                 .apartment(apartmentManager.get(101))
-                .reservationStartDate(LocalDateTime.now().minusHours(2))
+                .reservationStartDate(LocalDateTime.now().minusMinutes(30))
                 .build());
 
         try {

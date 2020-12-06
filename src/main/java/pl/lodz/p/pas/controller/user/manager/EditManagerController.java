@@ -13,9 +13,11 @@ import javax.enterprise.context.ConversationScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
+import javax.inject.Named;
 import java.io.Serializable;
 
 @ConversationScoped
+@Named
 public class EditManagerController implements Serializable {
 
     @Inject

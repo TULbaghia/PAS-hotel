@@ -12,7 +12,7 @@
             #{msg.reservation_field_Guest}
             <h:selectOneListbox value="#{editReservationController.reservation.guest}" required="true" size="1" requiredMessage="#{msg.reservation_field_Guest} #{msg.form_isRequired}">
                 <f:converter binding="#{userToIdConverter}"/>
-                <f:selectItems value="#{listAllGuestController.allGuest}" var="u" itemValue="${u}" itemLabel="[#{u.id}] #{u.firstname} #{u.lastname}"/>
+                <f:selectItems value="#{listAllGuestController.allGuest}" var="u" itemValue="${u}" itemDisabled="#{!u.active}" itemLabel="[#{u.id}] #{u.firstname} #{u.lastname}"/>
             </h:selectOneListbox><br/>
             #{msg.reservation_field_Apartment}
             <h:selectOneListbox value="#{editReservationController.reservation.apartment}" required="true" size="1" requiredMessage="#{msg.reservation_field_Apartment} #{msg.form_isRequired}">

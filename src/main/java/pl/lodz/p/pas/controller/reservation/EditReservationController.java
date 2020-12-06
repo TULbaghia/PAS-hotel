@@ -2,6 +2,8 @@ package pl.lodz.p.pas.controller.reservation;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.SneakyThrows;
+import org.apache.commons.beanutils.BeanUtils;
 import pl.lodz.p.pas.manager.ReservationManager;
 import pl.lodz.p.pas.model.resource.Reservation;
 import pl.lodz.p.pas.repository.exception.RepositoryException;
@@ -27,11 +29,12 @@ public class EditReservationController implements Serializable {
     @Setter
     private Reservation reservation = new Reservation();
 
+    @SneakyThrows
     public String processToEditReservation(Reservation reservation) {
         if (conversation.isTransient()) {
             conversation.begin();
         }
-        this.reservation = reservation;
+        BeanUtils.copyProperties(this.reservation, reservation);
         return "EditReservation";
     }
 

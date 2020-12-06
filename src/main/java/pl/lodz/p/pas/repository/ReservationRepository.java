@@ -7,6 +7,7 @@ import pl.lodz.p.pas.model.user.Guest;
 import pl.lodz.p.pas.repository.exception.RepositoryException;
 
 import javax.enterprise.context.ApplicationScoped;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -22,12 +23,23 @@ public class ReservationRepository extends Repository<Reservation> {
         if (getApartmentReservations(item.getApartment(), true).size() > 0) {
             throw new RepositoryException("apartmentAlreadyRented");
         }
+        if (!item.getGuest().isActive()) {
+            throw new RepositoryException("guestIsNotActive");
+        }
+        if (!item.getReservationStartDate().isAfter(LocalDateTime.now().minusHours(1))) {
+            throw new RepositoryException("incorrectReservationStartDate");
+        }
         super.add(item);
     }
 
-    //TODO: czy tutaj brakuje warunków?
     @Override
     public synchronized void update(@NonNull Reservation item) {
+        if (item.getGuest().getMaxApartmentsNumber() <= getGuestReservations(item.getGuest(), true).stream().filter(x -> !x.getId().equals(item.getId())).count()) {
+            throw new RepositoryException("maximumApartmentsReached");
+        }
+        if (!item.getGuest().isActive()) {
+            throw new RepositoryException("guestIsNotActive");
+        }
         super.update(item);
     }
 
