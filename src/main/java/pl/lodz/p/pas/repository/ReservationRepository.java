@@ -40,6 +40,12 @@ public class ReservationRepository extends Repository<Reservation> {
         if (!item.getGuest().isActive()) {
             throw new RepositoryException("guestIsNotActive");
         }
+        if(get(item.getId()) == null) {
+            throw new RepositoryException("reservationDoesNotExist");
+        }
+        if (get(item.getId()).getReservationEndDate() != null) {
+            throw new RepositoryException("reservationHasEnded");
+        }
         super.update(item);
     }
 

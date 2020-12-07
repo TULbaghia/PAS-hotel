@@ -40,6 +40,11 @@ public class EditReservationController implements Serializable {
                     ResourceBundleService.getBundle().getString("EditReservationController.reservationDoesNotExist")));
             return null;
         }
+        if (reservationManager.get(reservation.getId()).getReservationEndDate() != null) {
+            FacesContext.getCurrentInstance().addMessage("reservationForm", new FacesMessage(
+                    ResourceBundleService.getBundle().getString("EditReservationController.reservationHasEnded")));
+            return null;
+        }
         BeanUtils.copyProperties(this.reservation, reservation);
         return "EditReservation";
     }
