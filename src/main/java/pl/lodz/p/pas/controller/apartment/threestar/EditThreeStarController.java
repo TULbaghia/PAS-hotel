@@ -3,6 +3,7 @@ package pl.lodz.p.pas.controller.apartment.threestar;
 import lombok.Getter;
 import lombok.Setter;
 import org.apache.commons.beanutils.BeanUtils;
+import pl.lodz.p.pas.controller.functional.ResourceBundleService;
 import pl.lodz.p.pas.manager.ApartmentManager;
 import pl.lodz.p.pas.model.resource.ThreeStarApartment;
 import pl.lodz.p.pas.repository.exception.RepositoryException;
@@ -32,6 +33,11 @@ public class EditThreeStarController implements Serializable {
     public String processToEditThreeStar(ThreeStarApartment threeStarApartment) throws InvocationTargetException, IllegalAccessException {
         if (conversation.isTransient()) {
             conversation.begin();
+        }
+        if (apartmentManager.get(threeStarApartment.getId()) == null) {
+            FacesContext.getCurrentInstance().addMessage("apartmentForm", new FacesMessage(
+                    ResourceBundleService.getBundle().getString("EditApartmentController.apartmentDoesNotExist")));
+            return null;
         }
         BeanUtils.copyProperties(this.threeStarApartment, threeStarApartment);
         return "EditThreeStar";

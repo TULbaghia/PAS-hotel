@@ -25,7 +25,7 @@ public class Guest extends User {
 
     public void changeGuestType(GuestType guestType) throws GuestException {
         if (guestType == null) {
-            throw new GuestException("New Guest type is null.");
+            throw new GuestException("guestTypeIsNull");
         } else {
             this.guestType = guestType;
         }

@@ -1,7 +1,6 @@
 package pl.lodz.p.pas.model.resource;
 
 import lombok.*;
-import lombok.experimental.SuperBuilder;
 import pl.lodz.p.pas.model.exception.GuestException;
 import pl.lodz.p.pas.model.exception.ReservationException;
 import pl.lodz.p.pas.model.trait.IdTrait;
@@ -31,16 +30,16 @@ public class Reservation extends IdTrait {
         if (reservationEndDate == null) {
             LocalDateTime reservationEnd = LocalDateTime.now();
             if (reservationEnd.isBefore(this.getReservationStartDate())) {
-                throw new ReservationException("Reservation ended before start date.");
+                throw new ReservationException("reservationEndedBeforeStart");
             }
             if(this.apartment == null) {
-                throw new ReservationException("Cannot finish reservation due to null Apartment");
+                throw new ReservationException("apartmentIsNull");
             }
             this.reservationEndDate = reservationEnd;
             this.price = this.guest.getDiscount(this.getDurationDays() * this.apartment.actualPricePerDay());
             return;
         }
-        throw new ReservationException("Reservation already ended");
+        throw new ReservationException("alreadyEnded");
     }
 
     public long getDurationDays() {

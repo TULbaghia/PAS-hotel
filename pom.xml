@@ -14,7 +14,6 @@
         <!-- version & encoding -->
         <project.encoding>UTF-8</project.encoding>
         <java.version>11</java.version>
-        <jakartaee>8.0</jakartaee>
         <!-- ================== -->
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>

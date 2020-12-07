@@ -1,6 +1,5 @@
 package pl.lodz.p.pas.controller.apartment;
 
-import lombok.NonNull;
 import pl.lodz.p.pas.controller.apartment.fivestar.ListAllFiveStarController;
 import pl.lodz.p.pas.controller.apartment.threestar.ListAllThreeStarController;
 import pl.lodz.p.pas.manager.ApartmentManager;

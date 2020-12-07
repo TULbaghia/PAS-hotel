@@ -1,8 +1,9 @@
 package pl.lodz.p.pas.repository.exception;
 
-import java.util.ResourceBundle;
+import pl.lodz.p.pas.controller.functional.ResourceBundleService;
 
-// TODO: ResourceBundleController
+import java.util.PropertyResourceBundle;
+
 public class RepositoryException extends RuntimeException {
 
     public RepositoryException() {
@@ -28,9 +29,9 @@ public class RepositoryException extends RuntimeException {
 
     @Override
     public String getLocalizedMessage() {
-        ResourceBundle resourceBundle = ResourceBundle.getBundle("messages_en");
-        if (resourceBundle.containsKey(super.getMessage())) {
-            return resourceBundle.getString(super.getMessage());
+        PropertyResourceBundle resourceBundle = ResourceBundleService.getBundle();
+        if (resourceBundle.containsKey("RepositoryException." + super.getMessage())) {
+            return resourceBundle.getString("RepositoryException." + super.getMessage());
         }
         return super.getMessage();
     }

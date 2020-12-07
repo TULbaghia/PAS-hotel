@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.SneakyThrows;
 import org.apache.commons.beanutils.BeanUtils;
+import pl.lodz.p.pas.controller.functional.ResourceBundleService;
 import pl.lodz.p.pas.manager.ApartmentManager;
 import pl.lodz.p.pas.model.resource.FiveStarApartment;
 import pl.lodz.p.pas.repository.exception.RepositoryException;
@@ -33,6 +34,11 @@ public class EditFiveStarController implements Serializable {
     public String processToEditFiveStar(FiveStarApartment fiveStarApartment) {
         if (conversation.isTransient()) {
             conversation.begin();
+        }
+        if (apartmentManager.get(fiveStarApartment.getId()) == null) {
+            FacesContext.getCurrentInstance().addMessage("apartmentForm", new FacesMessage(
+                    ResourceBundleService.getBundle().getString("EditApartmentController.apartmentDoesNotExist")));
+            return null;
         }
         BeanUtils.copyProperties(this.fiveStarApartment, fiveStarApartment);
         return "EditFiveStar";

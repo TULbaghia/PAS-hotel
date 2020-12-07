@@ -43,10 +43,10 @@ public class ApartmentManager {
     public void delete(@NonNull UUID id) {
         Apartment a = apartmentRepository.get(id);
         if (a == null) {
-            throw new ManagerException("Apartment does not exist");
+            throw new ManagerException("apartmentDoesNotExist");
         }
         if(reservationRepository.getApartmentReservations(get(id), true).size() > 0) {
-            throw new ManagerException("Cannot delete- apartment already in use");
+            throw new ManagerException("cannotDeleteApartmentInUse");
         }
         apartmentRepository.delete(id);
         reservationRepository.filter(x -> a.equals(x.getApartment())).forEach(x -> x.setApartment(null));

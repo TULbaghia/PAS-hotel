@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.SneakyThrows;
 import org.apache.commons.beanutils.BeanUtils;
+import pl.lodz.p.pas.controller.functional.ResourceBundleService;
 import pl.lodz.p.pas.manager.ReservationManager;
 import pl.lodz.p.pas.model.resource.Reservation;
 import pl.lodz.p.pas.repository.exception.RepositoryException;
@@ -33,6 +34,11 @@ public class EditReservationController implements Serializable {
     public String processToEditReservation(Reservation reservation) {
         if (conversation.isTransient()) {
             conversation.begin();
+        }
+        if (reservationManager.get(reservation.getId()) == null) {
+            FacesContext.getCurrentInstance().addMessage("reservationForm", new FacesMessage(
+                    ResourceBundleService.getBundle().getString("EditReservationController.reservationDoesNotExist")));
+            return null;
         }
         BeanUtils.copyProperties(this.reservation, reservation);
         return "EditReservation";

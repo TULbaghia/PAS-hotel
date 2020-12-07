@@ -1,6 +1,7 @@
 package pl.lodz.p.pas.controller.reservation;
 
 import pl.lodz.p.pas.manager.ReservationManager;
+import pl.lodz.p.pas.manager.exception.ManagerException;
 import pl.lodz.p.pas.model.exception.GuestException;
 import pl.lodz.p.pas.model.exception.ReservationException;
 import pl.lodz.p.pas.model.resource.Reservation;
@@ -22,7 +23,7 @@ public class EndReservationController implements Serializable {
     public String endReservation(Reservation reservation) {
         try {
             reservationManager.endReservation(reservation.getId());
-        } catch (ReservationException | GuestException e) {
+        } catch (ReservationException | GuestException | ManagerException e) {
             FacesContext.getCurrentInstance().addMessage("reservationForm", new FacesMessage(e.getMessage()));
             return null;
         }

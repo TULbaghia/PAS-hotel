@@ -1,6 +1,7 @@
 package pl.lodz.p.pas.manager;
 
 import lombok.NonNull;
+import pl.lodz.p.pas.manager.exception.ManagerException;
 import pl.lodz.p.pas.model.exception.GuestException;
 import pl.lodz.p.pas.model.exception.ReservationException;
 import pl.lodz.p.pas.model.resource.Apartment;
@@ -27,6 +28,9 @@ public class ReservationManager {
 
     public void endReservation(@NonNull UUID id) throws ReservationException, GuestException {
         Reservation r = reservationRepository.get(id);
+        if(r == null) {
+            throw new ManagerException("reservationDoesNotExist");
+        }
         r.endReservation();
         double guestSpentSum = getGuestReservations(r.getGuest(), false).stream().mapToDouble(Reservation::getPrice).sum();
 

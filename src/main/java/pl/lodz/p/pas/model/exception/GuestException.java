@@ -1,5 +1,9 @@
 package pl.lodz.p.pas.model.exception;
 
+import pl.lodz.p.pas.controller.functional.ResourceBundleService;
+
+import java.util.PropertyResourceBundle;
+
 public class GuestException extends ModelException {
     public GuestException() {
         super();
@@ -15,5 +19,19 @@ public class GuestException extends ModelException {
 
     public GuestException(Throwable cause) {
         super(cause);
+    }
+
+    @Override
+    public String getMessage() {
+        return getLocalizedMessage();
+    }
+
+    @Override
+    public String getLocalizedMessage() {
+        PropertyResourceBundle resourceBundle = ResourceBundleService.getBundle();
+        if (resourceBundle.containsKey("GuestException." + super.getMessage())) {
+            return resourceBundle.getString("GuestException." + super.getMessage());
+        }
+        return super.getMessage();
     }
 }

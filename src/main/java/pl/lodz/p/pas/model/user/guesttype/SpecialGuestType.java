@@ -17,7 +17,7 @@ public class SpecialGuestType extends GuestType {
     @Override
     public double calculateDiscount(double price) throws GuestTypeException {
         if (price < 0) {
-            throw new GuestTypeException("Price is smaller than 0.");
+            throw new GuestTypeException("priceSmallerThanZero");
         }
         return .8 * price;
     }
