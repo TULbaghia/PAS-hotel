@@ -6,5 +6,9 @@
 
 <ui:composition template="resources/templates/master-template.xhtml">
     <ui:define name="title">#{msg.index_title}</ui:define>
+    <ui:define name="content">
+        PR_NAME: #{request.userPrincipal.name}<br/>
+        REMOTE_USER: #{request.remoteUser}<br/>
+    </ui:define>
 </ui:composition>
 </html>

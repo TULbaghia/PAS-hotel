@@ -7,6 +7,7 @@ import pl.lodz.p.pas.model.exception.ReservationException;
 import pl.lodz.p.pas.model.resource.Apartment;
 import pl.lodz.p.pas.model.resource.Reservation;
 import pl.lodz.p.pas.model.user.Guest;
+import pl.lodz.p.pas.model.user.User;
 import pl.lodz.p.pas.model.user.guesttype.BasicGuestType;
 import pl.lodz.p.pas.model.user.guesttype.SpecialGuestType;
 import pl.lodz.p.pas.repository.ReservationRepository;
@@ -81,8 +82,14 @@ public class ReservationManager {
 
     public List<Reservation> filterByResources(String... args) {
         return reservationRepository.filter(x -> x.getGuest().toString().contains(args[0])
-                        && (x.getApartment() == null || x.getApartment().toString().contains(args[1]))
-                        && x.toString().contains(args[2]));
+                && (x.getApartment() == null || x.getApartment().toString().contains(args[1]))
+                && x.toString().contains(args[2]));
+    }
+
+    public List<Reservation> filterByResources(User user, String... args) {
+        return reservationRepository.filter(x -> x.getGuest().getId().equals(user.getId()) && x.getGuest().toString().contains(args[0])
+                && (x.getApartment() == null || x.getApartment().toString().contains(args[1]))
+                && x.toString().contains(args[2]));
     }
 
 }

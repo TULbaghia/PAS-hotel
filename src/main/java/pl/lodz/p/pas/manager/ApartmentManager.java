@@ -55,5 +55,4 @@ public class ApartmentManager {
     public List<Apartment> filter(Predicate<Apartment> predicate) {
         return apartmentRepository.filter(predicate);
     }
-
 }

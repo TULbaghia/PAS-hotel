@@ -42,10 +42,13 @@ public class FixtureLoader implements ServletContextListener {
         userManager.add(Guest.builder().login("guest2").password("guest2").firstname("Andrzej").lastname("Nowak").build());
         userManager.add(Guest.builder().login("guest3").password("guest3").firstname("Jakub").lastname("Kowal").build());
         userManager.add(Guest.builder().login("guest4").password("guest4").firstname("Kacper").lastname("Kowalczyk").build());
+        userManager.add(Guest.builder().login("TestGuest").password("12345").firstname("TestGuest").lastname("TestGuest").build());
 
         userManager.add(Manager.builder().login("manager1").password("manager1").firstname("Manager").lastname("Kowalski").build());
+        userManager.add(Manager.builder().login("TestManager").password("12345").firstname("TestManager").lastname("TestManager").build());
 
         userManager.add(Admin.builder().login("admin1").password("admin1").firstname("Admin").lastname("Nowak").build());
+        userManager.add(Admin.builder().login("TestAdmin").password("12345").firstname("TestAdmin").lastname("TestAdmin").build());
     }
 
     private void loadApartmentFixture() {

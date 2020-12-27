@@ -33,7 +33,7 @@
                     <f:facet name="header">#{msg.reservation_field_StartDate}</f:facet>
                     ${r.reservationStartDate}
                 </h:column>
-                <h:column>
+                <h:column rendered="#{request.isUserInRole('Manager')}">
                     <f:facet name="header">#{msg.action_text}</f:facet>
                     <h:commandButton value="#{msg.action_delete}" action="#{deleteReservationController.deleteReservation(r)}"/>
                     <h:commandButton value="#{msg.action_edit}" action="#{editReservationController.processToEditReservation(r)}"/>
@@ -67,9 +67,6 @@
                 <h:column>
                     <f:facet name="header">#{msg.reservation_field_Price}</f:facet>
                     ${r.price}
-                </h:column>
-                <h:column>
-                    <f:facet name="header">#{msg.action_text}</f:facet>
                 </h:column>
             </h:dataTable>
         </h:form>
