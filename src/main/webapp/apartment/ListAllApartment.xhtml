@@ -34,7 +34,7 @@
                 </h:column>
                 <h:column>
                     <f:facet name="header">#{msg.action_text}</f:facet>
-                    <h:commandButton value="#{msg.action_delete}" action="#{deleteApartmentController.deleteApartment(a, 'ListAllApartment')}"/>
+                    <h:commandButton value="#{msg.action_delete}" styleClass="show-ok-alert" action="#{deleteApartmentController.deleteApartment(a, 'ListAllApartment')}"/>
                     <h:commandButton value="#{msg.action_edit}" action="#{editApartmentController.processToEditApartment(a)}"/>
                     <h:commandButton value="#{msg.action_details}" action="#{detailApartmentController.processToShowDetails(a)}"/>
                 </h:column>

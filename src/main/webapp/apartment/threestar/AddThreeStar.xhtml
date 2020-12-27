@@ -9,10 +9,10 @@
 
     <ui:define name="content">
         <h:form>
-            #{msg.apartment_field_howManyBeds} <h:inputText value="#{addThreeStarController.threeStarApartment.howManyBeds}" required="true" requiredMessage="#{msg.apartment_field_howManyBeds} #{msg.form_isRequired}"/><br/>
-            #{msg.apartment_field_doorNumber} <h:inputText value="#{addThreeStarController.threeStarApartment.doorNumber}" required="true" requiredMessage="#{msg.apartment_field_doorNumber} #{msg.form_isRequired}"/><br/>
-            #{msg.apartment_field_basePricePerDay} <h:inputText value="#{addThreeStarController.threeStarApartment.basePricePerDay}" required="true" requiredMessage="#{msg.apartment_field_basePricePerDay} #{msg.form_isRequired}"/><br/>
-            #{msg.apartment_threestar_field_bonus} <h:inputText value="#{addThreeStarController.threeStarApartment.bonus}" required="true" requiredMessage="#{msg.apartment_threestar_field_bonus} #{msg.form_isRequired}"/><br/>
+            #{msg.apartment_field_howManyBeds} <h:inputText styleClass="js-how-many-beds" value="#{addThreeStarController.threeStarApartment.howManyBeds}" required="true" requiredMessage="#{msg.apartment_field_howManyBeds} #{msg.form_isRequired}"/><br/>
+            #{msg.apartment_field_doorNumber} <h:inputText styleClass="js-door-number" value="#{addThreeStarController.threeStarApartment.doorNumber}" required="true" requiredMessage="#{msg.apartment_field_doorNumber} #{msg.form_isRequired}"/><br/>
+            #{msg.apartment_field_basePricePerDay} <h:inputText styleClass="js-base-price" value="#{addThreeStarController.threeStarApartment.basePricePerDay}" required="true" requiredMessage="#{msg.apartment_field_basePricePerDay} #{msg.form_isRequired}"/><br/>
+            #{msg.apartment_threestar_field_bonus} <h:inputText styleClass="js-bonus" value="#{addThreeStarController.threeStarApartment.bonus}" required="true" requiredMessage="#{msg.apartment_threestar_field_bonus} #{msg.form_isRequired}"/><br/>
             <h:commandButton value="#{msg.action_add}" action="#{addThreeStarController.createThreeStar()}"/>
             <h:commandButton value="#{msg.action_cancel}" action="ListAllThreeStar" immediate="true"/>
         </h:form>

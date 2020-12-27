@@ -9,10 +9,10 @@
 
     <ui:define name="content">
         <h:form>
-            #{msg.user_field_Login} <h:inputText value="#{addAdminController.admin.login}" required="true" requiredMessage="#{msg.user_field_Login} #{msg.form_isRequired}"/><br/>
-            #{msg.user_field_Password} <h:inputSecret value="#{addAdminController.admin.password}" required="true" requiredMessage="#{msg.user_field_Password} #{msg.form_isRequired}"/><br/>
-            #{msg.user_field_Firstname} <h:inputText value="#{addAdminController.admin.firstname}" required="true" requiredMessage="#{msg.user_field_Firstname} #{msg.form_isRequired}"/><br/>
-            #{msg.user_field_Lastname} <h:inputText value="#{addAdminController.admin.lastname}" required="true" requiredMessage="#{msg.user_field_Lastname} #{msg.form_isRequired}"/><br/>
+            #{msg.user_field_Login} <h:inputText styleClass="js-login" value="#{addAdminController.admin.login}" required="true" requiredMessage="#{msg.user_field_Login} #{msg.form_isRequired}"/><br/>
+            #{msg.user_field_Password} <h:inputSecret styleClass="js-password" value="#{addAdminController.admin.password}" required="true" requiredMessage="#{msg.user_field_Password} #{msg.form_isRequired}"/><br/>
+            #{msg.user_field_Firstname} <h:inputText styleClass="js-firstname" value="#{addAdminController.admin.firstname}" required="true" requiredMessage="#{msg.user_field_Firstname} #{msg.form_isRequired}"/><br/>
+            #{msg.user_field_Lastname} <h:inputText styleClass="js-lastname" value="#{addAdminController.admin.lastname}" required="true" requiredMessage="#{msg.user_field_Lastname} #{msg.form_isRequired}"/><br/>
             <h:commandButton value="#{msg.action_add}" action="#{addAdminController.createAdmin()}"/>
             <h:commandButton value="#{msg.action_cancel}" action="ListAllAdmin" immediate="true"/>
         </h:form>

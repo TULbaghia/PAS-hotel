@@ -9,10 +9,10 @@
 
     <ui:define name="content">
         <h:form>
-            #{msg.user_field_Login} <h:inputText value="#{editGuestController.guest.login}" required="true" requiredMessage="#{msg.user_field_Login} #{msg.form_isRequired}"/><br/>
-            #{msg.user_field_Password} <h:inputSecret value="#{editGuestController.guest.password}" required="true" requiredMessage="#{msg.user_field_Password} #{msg.form_isRequired}"/><br/>
-            #{msg.user_field_Firstname} <h:inputText value="#{editGuestController.guest.firstname}" required="true" requiredMessage="#{msg.user_field_Firstname} #{msg.form_isRequired}"/><br/>
-            #{msg.user_field_Lastname} <h:inputText value="#{editGuestController.guest.lastname}" required="true" requiredMessage="#{msg.user_field_Lastname} #{msg.form_isRequired}"/><br/>
+            #{msg.user_field_Login} <h:inputText styleClass="js-login" value="#{editGuestController.guest.login}" required="true" requiredMessage="#{msg.user_field_Login} #{msg.form_isRequired}"/><br/>
+            #{msg.user_field_Password} <h:inputSecret styleClass="js-password" value="#{editGuestController.guest.password}" required="true" requiredMessage="#{msg.user_field_Password} #{msg.form_isRequired}"/><br/>
+            #{msg.user_field_Firstname} <h:inputText styleClass="js-firstname" value="#{editGuestController.guest.firstname}" required="true" requiredMessage="#{msg.user_field_Firstname} #{msg.form_isRequired}"/><br/>
+            #{msg.user_field_Lastname} <h:inputText styleClass="js-lastname" value="#{editGuestController.guest.lastname}" required="true" requiredMessage="#{msg.user_field_Lastname} #{msg.form_isRequired}"/><br/>
             <h:commandButton value="#{msg.action_edit}" action="#{editGuestController.editGuest()}"/>
             <h:commandButton value="#{msg.action_cancel}" action="ListAllGuest" immediate="true"/>
         </h:form>

@@ -35,9 +35,9 @@
                 </h:column>
                 <h:column rendered="#{request.isUserInRole('Manager')}">
                     <f:facet name="header">#{msg.action_text}</f:facet>
-                    <h:commandButton value="#{msg.action_delete}" action="#{deleteReservationController.deleteReservation(r)}"/>
+                    <h:commandButton value="#{msg.action_delete}" styleClass="show-ok-alert" action="#{deleteReservationController.deleteReservation(r)}"/>
                     <h:commandButton value="#{msg.action_edit}" action="#{editReservationController.processToEditReservation(r)}"/>
-                    <h:commandButton value="#{msg.action_end}" action="#{endReservationController.endReservation(r)}"/>
+                    <h:commandButton value="#{msg.action_end}" styleClass="show-ok-alert" action="#{endReservationController.endReservation(r)}"/>
                 </h:column>
             </h:dataTable>
             <h:commandButton value="#{msg.action_refresh}" action="#{listAllReservationController.initCurrentReservations()}" immediate="true"/>
