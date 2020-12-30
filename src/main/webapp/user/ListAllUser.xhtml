@@ -14,12 +14,12 @@
             <h:form id="filterForm">
                 <h:inputText a:placeholder="#{msg.filter_search_placeholder}" id="search" styleClass="js-filter" value="#{listAllUserController.searchData}"/>
                 <h:commandButton value="#{msg.filter_search_button}" action="#{listAllUserController.initCurrentStatuses()}"/>
-                <h:selectOneMenu styleClass="js-filter" value = "#{listAllUserController.itemsPerPage}">
+                <h:selectOneMenu styleClass="js-filter" value = "#{paginationController.userItemsPerPage}">
                     <f:selectItem itemValue = "3" itemLabel = "3 elementy na stronę" />
                     <f:selectItem itemValue = "5" itemLabel = "5 elementow na stronę" />
                     <f:selectItem itemValue = "10" itemLabel = "10 elementow na stronę" />
                 </h:selectOneMenu>
-                <h:selectOneListbox styleClass="js-filter" value="#{listAllUserController.currentPage}" required="true" size="1">
+                <h:selectOneListbox styleClass="js-filter" value="#{paginationController.userCurrentPage}" required="true" size="1">
                     <f:selectItems value="#{listAllUserController.availablePages}" var="a" itemValue="${a}" itemLabel="Strona ##{a}"/>
                 </h:selectOneListbox>
             </h:form>

@@ -2,6 +2,7 @@ package pl.lodz.p.pas.controller.reservation;
 
 import lombok.Getter;
 import lombok.Setter;
+import pl.lodz.p.pas.controller.functional.PaginationController;
 import pl.lodz.p.pas.manager.ReservationManager;
 import pl.lodz.p.pas.manager.UserManager;
 import pl.lodz.p.pas.model.resource.Reservation;
@@ -14,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -29,6 +31,9 @@ public class ListAllReservationController implements Serializable {
 
     @Inject
     private UserManager userManager;
+
+    @Inject
+    private PaginationController pController;
 
     @Getter
     private List<Reservation> currentReservation = new ArrayList<>();
@@ -53,47 +58,31 @@ public class ListAllReservationController implements Serializable {
 
     @Getter
     @Setter
-    private int currentPage = 1;
-
-    @Getter
-    @Setter
-    private int itemsPerPage = 5;
-
-    @Getter
-    @Setter
     private List<Integer> availablePages;
 
 
     @PostConstruct
     public void initCurrentReservations() {
+        Predicate<Reservation> predicate = x -> x.getGuest().toString().contains(searchDataGuest)
+                && (x.getApartment() == null || x.getApartment().toString().contains(searchDataApartment))
+                && x.toString().contains(searchDataAll);
+
         if (request.isUserInRole("Guest")) {
-            availablePages = IntStream.range(1, 1 + (int) Math.ceil((double) reservationManager.filterByResources(userManager.getCurrentUser(), searchDataGuest, searchDataApartment, searchDataAll).size() / itemsPerPage))
-                    .boxed().collect(Collectors.toList());
-            currentPage = Math.min(currentPage, availablePages.get(availablePages.size() - 1));
-            currentReservation = reservationManager.paginate(itemsPerPage, currentPage, x -> x.getGuest().getId().equals(userManager.getCurrentUser().getId())
-                    && x.getGuest().toString().contains(searchDataGuest)
-                    && (x.getApartment() == null || x.getApartment().toString().contains(searchDataApartment))
-                    && x.toString().contains(searchDataAll));
-
-
-        } else {
-            availablePages = IntStream.range(1, 1 + (int) Math.ceil((double) reservationManager.filterByResources(searchDataGuest, searchDataApartment, searchDataAll).size() / itemsPerPage))
-                    .boxed().collect(Collectors.toList());
-            currentPage = Math.min(currentPage, availablePages.get(availablePages.size() - 1));
-            currentReservation = reservationManager.paginate(itemsPerPage, currentPage, x -> x.getGuest().toString().contains(searchDataGuest)
-                    && (x.getApartment() == null || x.getApartment().toString().contains(searchDataApartment))
-                    && x.toString().contains(searchDataAll));
-
+            predicate = predicate.and(x -> x.getGuest().getId().equals(userManager.getCurrentUser().getId()));
         }
-        allReservationsActive.clear();
-        allReservationsEnded.clear();
-        currentReservation.forEach(x -> {
-            if (x.getReservationEndDate() == null) {
-                allReservationsActive.add(x);
-            } else {
-                allReservationsEnded.add(x);
-            }
-        });
+
+        int sizeActive = reservationManager.paginate(Integer.MAX_VALUE, 1, predicate.and(x -> x.getReservationEndDate() == null)).size();
+        int sizeEnded = reservationManager.paginate(Integer.MAX_VALUE, 1, predicate.and(x -> x.getReservationEndDate() != null)).size();
+
+        availablePages = IntStream.range(1, 1 + (int) Math.ceil((double) Math.max(sizeActive, sizeEnded) / pController.getReservationItemsPerPage())).boxed().collect(Collectors.toList());
+
+        if(availablePages.size() > 0) {
+            pController.setReservationCurrentPage(Math.min(pController.getReservationCurrentPage(), availablePages.get(availablePages.size() - 1)));
+        }
+        currentReservation = reservationManager.paginate(pController.getReservationItemsPerPage(), pController.getReservationCurrentPage(), predicate);
+
+        allReservationsActive = reservationManager.paginate(pController.getReservationItemsPerPage(), pController.getReservationCurrentPage(), predicate.and(x -> x.getReservationEndDate() == null));
+        allReservationsEnded = reservationManager.paginate(pController.getReservationItemsPerPage(), pController.getReservationCurrentPage(), predicate.and(x -> x.getReservationEndDate() != null));
     }
 
 }

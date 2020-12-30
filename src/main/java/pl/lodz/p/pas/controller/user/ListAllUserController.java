@@ -2,6 +2,7 @@ package pl.lodz.p.pas.controller.user;
 
 import lombok.Getter;
 import lombok.Setter;
+import pl.lodz.p.pas.controller.functional.PaginationController;
 import pl.lodz.p.pas.manager.UserManager;
 import pl.lodz.p.pas.model.user.User;
 
@@ -21,19 +22,14 @@ public class ListAllUserController implements Serializable {
     @Inject
     private UserManager userManager;
 
+    @Inject
+    private PaginationController pController;
+
     @Getter
     private Map<UUID, Boolean> currentUserStatuses = new HashMap<>();
 
     @Getter
     private List<User> currentUsers = new ArrayList<>();
-
-    @Getter
-    @Setter
-    private int currentPage = 1;
-
-    @Getter
-    @Setter
-    private int itemsPerPage = 5;
 
     @Getter
     @Setter
@@ -49,10 +45,10 @@ public class ListAllUserController implements Serializable {
     @PostConstruct
     public void initCurrentStatuses() {
         userManager.getAll().forEach(x -> currentUserStatuses.put(x.getId(), x.isActive()));
-        availablePages = IntStream.range(1, 1 + (int) Math.ceil(userManager.filter(x -> x.toString().contains(searchData)).size() / (double) itemsPerPage))
+        availablePages = IntStream.range(1, 1 + (int) Math.ceil(userManager.filter(x -> x.toString().contains(searchData)).size() / (double) pController.getUserItemsPerPage()))
                 .boxed().collect(Collectors.toList());
-        currentPage = Math.min(currentPage, availablePages.get(availablePages.size() - 1));
-        currentUsers = userManager.paginate(itemsPerPage, currentPage, x -> x.toString().contains(searchData));
+        pController.setUserCurrentPage(Math.min(pController.getUserCurrentPage(), availablePages.get(availablePages.size() - 1)));
+        currentUsers = userManager.paginate(pController.getUserItemsPerPage(), pController.getUserCurrentPage(), x -> x.toString().contains(searchData));
     }
 
 }

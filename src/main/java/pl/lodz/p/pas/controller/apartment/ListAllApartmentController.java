@@ -2,6 +2,7 @@ package pl.lodz.p.pas.controller.apartment;
 
 import lombok.Getter;
 import lombok.Setter;
+import pl.lodz.p.pas.controller.functional.PaginationController;
 import pl.lodz.p.pas.manager.ApartmentManager;
 import pl.lodz.p.pas.model.resource.Apartment;
 
@@ -22,15 +23,10 @@ public class ListAllApartmentController implements Serializable {
     @Inject
     private ApartmentManager apartmentManager;
 
+    @Inject
+    private PaginationController pController;
+
     private List<Apartment> currentApartments = new ArrayList<>();
-
-    @Getter
-    @Setter
-    private int currentPage = 1;
-
-    @Getter
-    @Setter
-    private int itemsPerPage = 5;
 
     @Getter
     @Setter
@@ -45,10 +41,10 @@ public class ListAllApartmentController implements Serializable {
 
     @PostConstruct
     public void initCurrentApartments() {
-        availablePages = IntStream.range(1, 1 + (int) Math.ceil((double) apartmentManager.filter( x -> x.toString().contains(searchData)).size() / itemsPerPage))
+        availablePages = IntStream.range(1, 1 + (int) Math.ceil((double) apartmentManager.filter( x -> x.toString().contains(searchData)).size() / pController.getApartmentItemsPerPage()))
                 .boxed().collect(Collectors.toList());
-        currentPage = Math.min(currentPage, availablePages.get(availablePages.size() - 1));
-        currentApartments = apartmentManager.paginate(itemsPerPage, currentPage, x -> x.toString().contains(searchData));
+        pController.setApartmentCurrentPage(Math.min(pController.getApartmentCurrentPage(), availablePages.get(availablePages.size() - 1)));
+        currentApartments = apartmentManager.paginate(pController.getApartmentItemsPerPage(), pController.getApartmentCurrentPage(), x -> x.toString().contains(searchData));
     }
 
 }
