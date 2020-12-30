@@ -3,6 +3,7 @@ package pl.lodz.p.pas.manager;
 import lombok.NonNull;
 import pl.lodz.p.pas.manager.exception.ManagerException;
 import pl.lodz.p.pas.model.resource.Apartment;
+import pl.lodz.p.pas.model.resource.Reservation;
 import pl.lodz.p.pas.repository.ApartmentRepository;
 import pl.lodz.p.pas.repository.ReservationRepository;
 
@@ -11,6 +12,7 @@ import javax.inject.Inject;
 import java.util.List;
 import java.util.UUID;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 @ApplicationScoped
 public class ApartmentManager {
@@ -54,5 +56,9 @@ public class ApartmentManager {
 
     public List<Apartment> filter(Predicate<Apartment> predicate) {
         return apartmentRepository.filter(predicate);
+    }
+
+    public List<Apartment> paginate(int itemsPerPage, int page, Predicate<Apartment> p) {
+        return apartmentRepository.filter(p).stream().skip((page-1)*itemsPerPage).limit(itemsPerPage).collect(Collectors.toList());
     }
 }

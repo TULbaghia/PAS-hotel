@@ -8,7 +8,7 @@
     <ui:define name="title">#{msg.user_guest_edit_title}</ui:define>
 
     <ui:define name="content">
-        <h:form>
+        <h:form styleClass="dispatch-on-load">
             #{msg.user_field_Login} <h:inputText styleClass="js-login" value="#{editGuestController.guest.login}" required="true" requiredMessage="#{msg.user_field_Login} #{msg.form_isRequired}"/><br/>
             #{msg.user_field_Password} <h:inputSecret styleClass="js-password" value="#{editGuestController.guest.password}" required="true" requiredMessage="#{msg.user_field_Password} #{msg.form_isRequired}"/><br/>
             #{msg.user_field_Firstname} <h:inputText styleClass="js-firstname" value="#{editGuestController.guest.firstname}" required="true" requiredMessage="#{msg.user_field_Firstname} #{msg.form_isRequired}"/><br/>

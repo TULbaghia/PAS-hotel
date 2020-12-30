@@ -21,7 +21,7 @@
                 <f:selectItems value="#{addReservationController.avaliableApartment}" var="a" itemValue="${a}" itemLabel="#{a.presentYourself()}"/>
             </h:selectOneListbox><br/>
             #{msg.reservation_field_StartDate}
-            <h:inputText a:type="datetime-local" value="#{editReservationController.reservation.reservationStartDate}" required="true" requiredMessage="#{msg.reservation_field_StartDate} #{msg.form_isRequired}">
+            <h:inputText a:type="datetime-local" styleClass="js-reservation-start-date" value="#{editReservationController.reservation.reservationStartDate}" required="true" requiredMessage="#{msg.reservation_field_StartDate} #{msg.form_isRequired}">
                 <f:converter converterId="pl.lodz.p.pas.converter.localDateTimeConverter"/>
             </h:inputText><br/>
             <h:commandButton value="#{msg.action_add}" action="#{editReservationController.editReservation()}"/>

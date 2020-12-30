@@ -8,9 +8,9 @@
     <ui:define name="title">#{msg.apartment_edit_title}</ui:define>
 
     <ui:define name="content">
-        <h:form>
+        <h:form styleClass="dispatch-on-load">
             #{msg.apartment_field_howManyBeds} <h:inputText styleClass="js-how-many-beds" value="#{editFiveStarController.fiveStarApartment.howManyBeds}" required="true" requiredMessage="#{msg.apartment_field_howManyBeds} #{msg.form_isRequired}"/><br/>
-            #{msg.apartment_field_doorNumber} <h:inputText styleClass="js-door-number value="#{editFiveStarController.fiveStarApartment.doorNumber}" required="true" requiredMessage="#{msg.apartment_field_doorNumber} #{msg.form_isRequired}"/><br/>
+            #{msg.apartment_field_doorNumber} <h:inputText styleClass="js-door-number" value="#{editFiveStarController.fiveStarApartment.doorNumber}" required="true" requiredMessage="#{msg.apartment_field_doorNumber} #{msg.form_isRequired}"/><br/>
             #{msg.apartment_field_basePricePerDay} <h:inputText styleClass="js-base-price" value="#{editFiveStarController.fiveStarApartment.basePricePerDay}" required="true" requiredMessage="#{msg.apartment_field_basePricePerDay} #{msg.form_isRequired}"/><br/>
             #{msg.apartment_fivestar_field_bonus} <h:inputText styleClass="js-bonus" value="#{editFiveStarController.fiveStarApartment.bonus}" required="true" requiredMessage="#{msg.apartment_fivestar_field_bonus} #{msg.form_isRequired}"/><br/>
             #{msg.apartment_fivestar_field_pcName} <h:inputText styleClass="js-pc-name" value="#{editFiveStarController.fiveStarApartment.pcName}" required="true" requiredMessage="#{msg.apartment_fivestar_field_pcName} #{msg.form_isRequired}"/><br/>

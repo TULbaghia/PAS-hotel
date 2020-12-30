@@ -5,6 +5,7 @@ import lombok.Setter;
 import lombok.SneakyThrows;
 import org.apache.commons.beanutils.BeanUtils;
 import pl.lodz.p.pas.manager.UserManager;
+import pl.lodz.p.pas.manager.exception.ManagerException;
 import pl.lodz.p.pas.model.user.Manager;
 import pl.lodz.p.pas.repository.exception.RepositoryException;
 
@@ -42,7 +43,7 @@ public class EditManagerController implements Serializable {
     public String editManager() {
         try {
             userManager.update(manager);
-        } catch (RepositoryException e) {
+        } catch (RepositoryException | ManagerException e) {
             FacesContext.getCurrentInstance().addMessage("managerForm", new FacesMessage(e.getMessage()));
             return null;
         }

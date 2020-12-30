@@ -3,6 +3,7 @@ package pl.lodz.p.pas.controller.user.admin;
 import lombok.Getter;
 import lombok.Setter;
 import pl.lodz.p.pas.manager.UserManager;
+import pl.lodz.p.pas.manager.exception.ManagerException;
 import pl.lodz.p.pas.model.user.Admin;
 import pl.lodz.p.pas.repository.exception.RepositoryException;
 
@@ -26,7 +27,7 @@ public class AddAdminController implements Serializable {
     public String createAdmin() {
         try {
             userManager.add(admin);
-        } catch (RepositoryException e) {
+        } catch (RepositoryException | ManagerException e) {
             FacesContext.getCurrentInstance().addMessage("adminForm", new FacesMessage(e.getMessage()));
             return null;
         }

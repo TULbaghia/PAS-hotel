@@ -5,7 +5,6 @@ import lombok.Setter;
 import pl.lodz.p.pas.manager.ReservationManager;
 import pl.lodz.p.pas.manager.UserManager;
 import pl.lodz.p.pas.model.resource.Reservation;
-import pl.lodz.p.pas.model.user.Guest;
 
 import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
@@ -16,6 +15,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @ViewScoped
 @Named
@@ -51,12 +51,39 @@ public class ListAllReservationController implements Serializable {
     @Setter
     private String searchDataAll = "";
 
+    @Getter
+    @Setter
+    private int currentPage = 1;
+
+    @Getter
+    @Setter
+    private int itemsPerPage = 5;
+
+    @Getter
+    @Setter
+    private List<Integer> availablePages;
+
+
     @PostConstruct
     public void initCurrentReservations() {
         if (request.isUserInRole("Guest")) {
-            currentReservation = reservationManager.filterByResources(userManager.getCurrentUser(), searchDataGuest, searchDataApartment, searchDataAll);
+            availablePages = IntStream.range(1, 1 + (int) Math.ceil((double) reservationManager.filterByResources(userManager.getCurrentUser(), searchDataGuest, searchDataApartment, searchDataAll).size() / itemsPerPage))
+                    .boxed().collect(Collectors.toList());
+            currentPage = Math.min(currentPage, availablePages.get(availablePages.size() - 1));
+            currentReservation = reservationManager.paginate(itemsPerPage, currentPage, x -> x.getGuest().getId().equals(userManager.getCurrentUser().getId())
+                    && x.getGuest().toString().contains(searchDataGuest)
+                    && (x.getApartment() == null || x.getApartment().toString().contains(searchDataApartment))
+                    && x.toString().contains(searchDataAll));
+
+
         } else {
-            currentReservation = reservationManager.filterByResources(searchDataGuest, searchDataApartment, searchDataAll);
+            availablePages = IntStream.range(1, 1 + (int) Math.ceil((double) reservationManager.filterByResources(searchDataGuest, searchDataApartment, searchDataAll).size() / itemsPerPage))
+                    .boxed().collect(Collectors.toList());
+            currentPage = Math.min(currentPage, availablePages.get(availablePages.size() - 1));
+            currentReservation = reservationManager.paginate(itemsPerPage, currentPage, x -> x.getGuest().toString().contains(searchDataGuest)
+                    && (x.getApartment() == null || x.getApartment().toString().contains(searchDataApartment))
+                    && x.toString().contains(searchDataAll));
+
         }
         allReservationsActive.clear();
         allReservationsEnded.clear();
@@ -68,4 +95,5 @@ public class ListAllReservationController implements Serializable {
             }
         });
     }
+
 }

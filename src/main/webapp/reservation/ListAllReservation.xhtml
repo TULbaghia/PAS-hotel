@@ -9,67 +9,77 @@
     <ui:define name="title">#{msg.reservation_title}</ui:define>
 
     <ui:define name="content">
-        <h:form>
-            <h:inputText a:placeholder="#{msg.reservation_field_Apartment}" id="searchByApartment" value="#{listAllReservationController.searchDataApartment}"/>
-            <h:inputText a:placeholder="#{msg.reservation_field_Guest}" id="searchByGuest" value="#{listAllReservationController.searchDataGuest}"/>
-            <h:inputText a:placeholder="#{msg.filter_search_placeholder}" id="searchByAll" value="#{listAllReservationController.searchDataAll}"/>
-            <h:commandButton value="#{msg.filter_search_button}" action="#{listAllReservationController.initCurrentReservations()}"/>
-        </h:form>
-        <h:form>
-            <h:dataTable styleClass="table table-hover table-striped table-bordered" value="#{listAllReservationController.allReservationsActive}" var="r">
-                <h:column>
-                    <f:facet name="header">#{msg.reservation_field_Id}</f:facet>
-                    ${r.id}
-                </h:column>
-                <h:column>
-                    <f:facet name="header">#{msg.reservation_field_Apartment}</f:facet>
-                    ${r.apartment}
-                </h:column>
-                <h:column>
-                    <f:facet name="header">#{msg.reservation_field_Guest}</f:facet>
-                    ${r.guest.login}
-                </h:column>
-                <h:column>
-                    <f:facet name="header">#{msg.reservation_field_StartDate}</f:facet>
-                    ${r.reservationStartDate}
-                </h:column>
-                <h:column rendered="#{request.isUserInRole('Manager')}">
-                    <f:facet name="header">#{msg.action_text}</f:facet>
-                    <h:commandButton value="#{msg.action_delete}" styleClass="show-ok-alert" action="#{deleteReservationController.deleteReservation(r)}"/>
-                    <h:commandButton value="#{msg.action_edit}" action="#{editReservationController.processToEditReservation(r)}"/>
-                    <h:commandButton value="#{msg.action_end}" styleClass="show-ok-alert" action="#{endReservationController.endReservation(r)}"/>
-                </h:column>
-            </h:dataTable>
-            <h:commandButton value="#{msg.action_refresh}" action="#{listAllReservationController.initCurrentReservations()}" immediate="true"/>
-            <h:commandButton value="#{msg.action_cancel}" action="Index" immediate="true"/>
-            <br/>
-            <h:dataTable styleClass="table table-hover table-striped table-bordered" value="#{listAllReservationController.allReservationsEnded}" var="r">
-                <h:column>
-                    <f:facet name="header">#{msg.reservation_field_Id}</f:facet>
-                    ${r.id}
-                </h:column>
-                <h:column>
-                    <f:facet name="header">#{msg.reservation_field_Apartment}</f:facet>
-                    ${r.apartment}
-                </h:column>
-                <h:column>
-                    <f:facet name="header">#{msg.reservation_field_Guest}</f:facet>
-                    ${r.guest.login}
-                </h:column>
-                <h:column>
-                    <f:facet name="header">#{msg.reservation_field_StartDate}</f:facet>
-                    ${r.reservationStartDate}
-                </h:column>
-                <h:column>
-                    <f:facet name="header">#{msg.reservation_field_EndDate}</f:facet>
-                    ${r.reservationEndDate}
-                </h:column>
-                <h:column>
-                    <f:facet name="header">#{msg.reservation_field_Price}</f:facet>
-                    ${r.price}
-                </h:column>
-            </h:dataTable>
-        </h:form>
+        <div id="filterContent">
+            <h:form id="filterForm">
+                <h:inputText a:placeholder="#{msg.reservation_field_Apartment}" id="searchByApartment" styleClass="js-filter" value="#{listAllReservationController.searchDataApartment}"/>
+                <h:inputText a:placeholder="#{msg.reservation_field_Guest}" id="searchByGuest" styleClass="js-filter" value="#{listAllReservationController.searchDataGuest}"/>
+                <h:inputText a:placeholder="#{msg.filter_search_placeholder}" id="searchByAll" styleClass="js-filter" value="#{listAllReservationController.searchDataAll}"/>
+                <h:commandButton value="#{msg.filter_search_button}" action="#{listAllReservationController.initCurrentReservations()}"/>
+                <h:selectOneMenu styleClass="js-filter" value = "#{listAllReservationController.itemsPerPage}">
+                    <f:selectItem itemValue = "3" itemLabel = "3 elementy na stronę" />
+                    <f:selectItem itemValue = "5" itemLabel = "5 elementow na stronę" />
+                    <f:selectItem itemValue = "10" itemLabel = "10 elementow na stronę" />
+                </h:selectOneMenu>
+                <h:selectOneListbox styleClass="js-filter" value="#{listAllReservationController.currentPage}" required="true" size="1">
+                    <f:selectItems value="#{listAllReservationController.availablePages}" var="a" itemValue="${a}" itemLabel="Strona ##{a}"/>
+                </h:selectOneListbox>
+            </h:form>
+            <h:form id="filterTable">
+                <h:dataTable styleClass="table table-hover table-striped table-bordered" value="#{listAllReservationController.allReservationsActive}" var="r">
+                    <h:column>
+                        <f:facet name="header">#{msg.reservation_field_Id}</f:facet>
+                        ${r.id}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">#{msg.reservation_field_Apartment}</f:facet>
+                        ${r.apartment}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">#{msg.reservation_field_Guest}</f:facet>
+                        ${r.guest.login}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">#{msg.reservation_field_StartDate}</f:facet>
+                        ${r.reservationStartDate}
+                    </h:column>
+                    <h:column rendered="#{request.isUserInRole('Manager')}">
+                        <f:facet name="header">#{msg.action_text}</f:facet>
+                        <h:commandButton value="#{msg.action_delete}" styleClass="show-ok-alert" action="#{deleteReservationController.deleteReservation(r)}"/>
+                        <h:commandButton value="#{msg.action_edit}" action="#{editReservationController.processToEditReservation(r)}"/>
+                        <h:commandButton value="#{msg.action_end}" styleClass="show-ok-alert" action="#{endReservationController.endReservation(r)}"/>
+                    </h:column>
+                </h:dataTable>
+                <h:commandButton value="#{msg.action_refresh}" action="#{listAllReservationController.initCurrentReservations()}" immediate="true"/>
+                <h:commandButton value="#{msg.action_cancel}" action="Index" immediate="true"/>
+                <br/>
+                <h:dataTable styleClass="table table-hover table-striped table-bordered" value="#{listAllReservationController.allReservationsEnded}" var="r">
+                    <h:column>
+                        <f:facet name="header">#{msg.reservation_field_Id}</f:facet>
+                        ${r.id}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">#{msg.reservation_field_Apartment}</f:facet>
+                        ${r.apartment}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">#{msg.reservation_field_Guest}</f:facet>
+                        ${r.guest.login}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">#{msg.reservation_field_StartDate}</f:facet>
+                        ${r.reservationStartDate}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">#{msg.reservation_field_EndDate}</f:facet>
+                        ${r.reservationEndDate}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">#{msg.reservation_field_Price}</f:facet>
+                        ${r.price}
+                    </h:column>
+                </h:dataTable>
+            </h:form>
+        </div>
     </ui:define>
 </ui:composition>
 </html>

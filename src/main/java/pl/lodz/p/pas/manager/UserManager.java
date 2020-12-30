@@ -2,6 +2,7 @@ package pl.lodz.p.pas.manager;
 
 import lombok.NonNull;
 import pl.lodz.p.pas.manager.exception.ManagerException;
+import pl.lodz.p.pas.model.resource.Apartment;
 import pl.lodz.p.pas.model.user.User;
 import pl.lodz.p.pas.repository.UserRepository;
 
@@ -14,6 +15,7 @@ import java.util.List;
 import java.util.UUID;
 import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 @ApplicationScoped
 @Named
@@ -26,6 +28,7 @@ public class UserManager implements Serializable {
     private UserRepository userRepository;
 
     public void add(@NonNull User user) {
+        checkPassword(user.getPassword());
         userRepository.add(user);
     }
 
@@ -46,6 +49,7 @@ public class UserManager implements Serializable {
     }
 
     public void update(@NonNull User user) {
+        checkPassword(user.getPassword());
         userRepository.update(user);
     }
 
@@ -64,8 +68,18 @@ public class UserManager implements Serializable {
     public User getCurrentUser() {
         User u = get(request.getRemoteUser());
         if(u == null) {
-            throw new ManagerException("usermanager_not_logged_in");
+            throw new ManagerException("not_logged_in");
         }
         return u;
+    }
+
+    private void checkPassword(String password) {
+        if(!password.matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$")){
+            throw new ManagerException("password_incorrect");
+        };
+    }
+
+    public List<User> paginate(int itemsPerPage, int page, Predicate<User> p) {
+        return userRepository.filter(p).stream().skip((page-1)*itemsPerPage).limit(itemsPerPage).collect(Collectors.toList());
     }
 }

@@ -38,17 +38,17 @@ public class FixtureLoader implements ServletContextListener {
     }
 
     private void loadUserFixture() {
-        userManager.add(Guest.builder().login("guest1").password("guest1").firstname("Jan").lastname("Kowalski").build());
-        userManager.add(Guest.builder().login("guest2").password("guest2").firstname("Andrzej").lastname("Nowak").build());
-        userManager.add(Guest.builder().login("guest3").password("guest3").firstname("Jakub").lastname("Kowal").build());
-        userManager.add(Guest.builder().login("guest4").password("guest4").firstname("Kacper").lastname("Kowalczyk").build());
-        userManager.add(Guest.builder().login("TestGuest").password("12345").firstname("TestGuest").lastname("TestGuest").build());
+        userManager.add(Guest.builder().login("guest1").password("zaq1@WSX").firstname("Jan").lastname("Kowalski").build());
+        userManager.add(Guest.builder().login("guest2").password("zaq1@WSX").firstname("Andrzej").lastname("Nowak").build());
+        userManager.add(Guest.builder().login("guest3").password("zaq1@WSX").firstname("Jakub").lastname("Kowal").build());
+        userManager.add(Guest.builder().login("guest4").password("zaq1@WSX").firstname("Kacper").lastname("Kowalczyk").build());
+        userManager.add(Guest.builder().login("TestGuest").password("zaq1@WSX").firstname("TestGuest").lastname("TestGuest").build());
 
-        userManager.add(Manager.builder().login("manager1").password("manager1").firstname("Manager").lastname("Kowalski").build());
-        userManager.add(Manager.builder().login("TestManager").password("12345").firstname("TestManager").lastname("TestManager").build());
+        userManager.add(Manager.builder().login("manager1").password("zaq1@WSX").firstname("Manager").lastname("Kowalski").build());
+        userManager.add(Manager.builder().login("TestManager").password("zaq1@WSX").firstname("TestManager").lastname("TestManager").build());
 
-        userManager.add(Admin.builder().login("admin1").password("admin1").firstname("Admin").lastname("Nowak").build());
-        userManager.add(Admin.builder().login("TestAdmin").password("12345").firstname("TestAdmin").lastname("TestAdmin").build());
+        userManager.add(Admin.builder().login("admin1").password("zaq1@WSX").firstname("Admin").lastname("Nowak").build());
+        userManager.add(Admin.builder().login("TestAdmin").password("zaq1@WSX").firstname("TestAdmin").lastname("TestAdmin").build());
     }
 
     private void loadApartmentFixture() {
@@ -83,6 +83,18 @@ public class FixtureLoader implements ServletContextListener {
         reservationManager.add(Reservation.builder()
                 .guest((Guest) userManager.get("guest4"))
                 .apartment(apartmentManager.get(101))
+                .reservationStartDate(LocalDateTime.now().minusMinutes(30))
+                .build());
+
+        reservationManager.add(Reservation.builder()
+                .guest((Guest) userManager.get("guest1"))
+                .apartment(apartmentManager.get(102))
+                .reservationStartDate(LocalDateTime.now().minusMinutes(30))
+                .build());
+
+        reservationManager.add(Reservation.builder()
+                .guest((Guest) userManager.get("guest2"))
+                .apartment(apartmentManager.get(103))
                 .reservationStartDate(LocalDateTime.now().minusMinutes(30))
                 .build());
 

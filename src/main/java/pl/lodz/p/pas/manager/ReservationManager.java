@@ -17,6 +17,7 @@ import javax.inject.Inject;
 import java.util.List;
 import java.util.UUID;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 @ApplicationScoped
 public class ReservationManager {
@@ -90,6 +91,10 @@ public class ReservationManager {
         return reservationRepository.filter(x -> x.getGuest().getId().equals(user.getId()) && x.getGuest().toString().contains(args[0])
                 && (x.getApartment() == null || x.getApartment().toString().contains(args[1]))
                 && x.toString().contains(args[2]));
+    }
+
+    public List<Reservation> paginate(int itemsPerPage, int page, Predicate<Reservation> p) {
+        return reservationRepository.filter(p).stream().skip((page-1)*itemsPerPage).limit(itemsPerPage).collect(Collectors.toList());
     }
 
 }

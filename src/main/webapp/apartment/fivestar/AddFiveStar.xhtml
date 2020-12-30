@@ -8,7 +8,7 @@
     <ui:define name="title">#{msg.apartment_add_title}</ui:define>
 
     <ui:define name="content">
-        <h:form>
+        <h:form styleClass="dispatch-on-load">
             #{msg.apartment_field_howManyBeds} <h:inputText styleClass="js-how-many-beds" value="#{addFiveStarController.fiveStarApartment.howManyBeds}" required="true" requiredMessage="#{msg.apartment_field_howManyBeds} #{msg.form_isRequired}"/><br/>
             #{msg.apartment_field_doorNumber} <h:inputText styleClass="js-door-number"  value="#{addFiveStarController.fiveStarApartment.doorNumber}" required="true" requiredMessage="#{msg.apartment_field_doorNumber} #{msg.form_isRequired}"/><br/>
             #{msg.apartment_field_basePricePerDay} <h:inputText styleClass="js-base-price" value="#{addFiveStarController.fiveStarApartment.basePricePerDay}" required="true" requiredMessage="#{msg.apartment_field_basePricePerDay} #{msg.form_isRequired}"/><br/>

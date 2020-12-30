@@ -11,6 +11,8 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
 import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @ViewScoped
 @Named
@@ -25,6 +27,18 @@ public class ListAllUserController implements Serializable {
     @Getter
     private List<User> currentUsers = new ArrayList<>();
 
+    @Getter
+    @Setter
+    private int currentPage = 1;
+
+    @Getter
+    @Setter
+    private int itemsPerPage = 5;
+
+    @Getter
+    @Setter
+    private List<Integer> availablePages;
+
     @Getter @Setter
     private String searchData = "";
 
@@ -35,7 +49,10 @@ public class ListAllUserController implements Serializable {
     @PostConstruct
     public void initCurrentStatuses() {
         userManager.getAll().forEach(x -> currentUserStatuses.put(x.getId(), x.isActive()));
-        currentUsers = userManager.filter(x -> x.toString().contains(searchData));
+        availablePages = IntStream.range(1, 1 + (int) Math.ceil(userManager.filter(x -> x.toString().contains(searchData)).size() / (double) itemsPerPage))
+                .boxed().collect(Collectors.toList());
+        currentPage = Math.min(currentPage, availablePages.get(availablePages.size() - 1));
+        currentUsers = userManager.paginate(itemsPerPage, currentPage, x -> x.toString().contains(searchData));
     }
 
 }
