@@ -1,30 +1,28 @@
 $("body").on("click", ".show-ok-alert", (event) => {
-    let response = confirm("Are you sure?");
+    let response = confirm(jsMap.JS_confirm);
     if (!response) {
         event.preventDefault();
     }
 })
 
 $("body").on("change", ".js-how-many-beds, .js-door-number", (event) => {
-    checkCorrectness(event, /^[1-9][0-9]*$/, "Wartość musi być większa od zera");
+    checkCorrectness(event, /^[1-9][0-9]*$/, jsMap.JS_positive);
 })
 
 $("body").on("change", ".js-base-price", (event) => {
-    checkCorrectness(event, /^\d*\.?\d{1,2}$/, "Niepoprawna wartość");
+    checkCorrectness(event, /^\d*\.?\d{1,2}$/, jsMap.JS_incorrect_value);
 })
 
 $("body").on("change", ".js-pc-name, .js-bonus, .js-login, .js-password, .js-firstname, .js-lastname", (event) => {
-    checkCorrectness(event, /^[a-zA-Z0-9]+[a-zA-Z0-9\s]*$/, "Pole nie może być puste");
+    checkCorrectness(event, /^[a-zA-Z0-9]+[a-zA-Z0-9\s]*$/, jsMap.JS_field_empty);
 })
 
 $("body").on("change", ".js-reservation-start-date", (event) => {
-    checkCorrectness(event, /^\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d$/, "Niepoprawna data");
+    checkCorrectness(event, /^\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d$/, jsMap.JS_incorrect_date);
 })
 
 $("body").on("change", ".js-password", (event) => {
-    checkCorrectness(event, /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
-        "Hasło musi zawierać minimum 1 znak specjalny, 1 małą literę, 1 dużą literę oraz cyfrę. Minimum 8 znaków."
-        );
+    checkCorrectness(event, /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/, jsMap.JS_password);
 })
 
 $("body").on("change", ".js-filter", (event) => {
@@ -75,9 +73,3 @@ function checkCorrectness(event, regex, info) {
     }
     handleSubmitEditButton(event);
 }
-
-// styleClass="js-how-many-beds"
-// styleClass="js-door-number"
-// styleClass="js-base-price"
-// styleClass="js-bonus"
-// styleClass="js-pc-name
