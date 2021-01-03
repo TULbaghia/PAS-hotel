@@ -29,7 +29,7 @@ public class ReservationException extends ModelException {
     @Override
     public String getLocalizedMessage() {
         PropertyResourceBundle resourceBundle = ResourceBundleService.getBundle();
-        if (resourceBundle.containsKey("ReservationException." + super.getMessage())) {
+        if (resourceBundle != null && resourceBundle.containsKey("ReservationException." + super.getMessage())) {
             return resourceBundle.getString("ReservationException." + super.getMessage());
         }
         return super.getMessage();

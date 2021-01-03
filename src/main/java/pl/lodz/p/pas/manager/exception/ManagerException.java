@@ -29,7 +29,7 @@ public class ManagerException extends RuntimeException {
     @Override
     public String getLocalizedMessage() {
         PropertyResourceBundle resourceBundle = ResourceBundleService.getBundle();
-        if (resourceBundle.containsKey("ManagerException." + super.getMessage())) {
+        if (resourceBundle != null && resourceBundle.containsKey("ManagerException." + super.getMessage())) {
             return resourceBundle.getString("ManagerException." + super.getMessage());
         }
         return super.getMessage();

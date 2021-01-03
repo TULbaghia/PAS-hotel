@@ -29,7 +29,7 @@ public class GuestException extends ModelException {
     @Override
     public String getLocalizedMessage() {
         PropertyResourceBundle resourceBundle = ResourceBundleService.getBundle();
-        if (resourceBundle.containsKey("GuestException." + super.getMessage())) {
+        if (resourceBundle != null && resourceBundle.containsKey("GuestException." + super.getMessage())) {
             return resourceBundle.getString("GuestException." + super.getMessage());
         }
         return super.getMessage();

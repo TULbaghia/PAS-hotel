@@ -30,7 +30,7 @@ public class RepositoryException extends RuntimeException {
     @Override
     public String getLocalizedMessage() {
         PropertyResourceBundle resourceBundle = ResourceBundleService.getBundle();
-        if (resourceBundle.containsKey("RepositoryException." + super.getMessage())) {
+        if (resourceBundle != null && resourceBundle.containsKey("RepositoryException." + super.getMessage())) {
             return resourceBundle.getString("RepositoryException." + super.getMessage());
         }
         return super.getMessage();

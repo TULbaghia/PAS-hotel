@@ -11,7 +11,7 @@ public class ResourceBundleService {
     @Produces
     public static PropertyResourceBundle getBundle() {
         FacesContext context = FacesContext.getCurrentInstance();
-        return context.getApplication().evaluateExpressionGet(context, "#{msg}", PropertyResourceBundle.class);
+        return context == null ? null : context.getApplication().evaluateExpressionGet(context, "#{msg}", PropertyResourceBundle.class);
     }
 
 }
