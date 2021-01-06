@@ -1,5 +1,7 @@
 package pl.lodz.p.pas.controller;
 
+import com.fasterxml.jackson.databind.MapperFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import pl.lodz.p.pas.manager.ApartmentManager;
 import pl.lodz.p.pas.manager.ReservationManager;
 import pl.lodz.p.pas.manager.UserManager;
@@ -59,6 +61,7 @@ public class FixtureLoader implements ServletContextListener {
         apartmentManager.add(ThreeStarApartment.builder().doorNumber(101).basePricePerDay(200).howManyBeds(2).bonus("lampka nocna").build());
         apartmentManager.add(ThreeStarApartment.builder().doorNumber(102).basePricePerDay(100).howManyBeds(1).bonus("koc").build());
         apartmentManager.add(ThreeStarApartment.builder().doorNumber(103).basePricePerDay(50).howManyBeds(0).bonus("dywan").build());
+
     }
 
     private void loadReservationFixture() {

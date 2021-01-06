@@ -1,28 +1,34 @@
 package pl.lodz.p.pas.model.user;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonView;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 import pl.lodz.p.pas.model.trait.IdTrait;
+import pl.lodz.p.pas.service.views.Views;
 
 import javax.validation.constraints.NotEmpty;
 
 @Data
 @SuperBuilder
 @RequiredArgsConstructor
-@NoArgsConstructor
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
 public class User extends IdTrait {
-    @JsonProperty @NonNull @NotEmpty
+    @JsonProperty @NotEmpty
+    @JsonView(Views.Public.class)
     private String login;
-    @JsonProperty @NonNull @NotEmpty
+    @JsonProperty @NotEmpty
+    @JsonView({Views.Confidential.class, Views.Registration.class})
     private String password;
-    @JsonProperty @NonNull @NotEmpty
+    @JsonProperty @NotEmpty
+    @JsonView(Views.Public.class)
     private String firstname;
-    @JsonProperty @NonNull @NotEmpty
+    @JsonProperty @NotEmpty
+    @JsonView(Views.Public.class)
     private String lastname;
     @Builder.Default
     @JsonProperty
-    private boolean isActive = true;
+    @JsonView(Views.Public.class)
+    private boolean active = true;
 }

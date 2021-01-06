@@ -2,7 +2,6 @@ package pl.lodz.p.pas.manager;
 
 import lombok.NonNull;
 import pl.lodz.p.pas.manager.exception.ManagerException;
-import pl.lodz.p.pas.model.resource.Apartment;
 import pl.lodz.p.pas.model.user.User;
 import pl.lodz.p.pas.repository.UserRepository;
 
@@ -13,7 +12,6 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.Serializable;
 import java.util.List;
 import java.util.UUID;
-import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 

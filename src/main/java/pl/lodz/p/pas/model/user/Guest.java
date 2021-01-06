@@ -1,7 +1,5 @@
 package pl.lodz.p.pas.model.user;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 import pl.lodz.p.pas.model.exception.GuestException;
@@ -19,7 +17,6 @@ public class Guest extends User {
     @Setter(AccessLevel.NONE)
     @NonNull
     @Builder.Default
-    @JsonIgnore
     private GuestType guestType = new BasicGuestType();
 
     public double getDiscount(double price) throws GuestException {
