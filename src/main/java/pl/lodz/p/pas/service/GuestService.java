@@ -2,21 +2,20 @@ package pl.lodz.p.pas.service;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.util.JSONPObject;
-import jakarta.json.JsonObject;
 import org.apache.commons.beanutils.BeanUtils;
-import org.apache.commons.beanutils.BeanUtilsBean;
-import org.json.JSONObject;
 import pl.lodz.p.pas.manager.UserManager;
 import pl.lodz.p.pas.model.user.Guest;
+import pl.lodz.p.pas.model.user.Manager;
+import pl.lodz.p.pas.model.user.User;
 import pl.lodz.p.pas.service.dto.GuestDTO;
 import pl.lodz.p.pas.service.views.Views;
 
 import javax.inject.Inject;
-import javax.transaction.Transactional;
 import javax.validation.Valid;
 import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.SecurityContext;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -39,13 +38,18 @@ public class GuestService {
     @GET
     @Path("/{uuid}")
     @JsonView
-    public String getGuest(@PathParam("uuid") String id) throws JsonProcessingException {
+    public String getGuest(@PathParam("uuid") String id, @Context SecurityContext securityContext) throws JsonProcessingException {
         GuestDTO guestDTO = new GuestDTO();
-        try {
-            return guestDTO.writeAsString(Views.Public.class, (Guest) userManager.get(UUID.fromString(id)));
-        } catch (IllegalArgumentException e) {
-            return guestDTO.writeAsString(Views.Public.class, (Guest) userManager.get(id));
+        String currentUser = securityContext.getUserPrincipal().getName();
+        Guest guest = (Guest) userManager.get(UUID.fromString(id));
+        if (userManager.get(currentUser) instanceof Manager || currentUser.equals(guest.getLogin())) {
+            try {
+                return guestDTO.writeAsString(Views.Public.class, guest);
+            } catch (IllegalArgumentException e) {
+                return guestDTO.writeAsString(Views.Public.class, (Guest) userManager.get(id));
+            }
         }
+        return null;
     }
 
     @Path("/")
@@ -61,7 +65,6 @@ public class GuestService {
     public String updateGuest(@PathParam("uuid") String id, @Valid Guest guest) throws JsonProcessingException {
         GuestDTO guestDTO = new GuestDTO();
         Guest editingGuest = (Guest) userManager.get(UUID.fromString(id));
-        BeanUtils.copyProperties();
         userManager.update(guest);
         return guestDTO.writeAsString(Views.Public.class, (Guest) userManager.get(UUID.fromString(id)));
     }
@@ -76,4 +79,10 @@ public class GuestService {
         return guestDTO.writeAsString(Views.Public.class, (Guest) userManager.get(editingGuest.getLogin()));
     }
 
+    // test auth method
+    @Path("/self")
+    @GET
+    public User findSelf(@Context SecurityContext securityContext) {
+        return userManager.get(securityContext.getUserPrincipal().getName());
+    }
 }

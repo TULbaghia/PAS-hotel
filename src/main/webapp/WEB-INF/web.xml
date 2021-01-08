@@ -16,16 +16,6 @@
 
     <security-constraint>
         <web-resource-collection>
-            <web-resource-name>Secured pages</web-resource-name>
-            <url-pattern>/*</url-pattern>
-        </web-resource-collection>
-        <user-data-constraint>
-            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
-        </user-data-constraint>
-    </security-constraint>
-
-    <security-constraint>
-        <web-resource-collection>
             <web-resource-name>Auth Guest pages</web-resource-name>
             <url-pattern>/reservation/*</url-pattern>
             <url-pattern>/index.xhtml</url-pattern>
@@ -77,16 +67,6 @@
         <url-pattern>*.xhtml</url-pattern>
     </servlet-mapping>
 
-    <servlet>
-        <servlet-name>javax.ws.rs.core.Application</servlet-name>
-        <load-on-startup>1</load-on-startup>
-    </servlet>
-
-    <servlet-mapping>
-        <servlet-name>javax.ws.rs.core.Application</servlet-name>
-        <url-pattern>/api/*</url-pattern>
-    </servlet-mapping>
-
     <session-config>
         <session-timeout>
             30
@@ -106,4 +86,55 @@
             <form-error-page>/login.xhtml</form-error-page>
         </form-login-config>
     </login-config>
+
+
+    <!--    Rest API rules    -->
+    <servlet>
+        <servlet-name>javax.ws.rs.core.Application</servlet-name>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>javax.ws.rs.core.Application</servlet-name>
+        <url-pattern>/api/*</url-pattern>
+    </servlet-mapping>
+
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>Auth rest pages</web-resource-name>
+            <url-pattern>/1/guest/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>Guest</role-name>
+        </auth-constraint>
+        <user-data-constraint>
+            <!--    https restriction must be placed in each security-constraint    -->
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
+    </security-constraint>
+
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>Get self</web-resource-name>
+            <url-pattern>/auth/login</url-pattern>
+            <http-method>GET</http-method>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>Guest</role-name>
+            <role-name>Admin</role-name>
+            <role-name>Manager</role-name>
+        </auth-constraint>
+        <user-data-constraint>
+        <!--    https restriction must be placed in each security-constraint    -->
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
+    </security-constraint>
+
+    <!--    jwt-token secret-->
+    <env-entry>
+        <env-entry-name>SECRET</env-entry-name>
+        <env-entry-type>java.lang.String</env-entry-type>
+        <env-entry-value>258AbqJCvhoWtVSI64m7Xpb6tpSJKpt6d7GRep82csg7jJzo9yu2whTOSQmkMjfpc2srXurE0G9LNn3NWbbT0yFgmWeW1y3VjB0sS-f0aUYOj4oYeGA-fK2G8Ju-sqDH16TRy1Es0pf1BhcbhFHARSnL9Y7QdA9us-KN_KTHqDc</env-entry-value>
+    </env-entry>
+
 </web-app>
