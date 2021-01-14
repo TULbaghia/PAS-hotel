@@ -28,11 +28,13 @@ public class LoginService {
     public Response authenticate(@NotNull Credentials credentials){
         Credential credential = new UsernamePasswordCredential(credentials.getLogin(), new Password(credentials.getPassword()));
         CredentialValidationResult cValResult = identityStoreHandler.validate(credential);
+        String jwtToken = JwtVerifier.generateJwtString(cValResult);
         if (cValResult.getStatus() == CredentialValidationResult.Status.VALID) {
             return Response
                     .accepted()
+                    .header("Authentication", "Bearer " + jwtToken)
                     .type("application/jwt")
-                    .entity(JwtVerifier.generateJwtString(cValResult))
+                    .entity(jwtToken)
                     .build();
         } else {
             return Response.status(Response.Status.UNAUTHORIZED).entity( Response.Status.UNAUTHORIZED).build();

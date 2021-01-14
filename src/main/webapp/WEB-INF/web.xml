@@ -16,6 +16,16 @@
 
     <security-constraint>
         <web-resource-collection>
+            <web-resource-name>Secured pages</web-resource-name>
+            <url-pattern>/*</url-pattern>
+        </web-resource-collection>
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
+    </security-constraint>
+
+    <security-constraint>
+        <web-resource-collection>
             <web-resource-name>Auth Guest pages</web-resource-name>
             <url-pattern>/reservation/*</url-pattern>
             <url-pattern>/index.xhtml</url-pattern>
@@ -77,7 +87,6 @@
         <welcome-file>index.xhtml</welcome-file>
     </welcome-file-list>
 
-
     <login-config>
         <auth-method>FORM</auth-method>
         <realm-name>file</realm-name>
@@ -101,23 +110,10 @@
 
     <security-constraint>
         <web-resource-collection>
-            <web-resource-name>Auth rest pages</web-resource-name>
-            <url-pattern>/1/guest/*</url-pattern>
-        </web-resource-collection>
-        <auth-constraint>
-            <role-name>Guest</role-name>
-        </auth-constraint>
-        <user-data-constraint>
-            <!--    https restriction must be placed in each security-constraint    -->
-            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
-        </user-data-constraint>
-    </security-constraint>
-
-    <security-constraint>
-        <web-resource-collection>
             <web-resource-name>Get self</web-resource-name>
             <url-pattern>/auth/login</url-pattern>
-            <http-method>GET</http-method>
+            <url-pattern>/api/1/admin/*</url-pattern>
+            <url-pattern>/api/1/guest/*</url-pattern>
         </web-resource-collection>
         <auth-constraint>
             <role-name>Guest</role-name>

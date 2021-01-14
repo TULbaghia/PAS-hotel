@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 public class JwtVerifier {
 
     private static final String SECRET;
-    private static final long JWT_TIMEOUT_S = 5 * 60;
+    private static final long JWT_TIMEOUT_S = 60 * 60;
 
     static {
         try {
