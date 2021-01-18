@@ -20,15 +20,15 @@ import javax.validation.constraints.PositiveOrZero;
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
 public abstract class Apartment extends IdTrait {
-    @JsonProperty @NotEmpty
+    @JsonProperty
     @JsonView(Views.Public.class)
     @PositiveOrZero
     private int howManyBeds;
-    @JsonProperty @NotEmpty
+    @JsonProperty
     @JsonView(Views.Public.class)
     @PositiveOrZero
     private int doorNumber;
-    @JsonProperty @NotEmpty
+    @JsonProperty
     @JsonView(Views.Public.class)
     @Positive
     private double basePricePerDay;

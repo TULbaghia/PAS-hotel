@@ -1,40 +1,36 @@
 package pl.lodz.p.pas.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Getter;
-import org.apache.commons.beanutils.BeanUtils;
+import org.joda.time.DateTime;
+import org.json.JSONObject;
 import pl.lodz.p.pas.manager.ApartmentManager;
 import pl.lodz.p.pas.manager.ReservationManager;
 import pl.lodz.p.pas.manager.UserManager;
+import pl.lodz.p.pas.manager.exception.ManagerException;
 import pl.lodz.p.pas.model.exception.GuestException;
 import pl.lodz.p.pas.model.exception.ReservationException;
+import pl.lodz.p.pas.model.resource.Apartment;
 import pl.lodz.p.pas.model.resource.Reservation;
-import pl.lodz.p.pas.model.user.Admin;
 import pl.lodz.p.pas.model.user.Guest;
 import pl.lodz.p.pas.model.user.Manager;
 import pl.lodz.p.pas.model.user.User;
-import pl.lodz.p.pas.service.dto.IdTraitDto;
+import pl.lodz.p.pas.repository.exception.RepositoryException;
 import pl.lodz.p.pas.service.dto.Mapper;
 import pl.lodz.p.pas.service.dto.ReservationDto;
 import pl.lodz.p.pas.service.filters.reservationFilters.addReservationFilter.PostAddReservationCheckBinding;
 import pl.lodz.p.pas.service.filters.reservationFilters.endReservationFilter.PatchEndReservationCheckBinding;
 import pl.lodz.p.pas.service.filters.reservationFilters.updateReservationFilter.PutUpdateReservationCheckBinding;
-import pl.lodz.p.pas.service.filters.userFilters.activateUserFilter.PatchActivateUserCheckBinding;
-import pl.lodz.p.pas.service.filters.userFilters.addUserFilter.PostAddUserCheckBinding;
-import pl.lodz.p.pas.service.filters.userFilters.updateUserFilter.PutUpdateUserCheckBinding;
 import pl.lodz.p.pas.service.mapper.exception.ErrorProp;
 import pl.lodz.p.pas.service.mapper.exception.RestException;
 import pl.lodz.p.pas.service.views.Views;
 
 import javax.inject.Inject;
-import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
-import java.lang.reflect.InvocationTargetException;
 import java.util.UUID;
 
 @Produces({ MediaType.APPLICATION_JSON })
@@ -79,47 +75,78 @@ public class ReservationService {
 
     @POST
     @PostAddReservationCheckBinding
-    public String addReservation(@Valid Reservation reservation, @Context SecurityContext securityContext) {
+    public String addReservation(ReservationDto reservationDto, @Context SecurityContext securityContext) throws JsonProcessingException {
         String currentUser = securityContext.getUserPrincipal().getName();
+
+        Apartment apartment = apartmentManager.get(reservationDto.getApartment().getId());
+        Guest guest = (Guest) userManager.get(reservationDto.getGuest().getId());
+        DateTime dateTime = reservationDto.getReservationStartDate();
+        guestApartmentNullPtr(guest, apartment);
+
         User user = userManager.get(currentUser);
-        Reservation res = reservationManager.get(reservation.getId());
-        if (user instanceof Guest && !(res.getGuest().getLogin().equals(currentUser))) {
+        if (user instanceof Guest && !guest.getLogin().equals(currentUser)) {
             return null;
         }
-        reservationManager.add(reservation);
-        return new Mapper().writeAsString(Views.Public.class, reservation);
+        Reservation newReservation = Reservation.builder().guest(guest).apartment(apartment).reservationStartDate(dateTime).build();
+        try {
+            reservationManager.add(newReservation);
+        } catch (ManagerException | RepositoryException e) {
+            throw new RestException(Response.Status.BAD_REQUEST, new ErrorProp("addReservation", e.getMessage()));
+        }
+        return new Mapper().writeAsString(Views.Public.class, reservationManager.get(newReservation.getId()));
     }
 
     @PUT
     @PutUpdateReservationCheckBinding
-    public String updateReservation(String reservationDto) throws JsonProcessingException {
-        ReservationDto reservation = new ObjectMapper().readValue(reservationDto, ReservationDto.class);
-        Reservation res = null;
+    public String updateReservation(ReservationDto reservationDto) {
+        Apartment apartment = apartmentManager.get(reservationDto.getApartment().getId());
+        Guest guest = (Guest) userManager.get(reservationDto.getGuest().getId());
+        guestApartmentNullPtr(guest, apartment);
+
+        Reservation newReservation = Reservation.builder()
+                .id(reservationDto.getId())
+                .guest(guest)
+                .apartment(apartment)
+                .reservationStartDate(reservationDto.getReservationStartDate())
+                .build();
+
         try {
-            res = (Reservation) BeanUtils.cloneBean(reservationManager.get(reservation.getId().getId()));
-        } catch (InstantiationException | InvocationTargetException | NoSuchMethodException | IllegalAccessException e) {
-            throw new RestException(Response.Status.PRECONDITION_FAILED, new ErrorProp("updateReservation", "bean clone error"));
+            reservationManager.update(newReservation);
+        } catch (ManagerException | RepositoryException e) {
+            throw new RestException(Response.Status.BAD_REQUEST, new ErrorProp("updateReservation", e.getMessage()));
         }
-        assert res != null;
-        res.setGuest((Guest) userManager.get(reservation.getGuest().getId()));
-        res.setApartment(apartmentManager.get(reservation.getApartment().getId()));
-        reservationManager.update(res);
-        return new Mapper().writeAsString(Views.Public.class, reservationManager.get(reservation.getId().getId()));
+        return new Mapper().writeAsString(Views.Public.class, reservationManager.get(newReservation.getId()));
     }
 
     @Path("/end")
     @PATCH
     @PatchEndReservationCheckBinding
-    public String endReservation(Reservation reservation) throws ReservationException, GuestException {
-        Reservation res = null;
-        try {
-            res = (Reservation) BeanUtils.cloneBean(reservationManager.get(reservation.getId()));
-        } catch (InstantiationException | InvocationTargetException | NoSuchMethodException | IllegalAccessException e) {
-            throw new RestException(Response.Status.PRECONDITION_FAILED, new ErrorProp("updateReservation", "bean clone error"));
-        }
-        assert res != null;
-        res.endReservation();
-        reservationManager.update(res);
+    public String endReservation(ReservationDto reservationDto) throws ReservationException, GuestException {
+        Reservation reservation = reservationManager.get(reservationDto.getId());
+        reservation.endReservation();
         return new Mapper().writeAsString(Views.Public.class, reservationManager.get(reservation.getId()));
+    }
+
+    @Path("/{uuid}")
+    @DELETE
+    public String deleteReservation(@PathParam("uuid") String reservationId) {
+        try {
+            Reservation reservation = reservationManager.get(UUID.fromString(reservationId));
+            reservationManager.delete(reservation.getId());
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("success", true);
+            return jsonObject.toString();
+        } catch (Exception e) {
+            throw new RestException(Response.Status.BAD_REQUEST, new ErrorProp("deleteReservation", e.getMessage()));
+        }
+    }
+
+    private void guestApartmentNullPtr(Guest guest, Apartment apartment) {
+        if(guest == null) {
+            throw new RestException(Response.Status.BAD_REQUEST, new ErrorProp("guest", "does not exist"));
+        }
+        if(apartment == null) {
+            throw new RestException(Response.Status.BAD_REQUEST, new ErrorProp("apartment", "does not exist"));
+        }
     }
 }

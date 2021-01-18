@@ -112,8 +112,6 @@
         <web-resource-collection>
             <web-resource-name>Get self</web-resource-name>
             <url-pattern>/auth/login</url-pattern>
-            <url-pattern>/api/1/admin/*</url-pattern>
-            <url-pattern>/api/1/guest/*</url-pattern>
         </web-resource-collection>
         <auth-constraint>
             <role-name>Guest</role-name>
@@ -129,6 +127,7 @@
         <web-resource-collection>
             <web-resource-name>Reservation Guest api access</web-resource-name>
             <url-pattern>/api/1/reservation/</url-pattern>
+            <url-pattern>/api/1/self</url-pattern>
             <http-method>GET</http-method>
             <http-method>POST</http-method>
         </web-resource-collection>
@@ -144,13 +143,36 @@
         <web-resource-collection>
             <web-resource-name>Reservation Manager api access</web-resource-name>
             <url-pattern>/api/1/reservation/</url-pattern>
+            <url-pattern>/api/1/threestar/</url-pattern>
+            <url-pattern>/api/1/fivestar/</url-pattern>
+            <url-pattern>/api/1/self</url-pattern>
+            <url-pattern>/api/1/guest/</url-pattern>
             <http-method>GET</http-method>
             <http-method>POST</http-method>
             <http-method>PUT</http-method>
+            <http-method>DELETE</http-method>
             <http-method>PATCH</http-method>
         </web-resource-collection>
         <auth-constraint>
             <role-name>Manager</role-name>
+        </auth-constraint>
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
+    </security-constraint>
+
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>Reservation Admin api access</web-resource-name>
+            <url-pattern>/api/1/admin/</url-pattern>
+            <http-method>GET</http-method>
+            <http-method>POST</http-method>
+            <http-method>PUT</http-method>
+            <http-method>DELETE</http-method>
+            <http-method>PATCH</http-method>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>Admin</role-name>
         </auth-constraint>
         <user-data-constraint>
             <transport-guarantee>CONFIDENTIAL</transport-guarantee>
