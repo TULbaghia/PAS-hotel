@@ -18,7 +18,7 @@ public class PatchActivateUserCheck implements ContainerRequestFilter {
     public void filter(ContainerRequestContext requestContext) {
         JSONObject jsonObject = RequiredFieldsUtil.getJsonObject(requestContext);
 
-        RequiredFieldsUtil.checkFields(jsonObject, 2, "id");
+        RequiredFieldsUtil.checkFieldsString(jsonObject, 2, "id");
 
         try {
             jsonObject.getBoolean("active");

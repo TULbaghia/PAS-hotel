@@ -1,6 +1,7 @@
 package pl.lodz.p.pas.repository;
 
 import lombok.NonNull;
+import org.joda.time.DateTime;
 import pl.lodz.p.pas.model.resource.Apartment;
 import pl.lodz.p.pas.model.resource.Reservation;
 import pl.lodz.p.pas.model.user.Guest;
@@ -26,7 +27,7 @@ public class ReservationRepository extends Repository<Reservation> {
         if (!item.getGuest().isActive()) {
             throw new RepositoryException("guestIsNotActive");
         }
-        if (!item.getReservationStartDate().isAfter(LocalDateTime.now().minusHours(1))) {
+        if (!item.getReservationStartDate().isAfter(DateTime.now().minusHours(1))) {
             throw new RepositoryException("incorrectReservationStartDate");
         }
         super.add(item);

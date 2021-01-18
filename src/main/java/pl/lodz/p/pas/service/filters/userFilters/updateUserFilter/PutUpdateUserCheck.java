@@ -14,7 +14,7 @@ public class PutUpdateUserCheck implements ContainerRequestFilter {
     public void filter(ContainerRequestContext requestContext) {
         JSONObject jsonObject = RequiredFieldsUtil.getJsonObject(requestContext);
 
-        String[] fields = new String[]{"id", "password", "firstname", "lastname"};
-        RequiredFieldsUtil.checkFields( jsonObject, fields.length, fields);
+        String[] fields = new String[]{"id", "login", "password", "firstname", "lastname"};
+        RequiredFieldsUtil.checkFieldsString( jsonObject, fields.length, fields);
     }
 }

@@ -1,7 +1,9 @@
 package pl.lodz.p.pas.service;
 
 import pl.lodz.p.pas.model.user.Admin;
+import pl.lodz.p.pas.service.filters.userFilters.activateUserFilter.PatchActivateUserCheckBinding;
 import pl.lodz.p.pas.service.filters.userFilters.addUserFilter.PostAddUserCheckBinding;
+import pl.lodz.p.pas.service.filters.userFilters.updateUserFilter.PutUpdateUserCheckBinding;
 
 import javax.validation.Valid;
 import javax.ws.rs.*;
@@ -34,6 +36,18 @@ public class AdminService extends UserAbstractService<Admin> {
     @POST
     @PostAddUserCheckBinding
     public String addUser(@Valid Admin user) {
-        return super.addUserA(user);
+        return super.addUser(user);
+    }
+
+    @PUT
+    @PutUpdateUserCheckBinding
+    public String updateUser(@Valid Admin user) {
+        return super.updateUser(user);
+    }
+
+    @PATCH
+    @PatchActivateUserCheckBinding
+    public String activateUser(Admin user) {
+        return super.activateUser(user);
     }
 }

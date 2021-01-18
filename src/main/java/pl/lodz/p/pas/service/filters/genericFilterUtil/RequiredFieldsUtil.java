@@ -22,7 +22,7 @@ public class RequiredFieldsUtil {
         return new JSONObject(text);
     }
 
-    public static void checkFields(JSONObject jsonObject, int params, String... stringProperties) {
+    public static void checkFieldsString(JSONObject jsonObject, int params, String... stringProperties) {
         List<ErrorProp> errorPropList = new ArrayList<>();
         if (jsonObject.length() != params) {
             errorPropList.add(new ErrorProp("Request", "Incorrect number of parameters"));
@@ -42,4 +42,30 @@ public class RequiredFieldsUtil {
             throw new RestException(Response.Status.BAD_REQUEST, errorPropList);
         }
     }
+
+    public static void checkFieldsObject(JSONObject jsonObject, int params, String... stringProperties) {
+        List<ErrorProp> errorPropList = new ArrayList<>();
+        if (jsonObject.length() != params) {
+            errorPropList.add(new ErrorProp("Request", "Incorrect number of parameters"));
+        }
+
+        Arrays.stream(stringProperties).forEach(property -> {
+            try {
+                if(property.equals("id")) {
+                    if (jsonObject.getString(property).isEmpty()) {
+                        errorPropList.add(new ErrorProp(property, "is empty"));
+                    }
+                } else if (!jsonObject.getJSONObject(property).has("id")) {
+                    errorPropList.add(new ErrorProp(property, "id is not defined"));
+                }
+            } catch (JSONException e) {
+                errorPropList.add(new ErrorProp("", e.getMessage()));
+            }
+        });
+
+        if (errorPropList.size() > 0) {
+            throw new RestException(Response.Status.BAD_REQUEST, errorPropList);
+        }
+    }
+
 }

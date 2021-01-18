@@ -1,28 +1,26 @@
 package pl.lodz.p.pas.converter;
 
 
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
+
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
 
 @FacesConverter("pl.lodz.p.pas.converter.localDateTimeConverter")
-public class DateTimeToStringConverter  implements Converter<LocalDateTime> {
+public class DateTimeToStringConverter  implements Converter<DateTime> {
 
     @Override
-    public LocalDateTime getAsObject(FacesContext facesContext, UIComponent uiComponent, String s) {
-        try {
-            return LocalDateTime.parse(s, DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss"));
-        } catch (DateTimeParseException e) {
-            return null;
-        }
+    public DateTime getAsObject(FacesContext facesContext, UIComponent uiComponent, String s) {
+        return DateTime.parse(s, DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss"));
     }
 
     @Override
-    public String getAsString(FacesContext facesContext, UIComponent uiComponent, LocalDateTime localDateTime) {
-        return localDateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss"));
+    public String getAsString(FacesContext facesContext, UIComponent uiComponent, DateTime dateTime) {
+        DateTimeFormatter dmf = DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss");
+        return dmf.print(dateTime);
     }
 }

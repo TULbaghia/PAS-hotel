@@ -1,4 +1,4 @@
-package pl.lodz.p.pas.service.filters.userFilters.addUserFilter;
+package pl.lodz.p.pas.service.filters.reservationFilters.endReservationFilter;
 
 import org.json.JSONObject;
 import pl.lodz.p.pas.service.filters.genericFilterUtil.RequiredFieldsUtil;
@@ -8,13 +8,12 @@ import javax.ws.rs.container.ContainerRequestFilter;
 import javax.ws.rs.ext.Provider;
 
 @Provider
-@PostAddUserCheckBinding
-public class PostAddUserCheck implements ContainerRequestFilter {
+@PatchEndReservationCheckBinding
+public class PatchEndReservationCheck implements ContainerRequestFilter {
     @Override
     public void filter(ContainerRequestContext requestContext) {
         JSONObject jsonObject = RequiredFieldsUtil.getJsonObject(requestContext);
 
-        String[] fields = new String[]{"login", "password", "firstname", "lastname"};
-        RequiredFieldsUtil.checkFieldsString( jsonObject, fields.length, fields);
+        RequiredFieldsUtil.checkFieldsString(jsonObject, 1, "id");
     }
 }

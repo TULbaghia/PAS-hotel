@@ -2,6 +2,7 @@ package pl.lodz.p.pas.controller;
 
 import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.joda.time.DateTime;
 import pl.lodz.p.pas.manager.ApartmentManager;
 import pl.lodz.p.pas.manager.ReservationManager;
 import pl.lodz.p.pas.manager.UserManager;
@@ -68,37 +69,37 @@ public class FixtureLoader implements ServletContextListener {
         reservationManager.add(Reservation.builder()
                 .guest((Guest) userManager.get("guest1"))
                 .apartment(apartmentManager.get(1))
-                .reservationStartDate(LocalDateTime.now().minusMinutes(30))
+                .reservationStartDate(DateTime.now().minusMinutes(30))
                 .build());
 
         reservationManager.add(Reservation.builder()
                 .guest((Guest) userManager.get("guest2"))
                 .apartment(apartmentManager.get(2))
-                .reservationStartDate(LocalDateTime.now().minusMinutes(30))
+                .reservationStartDate(DateTime.now().minusMinutes(30))
                 .build());
 
         reservationManager.add(Reservation.builder()
                 .guest((Guest) userManager.get("guest3"))
                 .apartment(apartmentManager.get(3))
-                .reservationStartDate(LocalDateTime.now().minusMinutes(30))
+                .reservationStartDate(DateTime.now().minusMinutes(30))
                 .build());
 
         reservationManager.add(Reservation.builder()
                 .guest((Guest) userManager.get("guest4"))
                 .apartment(apartmentManager.get(101))
-                .reservationStartDate(LocalDateTime.now().minusMinutes(30))
+                .reservationStartDate(DateTime.now().minusMinutes(30))
                 .build());
 
         reservationManager.add(Reservation.builder()
                 .guest((Guest) userManager.get("guest1"))
                 .apartment(apartmentManager.get(102))
-                .reservationStartDate(LocalDateTime.now().minusMinutes(30))
+                .reservationStartDate(DateTime.now().minusMinutes(30))
                 .build());
 
         reservationManager.add(Reservation.builder()
                 .guest((Guest) userManager.get("guest2"))
                 .apartment(apartmentManager.get(103))
-                .reservationStartDate(LocalDateTime.now().minusMinutes(30))
+                .reservationStartDate(DateTime.now().minusMinutes(30))
                 .build());
 
         try {
