@@ -24,42 +24,42 @@
         </user-data-constraint>
     </security-constraint>
 
-    <security-constraint>
-        <web-resource-collection>
-            <web-resource-name>Auth Guest pages</web-resource-name>
-            <url-pattern>/reservation/*</url-pattern>
-            <url-pattern>/index.xhtml</url-pattern>
-        </web-resource-collection>
-        <auth-constraint>
-            <role-name>Guest</role-name>
-        </auth-constraint>
-    </security-constraint>
+<!--    <security-constraint>-->
+<!--        <web-resource-collection>-->
+<!--            <web-resource-name>Auth Guest pages</web-resource-name>-->
+<!--            <url-pattern>/reservation/*</url-pattern>-->
+<!--            <url-pattern>/index.xhtml</url-pattern>-->
+<!--        </web-resource-collection>-->
+<!--        <auth-constraint>-->
+<!--            <role-name>Guest</role-name>-->
+<!--        </auth-constraint>-->
+<!--    </security-constraint>-->
 
-    <security-constraint>
-        <web-resource-collection>
-            <web-resource-name>Auth Manager pages</web-resource-name>
-            <url-pattern>/apartment/*</url-pattern>
-            <url-pattern>/reservation/*</url-pattern>
-            <url-pattern>/user/guest/*</url-pattern>
-            <url-pattern>/index.xhtml</url-pattern>
-        </web-resource-collection>
-        <auth-constraint>
-            <role-name>Manager</role-name>
-        </auth-constraint>
-    </security-constraint>
+<!--    <security-constraint>-->
+<!--        <web-resource-collection>-->
+<!--            <web-resource-name>Auth Manager pages</web-resource-name>-->
+<!--            <url-pattern>/apartment/*</url-pattern>-->
+<!--            <url-pattern>/reservation/*</url-pattern>-->
+<!--            <url-pattern>/user/guest/*</url-pattern>-->
+<!--            <url-pattern>/index.xhtml</url-pattern>-->
+<!--        </web-resource-collection>-->
+<!--        <auth-constraint>-->
+<!--            <role-name>Manager</role-name>-->
+<!--        </auth-constraint>-->
+<!--    </security-constraint>-->
 
-    <security-constraint>
-        <web-resource-collection>
-            <web-resource-name>Auth Admin pages</web-resource-name>
-            <url-pattern>/user/manager/*</url-pattern>
-            <url-pattern>/user/admin/*</url-pattern>
-            <url-pattern>/user/ListAllUser.xhtml</url-pattern>
-            <url-pattern>/index.xhtml</url-pattern>
-        </web-resource-collection>
-        <auth-constraint>
-            <role-name>Admin</role-name>
-        </auth-constraint>
-    </security-constraint>
+<!--    <security-constraint>-->
+<!--        <web-resource-collection>-->
+<!--            <web-resource-name>Auth Admin pages</web-resource-name>-->
+<!--            <url-pattern>/user/manager/*</url-pattern>-->
+<!--            <url-pattern>/user/admin/*</url-pattern>-->
+<!--            <url-pattern>/user/ListAllUser.xhtml</url-pattern>-->
+<!--            <url-pattern>/index.xhtml</url-pattern>-->
+<!--        </web-resource-collection>-->
+<!--        <auth-constraint>-->
+<!--            <role-name>Admin</role-name>-->
+<!--        </auth-constraint>-->
+<!--    </security-constraint>-->
 
     <context-param>
         <param-name>javax.faces.PROJECT_STAGE</param-name>
@@ -111,28 +111,9 @@
     <security-constraint>
         <web-resource-collection>
             <web-resource-name>Get self</web-resource-name>
-            <url-pattern>/auth/login</url-pattern>
+            <url-pattern>/api/self</url-pattern>
         </web-resource-collection>
         <auth-constraint>
-            <role-name>Guest</role-name>
-            <role-name>Admin</role-name>
-            <role-name>Manager</role-name>
-        </auth-constraint>
-        <user-data-constraint>
-            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
-        </user-data-constraint>
-    </security-constraint>
-
-    <security-constraint>
-        <web-resource-collection>
-            <web-resource-name>Reservation Guest api access</web-resource-name>
-            <url-pattern>/api/1/reservation/</url-pattern>
-            <url-pattern>/api/1/self</url-pattern>
-            <http-method>GET</http-method>
-            <http-method>POST</http-method>
-        </web-resource-collection>
-        <auth-constraint>
-            <role-name>Guest</role-name>
         </auth-constraint>
         <user-data-constraint>
             <transport-guarantee>CONFIDENTIAL</transport-guarantee>
@@ -142,18 +123,16 @@
     <security-constraint>
         <web-resource-collection>
             <web-resource-name>Reservation Manager api access</web-resource-name>
-            <url-pattern>/api/1/reservation/</url-pattern>
-            <url-pattern>/api/1/threestar/</url-pattern>
-            <url-pattern>/api/1/fivestar/</url-pattern>
-            <url-pattern>/api/1/self</url-pattern>
-            <url-pattern>/api/1/guest/</url-pattern>
-            <http-method>GET</http-method>
-            <http-method>POST</http-method>
-            <http-method>PUT</http-method>
-            <http-method>DELETE</http-method>
-            <http-method>PATCH</http-method>
+            <url-pattern>/api/reservation/</url-pattern>
+            <url-pattern>/api/threestar/</url-pattern>
+            <url-pattern>/api/fivestar/</url-pattern>
+            <url-pattern>/api/guest/</url-pattern>
+            <url-pattern>/auth/login</url-pattern>
+            <url-pattern>/api/admin/</url-pattern>
         </web-resource-collection>
         <auth-constraint>
+            <role-name>Guest</role-name>
+            <role-name>Admin</role-name>
             <role-name>Manager</role-name>
         </auth-constraint>
         <user-data-constraint>
@@ -161,25 +140,6 @@
         </user-data-constraint>
     </security-constraint>
 
-    <security-constraint>
-        <web-resource-collection>
-            <web-resource-name>Reservation Admin api access</web-resource-name>
-            <url-pattern>/api/1/admin/</url-pattern>
-            <http-method>GET</http-method>
-            <http-method>POST</http-method>
-            <http-method>PUT</http-method>
-            <http-method>DELETE</http-method>
-            <http-method>PATCH</http-method>
-        </web-resource-collection>
-        <auth-constraint>
-            <role-name>Admin</role-name>
-        </auth-constraint>
-        <user-data-constraint>
-            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
-        </user-data-constraint>
-    </security-constraint>
-
-    <!--    jwt-token secret-->
     <env-entry>
         <env-entry-name>SECRET</env-entry-name>
         <env-entry-type>java.lang.String</env-entry-type>

@@ -1,10 +1,11 @@
 package pl.lodz.p.pas.service;
 
 import pl.lodz.p.pas.model.user.Guest;
-import pl.lodz.p.pas.model.user.Manager;
 import pl.lodz.p.pas.service.filters.userFilters.activateUserFilter.PatchActivateUserCheckBinding;
 import pl.lodz.p.pas.service.filters.userFilters.addUserFilter.PostAddUserCheckBinding;
 import pl.lodz.p.pas.service.filters.userFilters.updateUserFilter.PutUpdateUserCheckBinding;
+
+import javax.annotation.security.RolesAllowed;
 import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
@@ -13,7 +14,8 @@ import javax.ws.rs.core.SecurityContext;
 
 @Produces({ MediaType.APPLICATION_JSON })
 @Consumes({ MediaType.APPLICATION_JSON })
-@Path("1/guest")
+@Path("guest")
+@RolesAllowed({"Manager"})
 public class GuestService extends UserAbstractService<Guest> {
 
     public GuestService() {

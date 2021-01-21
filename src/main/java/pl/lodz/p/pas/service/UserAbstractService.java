@@ -3,6 +3,7 @@ package pl.lodz.p.pas.service;
 import lombok.Getter;
 import org.apache.commons.beanutils.BeanUtils;
 import pl.lodz.p.pas.manager.UserManager;
+import pl.lodz.p.pas.model.user.Admin;
 import pl.lodz.p.pas.model.user.Manager;
 import pl.lodz.p.pas.model.user.User;
 import pl.lodz.p.pas.service.dto.Mapper;
@@ -40,7 +41,9 @@ public class UserAbstractService <T extends User> {
         } catch (IllegalArgumentException e) {
             user = userManager.get(id);
         }
-        if ((userManager.get(currentUser) instanceof Manager || currentUser.equals(user.getLogin())) && helpVariable.getClass().isInstance(user)) {
+        User u = userManager.get(currentUser);
+        if (((u instanceof Manager || u instanceof Admin) || currentUser.equals(user.getLogin()))
+                && helpVariable.getClass().isInstance(user)) {
             return new Mapper().writeAsString(Views.Public.class, user);
         }
         return null;

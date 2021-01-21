@@ -13,6 +13,7 @@ import pl.lodz.p.pas.service.mapper.exception.ErrorProp;
 import pl.lodz.p.pas.service.mapper.exception.RestException;
 import pl.lodz.p.pas.service.views.Views;
 
+import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
 import javax.validation.Valid;
 import javax.ws.rs.*;
@@ -25,7 +26,8 @@ import java.util.stream.Collectors;
 
 @Produces({ MediaType.APPLICATION_JSON })
 @Consumes({ MediaType.APPLICATION_JSON })
-@Path("1/fivestar")
+@Path("fivestar")
+@RolesAllowed({"Manager"})
 public class FiveStarApartmentService {
     @Inject
     @Getter

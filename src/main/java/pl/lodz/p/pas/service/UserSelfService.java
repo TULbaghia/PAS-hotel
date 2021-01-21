@@ -7,6 +7,8 @@ import pl.lodz.p.pas.model.user.User;
 import pl.lodz.p.pas.service.dto.Mapper;
 import pl.lodz.p.pas.service.views.Views;
 
+import javax.annotation.security.PermitAll;
+import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
@@ -15,7 +17,8 @@ import javax.ws.rs.core.SecurityContext;
 
 @Produces({ MediaType.APPLICATION_JSON })
 @Consumes({ MediaType.APPLICATION_JSON })
-@Path("1/self")
+@Path("self")
+@PermitAll
 public class UserSelfService {
 
     @Inject @Getter

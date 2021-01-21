@@ -47,10 +47,16 @@ public class FixtureLoader implements ServletContextListener {
         userManager.add(Guest.builder().login("guest4").password("zaq1@WSX").firstname("Kacper").lastname("Kowalczyk").build());
         userManager.add(Guest.builder().login("TestGuest").password("zaq1@WSX").firstname("TestGuest").lastname("TestGuest").build());
 
-        userManager.add(Manager.builder().login("manager1").password("zaq1@WSX").firstname("Manager").lastname("Kowalski").build());
+        userManager.add(Manager.builder().login("manager1").password("zaq1@WSX").firstname("Manager1").lastname("Kowalski").build());
+        userManager.add(Manager.builder().login("manager2").password("zaq1@WSX").firstname("Manager2").lastname("Kowalski").build());
+        userManager.add(Manager.builder().login("manager3").password("zaq1@WSX").firstname("Manager3").lastname("Kowalski").build());
+        userManager.add(Manager.builder().login("manager4").password("zaq1@WSX").firstname("Manager4").lastname("Kowalski").build());
         userManager.add(Manager.builder().login("TestManager").password("zaq1@WSX").firstname("TestManager").lastname("TestManager").build());
 
-        userManager.add(Admin.builder().login("admin1").password("zaq1@WSX").firstname("Admin").lastname("Nowak").build());
+        userManager.add(Admin.builder().login("admin1").password("zaq1@WSX").firstname("Admin1").lastname("Nowak").build());
+        userManager.add(Admin.builder().login("admin2").password("zaq1@WSX").firstname("Admin2").lastname("Nowak").build());
+        userManager.add(Admin.builder().login("admin3").password("zaq1@WSX").firstname("Admin3").lastname("Nowak").build());
+        userManager.add(Admin.builder().login("admin4").password("zaq1@WSX").firstname("Admin4").lastname("Nowak").build());
         userManager.add(Admin.builder().login("TestAdmin").password("zaq1@WSX").firstname("TestAdmin").lastname("TestAdmin").build());
     }
 
@@ -58,6 +64,7 @@ public class FixtureLoader implements ServletContextListener {
         apartmentManager.add(FiveStarApartment.builder().doorNumber(1).basePricePerDay(300).howManyBeds(3).bonus("pralka").pcName("pcAp1").build());
         apartmentManager.add(FiveStarApartment.builder().doorNumber(2).basePricePerDay(400).howManyBeds(4).bonus("lodowka").pcName("pcAp2").build());
         apartmentManager.add(FiveStarApartment.builder().doorNumber(3).basePricePerDay(500).howManyBeds(5).bonus("samochod").pcName("pcAp3").build());
+        apartmentManager.add(FiveStarApartment.builder().doorNumber(4).basePricePerDay(1500).howManyBeds(15).bonus("samochsod").pcName("pcAp4").build());
 
         apartmentManager.add(ThreeStarApartment.builder().doorNumber(101).basePricePerDay(200).howManyBeds(2).bonus("lampka nocna").build());
         apartmentManager.add(ThreeStarApartment.builder().doorNumber(102).basePricePerDay(100).howManyBeds(1).bonus("koc").build());
