@@ -13,9 +13,10 @@ import org.testng.annotations.Test;
 import java.util.concurrent.ThreadLocalRandom;
 
 import static io.restassured.RestAssured.given;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.equalTo;
 
-public class FiveStarTests {
+public class ThreeStarTests {
     private String JWT_TOKEN;
 
     @BeforeClass
@@ -40,117 +41,112 @@ public class FiveStarTests {
     }
 
     @Test
-    public void addFiveStarTest() {
+    public void addThreeStarTest() {
         int randomNum = ThreadLocalRandom.current().nextInt(1111, 9898);
         JSONObject jsonObj = new JSONObject()
                 .put("howManyBeds", 3)
                 .put("doorNumber", randomNum)
                 .put("basePricePerDay", 100.00)
-                .put("bonus","DywanTest")
-                .put("pcName", "PCTest");
+                .put("bonus","DywanTest");
 
         given().contentType(ContentType.JSON)
                 .body(jsonObj.toString())
                 .header(new Header("Authorization", "Bearer " + JWT_TOKEN))
-                .post("fivestar")
+                .post("threestar")
                 .then()
                 .assertThat()
                 .body("howManyBeds", equalTo(jsonObj.getInt("howManyBeds")))
                 .body("doorNumber", equalTo(jsonObj.getInt("doorNumber")))
                 .body("basePricePerDay", equalTo(jsonObj.getFloat("basePricePerDay")))
                 .body("bonus", containsString(jsonObj.getString("bonus")))
-                .body("pcName", containsString(jsonObj.getString("pcName")))
                 .statusCode(200);
     }
 
     @Test
-    public void getFiveStarTest() {
-        JSONObject fiveStarTest = addTestApartment();
+    public void getThreeStarTest() {
+        JSONObject threeStarTest = addTestApartment();
 
         given().contentType(ContentType.JSON)
                 .header(new Header("Authorization", "Bearer " + JWT_TOKEN))
-                .get("fivestar/" + fiveStarTest.getString("id"))
+                .get("threestar/" + threeStarTest.getString("id"))
                 .then()
                 .assertThat()
-                .body("howManyBeds", equalTo(fiveStarTest.getInt("howManyBeds")))
-                .body("doorNumber", equalTo(fiveStarTest.getInt("doorNumber")))
-                .body("basePricePerDay", equalTo(fiveStarTest.getFloat("basePricePerDay")))
-                .body("bonus", containsString(fiveStarTest.getString("bonus")))
-                .body("pcName", containsString(fiveStarTest.getString("pcName")))
+                .body("howManyBeds", equalTo(threeStarTest.getInt("howManyBeds")))
+                .body("doorNumber", equalTo(threeStarTest.getInt("doorNumber")))
+                .body("basePricePerDay", equalTo(threeStarTest.getFloat("basePricePerDay")))
+                .body("bonus", containsString(threeStarTest.getString("bonus")))
                 .statusCode(200);
     }
 
     @Test
-    public void getAllFiveStarTest() {
-        JSONArray fiveStarArray = new JSONArray(
-                given().contentType(ContentType.JSON)
-                .header(new Header("Authorization", "Bearer " + JWT_TOKEN))
-                .get("fivestar")
-                .then()
-                .extract()
-                .body()
-                .asString()
-        );
-
-        for (int i = 1; i <= 4; i++) {
-            Assert.assertEquals(fiveStarArray.getJSONObject(i - 1).get("pcName"), "pcAp" + i);
-        }
-
-        int fiveStarNumber = fiveStarArray.length();
-
-        addTestApartment();
-        addTestApartment();
-
-        JSONArray withNewFiveStar = new JSONArray(
+    public void getAllThreeStarTest() {
+        JSONArray threeStarArray = new JSONArray(
                 given().contentType(ContentType.JSON)
                         .header(new Header("Authorization", "Bearer " + JWT_TOKEN))
-                        .get("fivestar")
+                        .get("threestar")
                         .then()
                         .extract()
                         .body()
                         .asString()
         );
 
-        Assert.assertEquals(withNewFiveStar.length(), fiveStarNumber + 2);
+        for (int i = 1; i <= 3; i++) {
+            Assert.assertEquals(threeStarArray.getJSONObject(i - 1).getInt("doorNumber"), 100 + i);
+        }
 
-        for (int i = fiveStarNumber - 1; i < withNewFiveStar.length(); i++) {
-            Assert.assertEquals(withNewFiveStar.getJSONObject(i).get("pcName"), "PCTest");
+        int threeStarNumber = threeStarArray.length();
+
+        addTestApartment();
+        addTestApartment();
+
+        JSONArray withNewThreeStar = new JSONArray(
+                given().contentType(ContentType.JSON)
+                        .header(new Header("Authorization", "Bearer " + JWT_TOKEN))
+                        .get("threestar")
+                        .then()
+                        .extract()
+                        .body()
+                        .asString()
+        );
+
+        Assert.assertEquals(withNewThreeStar.length(), threeStarNumber + 2);
+
+        for (int i = threeStarNumber - 1; i < withNewThreeStar.length(); i++) {
+            Assert.assertEquals(withNewThreeStar.getJSONObject(i).getString("bonus"), "DywanTest");
         }
     }
 
     @Test
-    public void updateFiveStarTest() {
+    public void updateThreeStarTest() {
         int randomNum = ThreadLocalRandom.current().nextInt(1111, 9898);
-        JSONObject testFiveStar = addTestApartment();
+        JSONObject testThreeStar = addTestApartment();
         JSONObject jsonObj = new JSONObject()
-                .put("id", testFiveStar.getString("id"))
+                .put("id", testThreeStar.getString("id"))
                 .put("howManyBeds", 1)
                 .put("doorNumber", randomNum)
                 .put("basePricePerDay", 999)
-                .put("bonus","UpdateTest")
-                .put("pcName", "UpdateTest");
+                .put("bonus","UpdateTest");
 
         given().contentType(ContentType.JSON)
                 .body(jsonObj.toString())
                 .header(new Header("Authorization", "Bearer " + JWT_TOKEN))
-                .put("fivestar")
+                .put("threestar")
                 .then()
                 .assertThat()
                 .body("howManyBeds", equalTo(jsonObj.getInt("howManyBeds")))
                 .body("doorNumber", equalTo(jsonObj.getInt("doorNumber")))
                 .body("basePricePerDay", equalTo(jsonObj.getFloat("basePricePerDay")))
                 .body("bonus", containsString(jsonObj.getString("bonus")))
-                .body("pcName", containsString(jsonObj.getString("pcName")))
                 .statusCode(200);
     }
 
     @Test
-    public void deleteFiveStarTest() {
-        JSONObject testFiveStar = addTestApartment();
+    public void deleteThreeStarTest() {
+        JSONObject testThreeStar = addTestApartment();
 
         given().contentType(ContentType.JSON)
                 .header(new Header("Authorization", "Bearer " + JWT_TOKEN))
-                .delete("fivestar/" + testFiveStar.getString("id"))
+                .delete("threestar/" + testThreeStar.getString("id"))
                 .then()
                 .assertThat()
                 .body("success", equalTo(true))
@@ -163,14 +159,13 @@ public class FiveStarTests {
                 .put("howManyBeds", 3)
                 .put("doorNumber", randomNum)
                 .put("basePricePerDay", 100)
-                .put("bonus","DywanTest")
-                .put("pcName", "PCTest");
+                .put("bonus","DywanTest");
 
         return new JSONObject(
                 given().contentType(ContentType.JSON)
                         .body(jsonObj.toString())
                         .header(new Header("Authorization", "Bearer " + JWT_TOKEN))
-                        .post("fivestar")
+                        .post("threestar")
                         .then()
                         .extract()
                         .body()

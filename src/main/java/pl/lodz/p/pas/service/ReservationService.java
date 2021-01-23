@@ -27,6 +27,8 @@ import pl.lodz.p.pas.service.views.Views;
 
 import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
+import javax.servlet.annotation.HttpConstraint;
+import javax.servlet.annotation.ServletSecurity;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
@@ -37,6 +39,8 @@ import java.util.UUID;
 @Produces({ MediaType.APPLICATION_JSON })
 @Consumes({ MediaType.APPLICATION_JSON })
 @Path("reservation")
+@ServletSecurity(@HttpConstraint(transportGuarantee =
+        ServletSecurity.TransportGuarantee.CONFIDENTIAL))
 public class ReservationService {
 
     @Inject @Getter

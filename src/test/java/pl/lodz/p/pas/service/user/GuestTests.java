@@ -108,9 +108,7 @@ public class GuestTests {
                 .put("firstname","UpdatedFirstname")
                 .put("lastname","UpdatedLastname");
 
-        RequestSpecification rs = RestAssured.given();
-
-        rs.contentType(ContentType.JSON)
+        given().contentType(ContentType.JSON)
                 .body(jsonObj.toString())
                 .header(new Header("Authorization", "Bearer " + JWT_TOKEN))
                 .put("guest")

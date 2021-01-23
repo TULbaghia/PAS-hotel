@@ -5,10 +5,11 @@ import io.restassured.http.ContentType;
 import io.restassured.http.Header;
 import io.restassured.response.Response;
 import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
+import org.json.JSONArray;
 import org.json.JSONObject;
+import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -47,12 +48,14 @@ public class ReservationTestsByManager {
         JSONObject testApartment = addTestApartment();
 
         DateTimeFormatter dmf = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss");
-        String date = dmf.print(DateTime.now());
+        DateTime dt = DateTime.now();
+        String updatedDate = dmf.print(DateTime.now());
 
         JSONObject jsonObj = new JSONObject()
                 .put("guest", new JSONObject().put("id", testGuest.getString("id")))
                 .put("apartment", new JSONObject().put("id", testApartment.getString("id")))
-                .put("reservationStartDate", date);
+                .put("reservationStartDate", updatedDate);
+
 
         given().contentType(ContentType.JSON)
                 .body(jsonObj.toString())
@@ -62,29 +65,102 @@ public class ReservationTestsByManager {
                 .assertThat()
                 .body("guest.id", containsString(testGuest.getString("id")))
                 .body("apartment.id", containsString(testApartment.getString("id")))
-                .body("reservationStartDate", notNullValue())
+                .body("reservationStartDate", containsString((dmf.print(dt.minusHours(1)))))
                 .statusCode(200);
     }
 
-//    @Test
-//    public void getReservationTest() {
-//
-//    }
-//
-//    @Test
-//    public void getAllReservationTest() {
-//
-//    }
-//
-//    @Test
-//    public void updateReservationTest() {
-//
-//    }
-//
-//    @Test
-//    public void endReservationTest() {
-//
-//    }
+    @Test
+    public void getReservationTest() {
+        JSONObject testReservation = addTestReservation();
+        given().contentType(ContentType.JSON)
+                .header(new Header("Authorization", "Bearer " + JWT_TOKEN))
+                .get("reservation/" + testReservation.getString("id"))
+                .then()
+                .assertThat()
+                .body("guest.id", containsString(testReservation.getJSONObject("guest").getString("id")))
+                .body("apartment.id", containsString(testReservation.getJSONObject("apartment").getString("id")))
+                .body("reservationStartDate", containsString(testReservation.getString("reservationStartDate")))
+                .statusCode(200);
+    }
+
+    @Test
+    public void getAllReservationTest() {
+        JSONArray reservationsArray = new JSONArray(
+                given().contentType(ContentType.JSON)
+                .header(new Header("Authorization", "Bearer " + JWT_TOKEN))
+                .get("reservation")
+                .then()
+                .extract()
+                .body()
+                .asString()
+        );
+
+        for (int i = 1; i <= 4; i++) {
+            Assert.assertEquals(reservationsArray.getJSONObject(i - 1).getJSONObject("guest").getString("login"), "guest" + i);
+        }
+
+        int reservationsNumber = reservationsArray.length();
+
+        addReservationTest();
+        addReservationTest();
+
+        JSONArray withNewReservations = new JSONArray(
+                given().contentType(ContentType.JSON)
+                .header(new Header("Authorization", "Bearer " + JWT_TOKEN))
+                .get("reservation")
+                .then()
+                .extract()
+                .body()
+                .asString()
+        );
+
+        Assert.assertEquals(withNewReservations.length(), reservationsNumber + 2);
+    }
+
+    @Test
+    public void updateReservationTest() {
+        JSONObject testReservation = addTestReservation();
+        JSONObject testGuest = addTestGuest();
+        JSONObject testApartment = addTestApartment();
+
+        DateTimeFormatter dmf = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss");
+        DateTime date = dmf.parseDateTime("1970-11-20 21:37:00");
+        String updatedDate = dmf.print(date);
+
+        JSONObject jsonObj = new JSONObject()
+                .put("id", testReservation.getString("id"))
+                .put("guest", new JSONObject().put("id", testGuest.getString("id")))
+                .put("apartment", new JSONObject().put("id", testApartment.getString("id")))
+                .put("reservationStartDate", updatedDate);
+
+        given().contentType(ContentType.JSON)
+                .body(jsonObj.toString())
+                .header(new Header("Authorization", "Bearer " + JWT_TOKEN))
+                .put("reservation")
+                .then()
+                .assertThat()
+                .body("guest.id", containsString(testGuest.getString("id")))
+                .body("apartment.id", containsString(testApartment.getString("id")))
+                .body("reservationStartDate", containsString((dmf.print(date.minusHours(1)))))
+                .statusCode(200);
+    }
+
+    @Test
+    public void endReservationTest() {
+        JSONObject testReservation = addTestReservation();
+
+        JSONObject jsonObj = new JSONObject()
+                .put("id", testReservation.getString("id"));
+
+        given().contentType(ContentType.JSON)
+                .body(jsonObj.toString())
+                .header(new Header("Authorization", "Bearer " + JWT_TOKEN))
+                .patch("reservation/end")
+                .then()
+                .assertThat()
+                .body("reservationEndDate", notNullValue())
+                .statusCode(200);
+    }
 
     public JSONObject addTestGuest() {
         int randomNum = ThreadLocalRandom.current().nextInt(50, 1337);
@@ -124,5 +200,26 @@ public class ReservationTestsByManager {
                         .body()
                         .asString()
         );
+    }
+
+    public JSONObject addTestReservation() {
+        JSONObject testGuest = addTestGuest();
+        JSONObject testApartment = addTestApartment();
+
+        JSONObject jsonObj = new JSONObject()
+                .put("guest", new JSONObject().put("id", testGuest.getString("id")))
+                .put("apartment", new JSONObject().put("id", testApartment.getString("id")));
+
+        return new JSONObject(
+            given().contentType(ContentType.JSON)
+            .body(jsonObj.toString())
+            .header(new Header("Authorization", "Bearer " + JWT_TOKEN))
+            .post("reservation")
+            .then()
+            .extract()
+            .body()
+            .asString()
+        );
+
     }
 }

@@ -6,12 +6,16 @@ import pl.lodz.p.pas.service.filters.userFilters.addUserFilter.PostAddUserCheckB
 import pl.lodz.p.pas.service.filters.userFilters.updateUserFilter.PutUpdateUserCheckBinding;
 
 import javax.annotation.security.RolesAllowed;
+import javax.servlet.annotation.HttpConstraint;
+import javax.servlet.annotation.ServletSecurity;
 import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.SecurityContext;
 
+@ServletSecurity(@HttpConstraint(transportGuarantee =
+        ServletSecurity.TransportGuarantee.CONFIDENTIAL))
 @Produces({ MediaType.APPLICATION_JSON })
 @Consumes({ MediaType.APPLICATION_JSON })
 @Path("guest")

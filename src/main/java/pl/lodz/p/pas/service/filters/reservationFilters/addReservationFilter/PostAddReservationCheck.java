@@ -13,7 +13,6 @@ import javax.ws.rs.container.ContainerRequestFilter;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.Provider;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @Provider

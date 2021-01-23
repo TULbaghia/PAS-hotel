@@ -6,6 +6,8 @@ import pl.lodz.p.pas.service.filters.userFilters.addUserFilter.PostAddUserCheckB
 import pl.lodz.p.pas.service.filters.userFilters.updateUserFilter.PutUpdateUserCheckBinding;
 
 import javax.annotation.security.RolesAllowed;
+import javax.servlet.annotation.HttpConstraint;
+import javax.servlet.annotation.ServletSecurity;
 import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
@@ -16,7 +18,9 @@ import javax.ws.rs.core.SecurityContext;
 @Consumes({ MediaType.APPLICATION_JSON })
 @Path("manager")
 @RolesAllowed({"Admin"})
-public class ManagerService extends UserAbstractService<Manager> {
+@ServletSecurity(@HttpConstraint(transportGuarantee =
+        ServletSecurity.TransportGuarantee.CONFIDENTIAL))
+public class ManagerService extends UserAbstractService<Manager>{
 
     public ManagerService() {
         super(new Manager());
@@ -32,6 +36,7 @@ public class ManagerService extends UserAbstractService<Manager> {
     @GET
     @Override
     public String getUser(@PathParam("uuid") String id, @Context SecurityContext securityContext)  {
+        securityContext.isSecure();
         return super.getUser(id, securityContext);
     }
 

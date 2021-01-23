@@ -123,12 +123,31 @@
     <security-constraint>
         <web-resource-collection>
             <web-resource-name>Reservation Manager api access</web-resource-name>
-            <url-pattern>/api/reservation/</url-pattern>
-            <url-pattern>/api/threestar/</url-pattern>
-            <url-pattern>/api/fivestar/</url-pattern>
-            <url-pattern>/api/guest/</url-pattern>
+            <url-pattern>/api/reservation</url-pattern>
+            <url-pattern>/api/threestar</url-pattern>
+            <url-pattern>/api/fivestar</url-pattern>
             <url-pattern>/auth/login</url-pattern>
-            <url-pattern>/api/admin/</url-pattern>
+            <url-pattern>/api/admin</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>Guest</role-name>
+            <role-name>Admin</role-name>
+            <role-name>Manager</role-name>
+        </auth-constraint>
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
+    </security-constraint>
+
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>Https test</web-resource-name>
+            <url-pattern>/api/guest</url-pattern>
+            <http-method>GET</http-method>
+            <http-method>POST</http-method>
+            <http-method>PUT</http-method>
+            <http-method>PATCH</http-method>
+            <http-method>DELETE</http-method>
         </web-resource-collection>
         <auth-constraint>
             <role-name>Guest</role-name>

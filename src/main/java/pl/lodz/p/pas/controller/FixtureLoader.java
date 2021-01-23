@@ -1,14 +1,12 @@
 package pl.lodz.p.pas.controller;
 
-import com.fasterxml.jackson.databind.MapperFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
 import pl.lodz.p.pas.manager.ApartmentManager;
 import pl.lodz.p.pas.manager.ReservationManager;
 import pl.lodz.p.pas.manager.UserManager;
 import pl.lodz.p.pas.model.exception.GuestException;
 import pl.lodz.p.pas.model.exception.ReservationException;
-import pl.lodz.p.pas.model.resource.Apartment;
 import pl.lodz.p.pas.model.resource.FiveStarApartment;
 import pl.lodz.p.pas.model.resource.Reservation;
 import pl.lodz.p.pas.model.resource.ThreeStarApartment;
@@ -21,7 +19,7 @@ import javax.enterprise.context.Initialized;
 import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 import javax.servlet.ServletContextListener;
-import java.time.LocalDateTime;
+import java.util.TimeZone;
 
 @ApplicationScoped
 public class FixtureLoader implements ServletContextListener {
@@ -35,6 +33,8 @@ public class FixtureLoader implements ServletContextListener {
     private ApartmentManager apartmentManager;
 
     private void initEagerly(@Observes @Initialized(ApplicationScoped.class) Object init) {
+        TimeZone.setDefault(TimeZone.getTimeZone("Europe/Warsaw"));
+        DateTimeZone.setDefault(DateTimeZone.forTimeZone(TimeZone.getDefault()));
         loadUserFixture();
         loadApartmentFixture();
         loadReservationFixture();

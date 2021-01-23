@@ -26,10 +26,10 @@ public class ReservationDto {
     @JsonProperty @NotEmpty
     @JsonView(Views.Public.class)
     private IdTraitDto apartment;
-    @JsonProperty @NotEmpty @Setter(AccessLevel.NONE)
+    @JsonProperty @Setter(AccessLevel.NONE)
     @JsonView(Views.Public.class)
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private DateTime reservationStartDate;
+    private DateTime reservationStartDate = DateTime.now();
 
     @JsonProperty
     public void setReservationStartDate(String text) {
