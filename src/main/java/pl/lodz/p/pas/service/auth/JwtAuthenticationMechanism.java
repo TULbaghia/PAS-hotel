@@ -4,7 +4,6 @@ import com.nimbusds.jwt.SignedJWT;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
-import javax.security.enterprise.AuthenticationException;
 import javax.security.enterprise.AuthenticationStatus;
 import javax.security.enterprise.authentication.mechanism.http.HttpAuthenticationMechanism;
 import javax.security.enterprise.authentication.mechanism.http.HttpMessageContext;
@@ -26,6 +25,12 @@ public class JwtAuthenticationMechanism implements HttpAuthenticationMechanism {
 
     @Override
     public AuthenticationStatus validateRequest(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, HttpMessageContext httpMessageContext) {
+        if(!httpServletRequest.isSecure()) {
+            httpServletResponse.setStatus(HttpServletResponse.SC_HTTP_VERSION_NOT_SUPPORTED);
+            httpMessageContext.setResponse(httpServletResponse);
+            return httpMessageContext.doNothing();
+        }
+
         if(httpServletRequest.getRequestURL().toString().endsWith("/login")) {
             return httpMessageContext.doNothing();
         }

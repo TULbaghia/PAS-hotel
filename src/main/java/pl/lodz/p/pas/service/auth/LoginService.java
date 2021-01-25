@@ -10,8 +10,6 @@ import javax.security.enterprise.credential.Password;
 import javax.security.enterprise.credential.UsernamePasswordCredential;
 import javax.security.enterprise.identitystore.CredentialValidationResult;
 import javax.security.enterprise.identitystore.IdentityStoreHandler;
-import javax.servlet.annotation.HttpConstraint;
-import javax.servlet.annotation.ServletSecurity;
 import javax.validation.constraints.NotNull;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -20,8 +18,6 @@ import javax.ws.rs.core.Response;
 @Path("/auth/login")
 @Produces({ MediaType.APPLICATION_JSON })
 @Consumes({ MediaType.APPLICATION_JSON })
-@ServletSecurity(@HttpConstraint(transportGuarantee =
-        ServletSecurity.TransportGuarantee.CONFIDENTIAL))
 public class LoginService {
 
     @Inject

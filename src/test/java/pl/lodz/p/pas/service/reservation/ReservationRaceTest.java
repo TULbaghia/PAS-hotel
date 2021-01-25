@@ -77,16 +77,19 @@ public class ReservationRaceTest {
         var json1 = given().contentType(ContentType.JSON)
                 .body(jsonObj1.toString())
                 .header(new Header("Authorization", "Bearer " + testGuest1Token))
-                .post("reservation")
+                .post("/reservation")
                 .then()
                 .assertThat();
 
         var json2 = given().contentType(ContentType.JSON)
                 .body(jsonObj2.toString())
                 .header(new Header("Authorization", "Bearer " + testGuest2Token))
-                .post("reservation")
+                .post("/reservation")
                 .then()
                 .assertThat();
+
+        int json1status = json1.extract().statusCode();
+        int json2status = json2.extract().statusCode();
 
         if(json1.extract().statusCode() == 200) {
             json1.body("guest.id", containsString(testGuest1.getString("id")))

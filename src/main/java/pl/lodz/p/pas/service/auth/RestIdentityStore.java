@@ -25,7 +25,7 @@ public class RestIdentityStore implements IdentityStore {
             String givenPassword = usernamePasswordCredential.getPasswordAsString();
             User user = userManager.get(usernamePasswordCredential.getCaller());
             if(user.getPassword().equals(givenPassword) && user.isActive()) {
-                return new CredentialValidationResult(user.getLogin(), new HashSet<>(Collections.singletonList(user.getClass().toString())));
+                return new CredentialValidationResult(user.getLogin(), new HashSet<>(Collections.singletonList(user.getClass().getSimpleName())));
             }
             return CredentialValidationResult.INVALID_RESULT;
         }
