@@ -92,6 +92,11 @@
         <location>/api/errors/403</location>
     </error-page>
 
+    <error-page>
+        <error-code>401</error-code>
+        <location>/api/errors/401</location>
+    </error-page>
+
     <login-config>
         <auth-method>FORM</auth-method>
         <realm-name>file</realm-name>

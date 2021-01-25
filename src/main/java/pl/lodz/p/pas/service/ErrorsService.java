@@ -11,12 +11,18 @@ import javax.ws.rs.core.SecurityContext;
 
 @Produces({MediaType.APPLICATION_JSON})
 @Consumes({MediaType.APPLICATION_JSON})
-@Path("/api/errors")
+@Path("/errors")
 public class ErrorsService {
 
     @GET
     @Path("/403")
-    public Response get(@Context SecurityContext securityContext) {
+    public Response forbidden(@Context SecurityContext securityContext) {
         return Response.status(Response.Status.FORBIDDEN).entity( Response.Status.FORBIDDEN).build();
+    }
+
+    @GET
+    @Path("/401")
+    public Response unauthorized(@Context SecurityContext securityContext) {
+        return Response.status(Response.Status.UNAUTHORIZED).entity( Response.Status.UNAUTHORIZED).build();
     }
 }

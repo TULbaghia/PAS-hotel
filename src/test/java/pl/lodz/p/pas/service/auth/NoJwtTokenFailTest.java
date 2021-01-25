@@ -4,6 +4,7 @@ import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import org.json.JSONObject;
+import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -20,10 +21,15 @@ public class NoJwtTokenFailTest {
 
     @Test
     public void noJwtTokenFailTest() {
-        given().contentType(ContentType.JSON)
-                .get("self")
+        String res = given().contentType(ContentType.JSON)
+                .post("self")
                 .then()
                 .assertThat()
-                .statusCode(401);
+                .statusCode(401)
+                .extract()
+                .body()
+                .asString();
+
+        Assert.assertEquals(res, "\"UNAUTHORIZED\"");
     }
 }
