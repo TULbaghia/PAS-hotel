@@ -5,6 +5,7 @@ import io.restassured.http.ContentType;
 import io.restassured.http.Header;
 import io.restassured.response.Response;
 import org.json.JSONObject;
+import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -37,11 +38,16 @@ public class PermissionExceptionTest {
 
     @Test
     public void GetThreeStarApartments() {
-        given().contentType(ContentType.JSON)
+        String res = given().contentType(ContentType.JSON)
                 .header(new Header("Authorization", "Bearer " + JWT_TOKEN))
                 .get("threestar")
                 .then()
                 .assertThat()
-                .statusCode(403);
+                .statusCode(403)
+                .extract()
+                .body()
+                .asString();
+
+        Assert.assertEquals(res, "\"FORBIDDEN\"");
     }
 }

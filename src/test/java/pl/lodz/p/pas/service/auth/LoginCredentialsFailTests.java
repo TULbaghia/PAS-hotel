@@ -20,6 +20,20 @@ public class LoginCredentialsFailTests {
 
     @Test
     public void wrongCredentialsTest() {
-   ccc
+        JSONObject jsonObj = new JSONObject()
+                .put("login", "TestGuest")
+                .put("password", "zlehaslo");
+
+       String res = given().contentType(ContentType.JSON)
+                .body(jsonObj.toString())
+                .post("auth/login")
+                .then()
+                .assertThat()
+                .statusCode(401)
+                .extract()
+                .body()
+                .asString();
+
+        Assert.assertEquals(res, "\"UNAUTHORIZED\"");
     }
 }

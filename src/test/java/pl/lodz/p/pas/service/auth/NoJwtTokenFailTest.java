@@ -22,7 +22,7 @@ public class NoJwtTokenFailTest {
     @Test
     public void noJwtTokenFailTest() {
         String res = given().contentType(ContentType.JSON)
-                .post("self")
+                .get("self")
                 .then()
                 .assertThat()
                 .statusCode(401)
