@@ -66,6 +66,10 @@ public class ManagerTests {
 
     @Test
     public void getAllManagerTest() {
+        JSONObject testManager1 = addTestManager();
+        JSONObject testManager2 = addTestManager();
+        JSONObject testManager3 = addTestManager();
+
         JSONArray guestsArray = new JSONArray(given().contentType(ContentType.JSON)
                 .header(new Header("Authorization", "Bearer " + JWT_TOKEN))
                 .get("manager")
@@ -73,29 +77,23 @@ public class ManagerTests {
                 .extract()
                 .body().asString());
 
-        for (int i = 1; i <= 4; i++) {
-            Assert.assertEquals(guestsArray.getJSONObject(i - 1).get("login"), "manager" + i);
-        }
-
-        guestsArray.forEach(x -> {
-            JSONObject item = (JSONObject) x;
-            Assert.assertNotNull(item.get("login"));
-            Assert.assertNotNull(item.get("firstname"));
-            Assert.assertNotNull(item.get("lastname"));
-            Assert.assertNotNull(item.get("active"));
-        });
+        int lastIndex = guestsArray.length() - 1;
+        Assert.assertEquals(guestsArray.getJSONObject(lastIndex).getString("id"), testManager3.getString("id"));
+        Assert.assertEquals(guestsArray.getJSONObject(lastIndex - 1).getString("id"), testManager2.getString("id"));
+        Assert.assertEquals(guestsArray.getJSONObject(lastIndex - 2).getString("id"), testManager1.getString("id"));
     }
 
     @Test
     public void getManagerTest() {
+        JSONObject testUser = addTestManager();
         given().contentType(ContentType.JSON)
                 .header(new Header("Authorization", "Bearer " + JWT_TOKEN))
-                .get("manager/TestManager")
+                .get("manager/" + testUser.getString("id"))
                 .then()
                 .assertThat()
-                .body("login", containsString("TestManager"))
-                .body("firstname", containsString("TestManager"))
-                .body("lastname", containsString("TestManager"))
+                .body("login", containsString(testUser.getString("login")))
+                .body("firstname", containsString(testUser.getString("firstname")))
+                .body("lastname", containsString(testUser.getString("lastname")))
                 .body("active", equalTo(true))
                 .statusCode(200);
     }
@@ -148,7 +146,7 @@ public class ManagerTests {
     }
 
     public JSONObject addTestManager() {
-        int randomNum = ThreadLocalRandom.current().nextInt(50, 1337);
+        int randomNum = ThreadLocalRandom.current().nextInt(112312, 888888);
         JSONObject jsonObj = new JSONObject()
                 .put("login","TestCaseUser" + randomNum)
                 .put("password","zaq1@WSX")

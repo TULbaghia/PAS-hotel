@@ -1,6 +1,5 @@
 package pl.lodz.p.pas.service.reservation;
 
-import com.nimbusds.jwt.JWT;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.http.Header;
@@ -17,7 +16,7 @@ import org.testng.annotations.Test;
 import java.util.concurrent.ThreadLocalRandom;
 
 import static io.restassured.RestAssured.given;
-import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.*;
 
 public class ReservationTestsByGuest {
     private String JWT_TOKEN;
@@ -55,7 +54,6 @@ public class ReservationTestsByGuest {
         String testGuest1Token = login(testGuest1.getString("login"), "zaq1@WSX");
 
         DateTimeFormatter dmf = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss");
-        DateTime dt = DateTime.now();
         String updatedDate = dmf.print(DateTime.now());
 
         JSONObject jsonObj = new JSONObject()
@@ -71,7 +69,7 @@ public class ReservationTestsByGuest {
                 .assertThat()
                 .body("guest.id", containsString(testGuest1.getString("id")))
                 .body("apartment.id", containsString(testApartment.getString("id")))
-                .body("reservationStartDate", containsString((dmf.print(dt.minusHours(1)))))
+                .body("reservationStartDate", notNullValue())
                 .statusCode(200);
     }
 
@@ -123,7 +121,7 @@ public class ReservationTestsByGuest {
     }
 
     public JSONObject addTestGuest() {
-        int randomNum = ThreadLocalRandom.current().nextInt(50, 1337);
+        int randomNum = ThreadLocalRandom.current().nextInt(112312, 888888);
         JSONObject jsonObj = new JSONObject()
                 .put("login","TestCaseUser" + randomNum)
                 .put("password","zaq1@WSX")
@@ -143,7 +141,7 @@ public class ReservationTestsByGuest {
     }
 
     public JSONObject addTestApartment() {
-        int randomNum = ThreadLocalRandom.current().nextInt(1111, 9898);
+        int randomNum = ThreadLocalRandom.current().nextInt(112312, 888888);
         JSONObject jsonObj = new JSONObject()
                 .put("howManyBeds", 3)
                 .put("doorNumber", randomNum)

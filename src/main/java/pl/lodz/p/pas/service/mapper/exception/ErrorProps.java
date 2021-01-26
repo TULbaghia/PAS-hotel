@@ -1,5 +1,6 @@
 package pl.lodz.p.pas.service.mapper.exception;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -18,26 +19,19 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class ErrorProps {
     @JsonProperty
-    private int status;
-    @JsonProperty
     private List<ErrorProp> errorMessage = new ArrayList<>();
 
-    public ErrorProps(String status, Collection<? extends ConstraintViolation<?>> collection) {
-        this.status = Integer.parseInt(status);
-
+    public ErrorProps(Collection<? extends ConstraintViolation<?>> collection, boolean z) {
         collection.forEach(x -> errorMessage.add(
                 new ErrorProp(StringUtils.substringAfterLast(x.getPropertyPath().toString(), '.'),
                         x.getMessage())));
     }
 
-    public ErrorProps(Response.Status status, Collection<ErrorProp> collection) {
-        this.status = status.getStatusCode();
+    public ErrorProps(Collection<ErrorProp> collection) {
         errorMessage = new ArrayList<>(collection);
     }
 
-    public ErrorProps(String status, String message) {
-        this.status = Integer.parseInt(status);
-
+    public ErrorProps(String message) {
         errorMessage.add(new ErrorProp("", message));
     }
 }

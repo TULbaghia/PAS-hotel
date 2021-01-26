@@ -115,7 +115,7 @@ public class ReservationRaceTest {
     }
 
     public JSONObject addTestApartment() {
-        int randomNum = ThreadLocalRandom.current().nextInt(1111, 9898);
+        int randomNum = ThreadLocalRandom.current().nextInt(112312, 888888);
         JSONObject jsonObj = new JSONObject()
                 .put("howManyBeds", 3)
                 .put("doorNumber", randomNum)
@@ -135,7 +135,7 @@ public class ReservationRaceTest {
     }
 
     public JSONObject addTestGuest() {
-        int randomNum = ThreadLocalRandom.current().nextInt(50, 192392);
+        int randomNum = ThreadLocalRandom.current().nextInt(112312, 888888);
         JSONObject jsonObj = new JSONObject()
                 .put("login","TestCaseUser" + randomNum)
                 .put("password","zaq1@WSX")

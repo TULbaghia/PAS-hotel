@@ -41,7 +41,7 @@ public class FiveStarTests {
 
     @Test
     public void addFiveStarTest() {
-        int randomNum = ThreadLocalRandom.current().nextInt(1111, 9898);
+        int randomNum = ThreadLocalRandom.current().nextInt(112312, 888888);
         JSONObject jsonObj = new JSONObject()
                 .put("howManyBeds", 3)
                 .put("doorNumber", randomNum)
@@ -82,24 +82,9 @@ public class FiveStarTests {
 
     @Test
     public void getAllFiveStarTest() {
-        JSONArray fiveStarArray = new JSONArray(
-                given().contentType(ContentType.JSON)
-                .header(new Header("Authorization", "Bearer " + JWT_TOKEN))
-                .get("fivestar")
-                .then()
-                .extract()
-                .body()
-                .asString()
-        );
-
-        for (int i = 1; i <= 4; i++) {
-            Assert.assertEquals(fiveStarArray.getJSONObject(i - 1).get("pcName"), "pcAp" + i);
-        }
-
-        int fiveStarNumber = fiveStarArray.length();
-
-        addTestApartment();
-        addTestApartment();
+        JSONObject testApartment1 = addTestApartment();
+        JSONObject testApartment2 = addTestApartment();
+        JSONObject testApartment3 = addTestApartment();
 
         JSONArray withNewFiveStar = new JSONArray(
                 given().contentType(ContentType.JSON)
@@ -111,16 +96,16 @@ public class FiveStarTests {
                         .asString()
         );
 
-        Assert.assertEquals(withNewFiveStar.length(), fiveStarNumber + 2);
 
-        for (int i = fiveStarNumber - 1; i < withNewFiveStar.length(); i++) {
-            Assert.assertEquals(withNewFiveStar.getJSONObject(i).get("pcName"), "PCTest");
-        }
+        int lastIndex = withNewFiveStar.length() - 1;
+        Assert.assertEquals(withNewFiveStar.getJSONObject(lastIndex).getString("id"), testApartment3.getString("id"));
+        Assert.assertEquals(withNewFiveStar.getJSONObject(lastIndex - 1).getString("id"), testApartment2.getString("id"));
+        Assert.assertEquals(withNewFiveStar.getJSONObject(lastIndex - 2).getString("id"), testApartment1.getString("id"));
     }
 
     @Test
     public void updateFiveStarTest() {
-        int randomNum = ThreadLocalRandom.current().nextInt(1111, 9898);
+        int randomNum = ThreadLocalRandom.current().nextInt(112312, 888888);
         JSONObject testFiveStar = addTestApartment();
         JSONObject jsonObj = new JSONObject()
                 .put("id", testFiveStar.getString("id"))
@@ -158,7 +143,7 @@ public class FiveStarTests {
     }
 
     public JSONObject addTestApartment() {
-        int randomNum = ThreadLocalRandom.current().nextInt(1111, 9898);
+        int randomNum = ThreadLocalRandom.current().nextInt(112312, 888888);
         JSONObject jsonObj = new JSONObject()
                 .put("howManyBeds", 3)
                 .put("doorNumber", randomNum)

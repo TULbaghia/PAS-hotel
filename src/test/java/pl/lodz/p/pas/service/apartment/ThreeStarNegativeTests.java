@@ -38,8 +38,8 @@ public class ThreeStarNegativeTests {
     }
 
     @Test
-    public void GuestPasswordIncorrectTest() {
-        int randomNum = ThreadLocalRandom.current().nextInt(50, 1337);
+    public void ThreeStarAddFailureTest() {
+        int randomNum = ThreadLocalRandom.current().nextInt(112312, 888888);
         JSONObject jsonObj = new JSONObject()
                 .put("howManyBeds", 1)
                 .put("doorNumber", randomNum)

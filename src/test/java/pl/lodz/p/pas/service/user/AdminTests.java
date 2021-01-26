@@ -43,8 +43,8 @@ public class AdminTests {
     }
 
     @Test
-    public void addGuestTest() {
-        int randomNum = ThreadLocalRandom.current().nextInt(50, 1337);
+    public void addAdminTest() {
+        int randomNum = ThreadLocalRandom.current().nextInt(112312, 888888);
         JSONObject jsonObj = new JSONObject()
                 .put("login","loginTest" + randomNum)
                 .put("password","zaq1@WSX")
@@ -65,7 +65,11 @@ public class AdminTests {
     }
 
     @Test
-    public void getAllGuestTest() {
+    public void getAllAdminTest() {
+        JSONObject testAdmin1 = addTestAdmin();
+        JSONObject testAdmin2 = addTestAdmin();
+        JSONObject testAdmin3 = addTestAdmin();
+
         JSONArray guestsArray = new JSONArray(given().contentType(ContentType.JSON)
                 .header(new Header("Authorization", "Bearer " + JWT_TOKEN))
                 .get("admin")
@@ -73,36 +77,30 @@ public class AdminTests {
                 .extract()
                 .body().asString());
 
-        for (int i = 1; i <= 4; i++) {
-            Assert.assertEquals(guestsArray.getJSONObject(i - 1).get("login"), "admin" + i);
-        }
-
-        guestsArray.forEach(x -> {
-            JSONObject item = (JSONObject) x;
-            Assert.assertNotNull(item.get("login"));
-            Assert.assertNotNull(item.get("firstname"));
-            Assert.assertNotNull(item.get("lastname"));
-            Assert.assertNotNull(item.get("active"));
-        });
+        int lastIndex = guestsArray.length() - 1;
+        Assert.assertEquals(guestsArray.getJSONObject(lastIndex).getString("id"), testAdmin3.getString("id"));
+        Assert.assertEquals(guestsArray.getJSONObject(lastIndex - 1).getString("id"), testAdmin2.getString("id"));
+        Assert.assertEquals(guestsArray.getJSONObject(lastIndex - 2).getString("id"), testAdmin1.getString("id"));
     }
 
     @Test
-    public void getGuestTest() {
+    public void getAdminTest() {
+        JSONObject testUser = addTestAdmin();
         given().contentType(ContentType.JSON)
                 .header(new Header("Authorization", "Bearer " + JWT_TOKEN))
-                .get("admin/TestAdmin")
+                .get("admin/" + testUser.getString("id"))
                 .then()
                 .assertThat()
-                .body("login", containsString("TestAdmin"))
-                .body("firstname", containsString("TestAdmin"))
-                .body("lastname", containsString("TestAdmin"))
+                .body("login", containsString(testUser.getString("login")))
+                .body("firstname", containsString(testUser.getString("firstname")))
+                .body("lastname", containsString(testUser.getString("lastname")))
                 .body("active", equalTo(true))
                 .statusCode(200);
     }
 
     @Test
-    public void updateGuestTest() {
-        JSONObject testUser = addTestGuest();
+    public void updateAdminTest() {
+        JSONObject testUser = addTestAdmin();
         JSONObject jsonObj = new JSONObject()
                 .put("id", testUser.get("id"))
                 .put("login", testUser.get("login"))
@@ -126,8 +124,8 @@ public class AdminTests {
     }
 
     @Test
-    public void activateGuestTest() {
-        JSONObject testUser = addTestGuest();
+    public void activateAdminTest() {
+        JSONObject testUser = addTestAdmin();
         JSONObject jsonObj = new JSONObject()
                 .put("id", testUser.get("id"))
                 .put("active", false);
@@ -147,8 +145,8 @@ public class AdminTests {
                 .statusCode(200);
     }
 
-    public JSONObject addTestGuest() {
-        int randomNum = ThreadLocalRandom.current().nextInt(50, 1337);
+    public JSONObject addTestAdmin() {
+        int randomNum = ThreadLocalRandom.current().nextInt(112312, 888888);
         JSONObject jsonObj = new JSONObject()
                 .put("login","TestCaseUser" + randomNum)
                 .put("password","zaq1@WSX")

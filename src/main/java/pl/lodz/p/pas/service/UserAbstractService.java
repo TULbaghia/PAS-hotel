@@ -3,9 +3,11 @@ package pl.lodz.p.pas.service;
 import lombok.Getter;
 import org.apache.commons.beanutils.BeanUtils;
 import pl.lodz.p.pas.manager.UserManager;
+import pl.lodz.p.pas.manager.exception.ManagerException;
 import pl.lodz.p.pas.model.user.Admin;
 import pl.lodz.p.pas.model.user.Manager;
 import pl.lodz.p.pas.model.user.User;
+import pl.lodz.p.pas.repository.exception.RepositoryException;
 import pl.lodz.p.pas.service.dto.Mapper;
 import pl.lodz.p.pas.service.mapper.exception.ErrorProp;
 import pl.lodz.p.pas.service.mapper.exception.RestException;
@@ -66,7 +68,11 @@ public class UserAbstractService <T extends User> {
         editingUser.setLastname(user.getLastname());
         editingUser.setPassword(user.getPassword());
         editingUser.setFirstname(user.getFirstname());
-        userManager.update(editingUser);
+        try {
+            userManager.update(editingUser);
+        } catch (ManagerException | RepositoryException e) {
+            throw new RestException(Response.Status.NOT_MODIFIED, new ErrorProp("updateUser", e.getMessage()));
+        }
         return new Mapper().writeAsString(Views.Public.class, userManager.get(user.getId()));
     }
 
@@ -77,9 +83,12 @@ public class UserAbstractService <T extends User> {
         } catch (InstantiationException | InvocationTargetException | NoSuchMethodException | IllegalAccessException e) {
             throw new RestException(Response.Status.PRECONDITION_FAILED, new ErrorProp("updateUser", "bean clone error"));
         }
-        assert editingUser != null;
         editingUser.setActive(user.isActive());
-        userManager.update(editingUser);
+        try {
+            userManager.update(editingUser);
+        } catch (RepositoryException | ManagerException e ) {
+            throw new RestException(Response.Status.NOT_MODIFIED, new ErrorProp("activateUser", e.getMessage()));
+        }
         return new Mapper().writeAsString(Views.Public.class, userManager.get(user.getId()));
     }
 }

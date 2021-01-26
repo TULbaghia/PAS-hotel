@@ -74,7 +74,7 @@ public class ThreeStarApartmentService {
         try {
             apartmentManager.update(newApartment);
         } catch (ManagerException | RepositoryException e) {
-            throw new RestException(Response.Status.BAD_REQUEST, new ErrorProp("updateApartment", e.getMessage()));
+            throw new RestException(Response.Status.NOT_MODIFIED, new ErrorProp("updateApartment", e.getMessage()));
         }
         return new Mapper().writeAsString(Views.Public.class, apartmentManager.get(apartment.getId()));
     }

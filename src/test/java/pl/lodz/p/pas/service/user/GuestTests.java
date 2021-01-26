@@ -42,7 +42,7 @@ public class GuestTests {
 
     @Test
     public void addGuestTest() {
-        int randomNum = ThreadLocalRandom.current().nextInt(50, 1337);
+        int randomNum = ThreadLocalRandom.current().nextInt(112312, 888888);
         JSONObject jsonObj = new JSONObject()
                 .put("login","loginTest" + randomNum)
                 .put("password","zaq1@WSX")
@@ -64,6 +64,10 @@ public class GuestTests {
 
     @Test
     public void getAllGuestTest() {
+        JSONObject testGuest1 = addTestGuest();
+        JSONObject testGuest2 = addTestGuest();
+        JSONObject testGuest3 = addTestGuest();
+
         JSONArray guestsArray = new JSONArray(given().contentType(ContentType.JSON)
                 .header(new Header("Authorization", "Bearer " + JWT_TOKEN))
                 .get("guest")
@@ -71,29 +75,23 @@ public class GuestTests {
                 .extract()
                 .body().asString());
 
-        for (int i = 1; i <= 4; i++) {
-            Assert.assertEquals(guestsArray.getJSONObject(i - 1).get("login"), "guest" + i);
-        }
-
-        guestsArray.forEach(x -> {
-            JSONObject item = (JSONObject) x;
-            Assert.assertNotNull(item.get("login"));
-            Assert.assertNotNull(item.get("firstname"));
-            Assert.assertNotNull(item.get("lastname"));
-            Assert.assertNotNull(item.get("active"));
-        });
+        int lastIndex = guestsArray.length() - 1;
+        Assert.assertEquals(guestsArray.getJSONObject(lastIndex).getString("id"), testGuest3.getString("id"));
+        Assert.assertEquals(guestsArray.getJSONObject(lastIndex - 1).getString("id"), testGuest2.getString("id"));
+        Assert.assertEquals(guestsArray.getJSONObject(lastIndex - 2).getString("id"), testGuest1.getString("id"));
     }
 
     @Test
     public void getGuestTest() {
+        JSONObject testUser = addTestGuest();
         given().contentType(ContentType.JSON)
                 .header(new Header("Authorization", "Bearer " + JWT_TOKEN))
-                .get("guest/TestGuest")
+                .get("guest/" + testUser.getString("id"))
                 .then()
                 .assertThat()
-                .body("login", containsString("TestGuest"))
-                .body("firstname", containsString("TestGuest"))
-                .body("lastname", containsString("TestGuest"))
+                .body("login", containsString(testUser.getString("login")))
+                .body("firstname", containsString(testUser.getString("firstname")))
+                .body("lastname", containsString(testUser.getString("lastname")))
                 .body("active", equalTo(true))
                 .statusCode(200);
     }
@@ -144,7 +142,7 @@ public class GuestTests {
     }
 
     public JSONObject addTestGuest() {
-        int randomNum = ThreadLocalRandom.current().nextInt(50, 1337);
+        int randomNum = ThreadLocalRandom.current().nextInt(112312, 888888);
         JSONObject jsonObj = new JSONObject()
                 .put("login","TestCaseUser" + randomNum)
                 .put("password","zaq1@WSX")

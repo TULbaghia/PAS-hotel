@@ -11,7 +11,7 @@ public class BeanValConstrainViolationExceptionMapper implements ExceptionMapper
     @Override
     public Response toResponse(ConstraintViolationException e) {
         return Response.status(Response.Status.PAYMENT_REQUIRED)
-                .entity(new ErrorProps("400", e.getConstraintViolations()))
+                .entity(new ErrorProps( e.getConstraintViolations(), true))
                 .build();
     }
 

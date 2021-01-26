@@ -9,6 +9,6 @@ import javax.ws.rs.ext.Provider;
 public class ThrowableExceptionMapper implements ExceptionMapper<Throwable> {
     @Override
     public Response toResponse(Throwable exception) {
-        return Response.status(400).entity(new ErrorProps("400", exception.getMessage())).type(MediaType.APPLICATION_JSON).build();
+        return Response.status(400).entity(new ErrorProps(exception.getMessage())).type(MediaType.APPLICATION_JSON).build();
     }
 }

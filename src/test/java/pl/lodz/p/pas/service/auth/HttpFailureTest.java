@@ -36,7 +36,7 @@ public class HttpFailureTest {
     }
 
     @Test
-    public void loginWithHttp() {
+    public void httpFailureTest() {
         RestAssured.baseURI = "http://localhost/pas-1.0-SNAPSHOT/api/";
         RestAssured.port = 8080;
 

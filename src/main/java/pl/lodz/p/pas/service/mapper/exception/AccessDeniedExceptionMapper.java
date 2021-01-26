@@ -12,6 +12,6 @@ import java.nio.file.AccessDeniedException;
 public class AccessDeniedExceptionMapper implements ExceptionMapper<ForbiddenException> {
     @Override
     public Response toResponse(ForbiddenException exception) {
-        return Response.status(403).entity(new ErrorProps("403", exception.getMessage())).type(MediaType.APPLICATION_JSON).build();
+        return Response.status(403).entity(new ErrorProps(exception.getMessage())).type(MediaType.APPLICATION_JSON).build();
     }
 }

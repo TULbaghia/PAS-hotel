@@ -11,7 +11,7 @@ public class RestExceptionMapper implements ExceptionMapper<RestException> {
     public Response toResponse(RestException exception) {
         return Response
                 .status(exception.getResponseCode())
-                .entity(new ErrorProps(exception.getResponseCode(), exception.getErrorProps()))
+                .entity(new ErrorProps(exception.getErrorProps()))
                 .type(MediaType.APPLICATION_JSON)
                 .build();
     }

@@ -1,12 +1,10 @@
-package pl.lodz.p.pas.service.auth;
+package pl.lodz.p.pas.service.user;
 
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.http.Header;
 import io.restassured.response.Response;
-import io.restassured.specification.RequestSpecification;
 import org.json.JSONObject;
-import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -16,18 +14,19 @@ import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.equalTo;
 
-public class UserNotActiveLoginTest {
-    private String JWT_TOKEN;
+public class UserSelfTest {
 
     @BeforeClass
     public void setup() {
         RestAssured.baseURI = "https://localhost/pas-1.0-SNAPSHOT/api/";
         RestAssured.port = 8181;
         RestAssured.useRelaxedHTTPSValidation();
+    }
 
+    public String login(String username, String password) {
         JSONObject jsonObj = new JSONObject()
-                .put("login","TestManager")
-                .put("password","zaq1@WSX");
+                .put("login", username)
+                .put("password", password);
 
         Response r = given().contentType(ContentType.JSON)
                 .body(jsonObj.toString())
@@ -37,52 +36,29 @@ public class UserNotActiveLoginTest {
                 .extract()
                 .response();
 
-        JWT_TOKEN = r.getBody().asString();
+        return r.getBody().asString();
     }
 
     @Test
-    public void userNotActiveTest() {
+    public void selfTest() {
         JSONObject testGuest = addTestGuest();
+        String testGuestToken = login(testGuest.getString("login"), "zaq1@WSX");
 
-        Assert.assertTrue(testGuest.getBoolean("active"));
-
-        JSONObject jsonObj = new JSONObject()
-                .put("id", testGuest.get("id"))
-                .put("active", false);
-
-        RequestSpecification rs = RestAssured.given();
-
-        rs.contentType(ContentType.JSON)
-                .body(jsonObj.toString())
-                .header(new Header("Authorization", "Bearer " + JWT_TOKEN))
-                .patch("guest")
+        given().contentType(ContentType.JSON)
+                .header(new Header("Authorization", "Bearer " + testGuestToken))
+                .get("self")
                 .then()
                 .assertThat()
-                .body("login", containsString(testGuest.getString("login")))
                 .body("firstname", containsString(testGuest.getString("firstname")))
+                .body("active", equalTo(testGuest.getBoolean("active")))
+                .body("id", containsString(testGuest.getString("id")))
                 .body("lastname", containsString(testGuest.getString("lastname")))
-                .body("active", equalTo(false))
+                .body("group", containsString("Guest"))
                 .statusCode(200);
-
-        jsonObj = new JSONObject()
-                .put("login", testGuest.getString("login"))
-                .put("password", "zaq1@WSX");
-
-        String res = given().contentType(ContentType.JSON)
-                .body(jsonObj.toString())
-                .post("auth/login")
-                .then()
-                .assertThat()
-                .statusCode(401)
-                .extract()
-                .body()
-                .asString();
-
-        Assert.assertEquals(res, "\"UNAUTHORIZED\"");
     }
 
-
     public JSONObject addTestGuest() {
+        String managerJwtToken = login("TestManager", "zaq1@WSX");
         int randomNum = ThreadLocalRandom.current().nextInt(112312, 888888);
         JSONObject jsonObj = new JSONObject()
                 .put("login","TestCaseUser" + randomNum)
@@ -93,7 +69,7 @@ public class UserNotActiveLoginTest {
         return new JSONObject(
                 given().contentType(ContentType.JSON)
                         .body(jsonObj.toString())
-                        .header(new Header("Authorization", "Bearer " + JWT_TOKEN))
+                        .header(new Header("Authorization", "Bearer " + managerJwtToken))
                         .post("guest")
                         .then()
                         .extract()

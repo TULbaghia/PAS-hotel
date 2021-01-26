@@ -42,7 +42,7 @@ public class ThreeStarTests {
 
     @Test
     public void addThreeStarTest() {
-        int randomNum = ThreadLocalRandom.current().nextInt(1111, 9898);
+        int randomNum = ThreadLocalRandom.current().nextInt(112312, 888888);
         JSONObject jsonObj = new JSONObject()
                 .put("howManyBeds", 3)
                 .put("doorNumber", randomNum)
@@ -80,7 +80,11 @@ public class ThreeStarTests {
 
     @Test
     public void getAllThreeStarTest() {
-        JSONArray threeStarArray = new JSONArray(
+        JSONObject testApartment1 = addTestApartment();
+        JSONObject testApartment2 = addTestApartment();
+        JSONObject testApartment3 = addTestApartment();
+
+        JSONArray withNewFiveStar = new JSONArray(
                 given().contentType(ContentType.JSON)
                         .header(new Header("Authorization", "Bearer " + JWT_TOKEN))
                         .get("threestar")
@@ -90,35 +94,15 @@ public class ThreeStarTests {
                         .asString()
         );
 
-        for (int i = 1; i <= 3; i++) {
-            Assert.assertEquals(threeStarArray.getJSONObject(i - 1).getInt("doorNumber"), 100 + i);
-        }
-
-        int threeStarNumber = threeStarArray.length();
-
-        addTestApartment();
-        addTestApartment();
-
-        JSONArray withNewThreeStar = new JSONArray(
-                given().contentType(ContentType.JSON)
-                        .header(new Header("Authorization", "Bearer " + JWT_TOKEN))
-                        .get("threestar")
-                        .then()
-                        .extract()
-                        .body()
-                        .asString()
-        );
-
-        Assert.assertEquals(withNewThreeStar.length(), threeStarNumber + 2);
-
-        for (int i = threeStarNumber - 1; i < withNewThreeStar.length(); i++) {
-            Assert.assertEquals(withNewThreeStar.getJSONObject(i).getString("bonus"), "DywanTest");
-        }
+        int lastIndex = withNewFiveStar.length() - 1;
+        Assert.assertEquals(withNewFiveStar.getJSONObject(lastIndex).getString("id"), testApartment3.getString("id"));
+        Assert.assertEquals(withNewFiveStar.getJSONObject(lastIndex - 1).getString("id"), testApartment2.getString("id"));
+        Assert.assertEquals(withNewFiveStar.getJSONObject(lastIndex - 2).getString("id"), testApartment1.getString("id"));
     }
 
     @Test
     public void updateThreeStarTest() {
-        int randomNum = ThreadLocalRandom.current().nextInt(1111, 9898);
+        int randomNum = ThreadLocalRandom.current().nextInt(112312, 888888);
         JSONObject testThreeStar = addTestApartment();
         JSONObject jsonObj = new JSONObject()
                 .put("id", testThreeStar.getString("id"))
@@ -154,7 +138,7 @@ public class ThreeStarTests {
     }
 
     public JSONObject addTestApartment() {
-        int randomNum = ThreadLocalRandom.current().nextInt(1111, 9898);
+        int randomNum = ThreadLocalRandom.current().nextInt(112312, 888888);
         JSONObject jsonObj = new JSONObject()
                 .put("howManyBeds", 3)
                 .put("doorNumber", randomNum)

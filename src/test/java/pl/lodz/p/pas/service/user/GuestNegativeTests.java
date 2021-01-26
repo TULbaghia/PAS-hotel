@@ -40,7 +40,7 @@ public class GuestNegativeTests {
 
     @Test
     public void GuestPasswordIncorrectTest() {
-        int randomNum = ThreadLocalRandom.current().nextInt(50, 1337);
+        int randomNum = ThreadLocalRandom.current().nextInt(112312, 888888);
         JSONObject jsonObj = new JSONObject()
                 .put("login","loginTest" + randomNum)
                 .put("password","gmd")

@@ -85,7 +85,7 @@ public class ReservationService {
 
         User user = userManager.get(currentUser);
         if (user instanceof Guest && !guest.getLogin().equals(currentUser)) {
-            return null;
+            throw new RestException(Response.Status.BAD_REQUEST, new ErrorProp("guest", "You don't have permission to do that"));
         }
         Reservation newReservation = Reservation.builder().guest(guest).apartment(apartment).reservationStartDate(dateTime).build();
         try {
@@ -123,7 +123,11 @@ public class ReservationService {
     @PatchEndReservationCheckBinding
     public String endReservation(ReservationDto reservationDto) throws ReservationException, GuestException {
         Reservation reservation = reservationManager.get(reservationDto.getId());
-        reservation.endReservation();
+        try {
+            reservation.endReservation();
+        } catch (RepositoryException | ManagerException e) {
+            throw new RestException(Response.Status.NOT_MODIFIED, new ErrorProp("endReservation", e.getMessage()));
+        }
         return new Mapper().writeAsString(Views.Public.class, reservationManager.get(reservation.getId()));
     }
 
