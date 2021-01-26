@@ -103,8 +103,8 @@ public class ReservationTestsByGuest {
 
         String testGuest1Token = login(testGuest1.getString("login"), "zaq1@WSX");
 
-        JSONObject testReservation1 = addTestReservation(testGuest1.getString("id"), testApartment1.getString("id"), testGuest1Token);
-        JSONObject testReservation2 = addTestReservation(testGuest1.getString("id"), testApartment2.getString("id"), testGuest1Token);
+        addTestReservation(testGuest1.getString("id"), testApartment1.getString("id"), testGuest1Token);
+        addTestReservation(testGuest1.getString("id"), testApartment2.getString("id"), testGuest1Token);
 
         JSONArray guestsReservations = new JSONArray(
                 given().contentType(ContentType.JSON)
@@ -116,11 +116,10 @@ public class ReservationTestsByGuest {
                         .asString()
         );
 
-        Assert.assertEquals(guestsReservations.length(), 2);
+        int lastIndex = guestsReservations.length() - 1;
 
-        for (int i = 1; i <= 2; i++) {
-            Assert.assertEquals(guestsReservations.getJSONObject(i - 1).getJSONObject("guest").getString("login"), testGuest1.getString("login"));
-        }
+        Assert.assertEquals(guestsReservations.getJSONObject(lastIndex).getJSONObject("guest").getString("login"), testGuest1.getString("login"));
+        Assert.assertEquals(guestsReservations.getJSONObject(lastIndex - 1).getJSONObject("guest").getString("login"), testGuest1.getString("login"));
     }
 
     public JSONObject addTestGuest() {
@@ -164,9 +163,6 @@ public class ReservationTestsByGuest {
     }
 
     public JSONObject addTestReservation(String guestId, String apartmentId, String jwtToken) {
-        JSONObject testGuest = addTestGuest();
-        JSONObject testApartment = addTestApartment();
-
         JSONObject jsonObj = new JSONObject()
                 .put("guest", new JSONObject().put("id", guestId))
                 .put("apartment", new JSONObject().put("id", apartmentId));

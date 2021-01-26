@@ -24,7 +24,7 @@ public class LoginCredentialsFailTests {
                 .put("login", "TestGuest")
                 .put("password", "zlehaslo");
 
-       String res = given().contentType(ContentType.JSON)
+        String res = given().contentType(ContentType.JSON)
                 .body(jsonObj.toString())
                 .post("auth/login")
                 .then()
