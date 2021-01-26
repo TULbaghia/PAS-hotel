@@ -84,36 +84,22 @@ public class ReservationTestsByManager {
 
     @Test
     public void getAllReservationTest() {
-        JSONArray reservationsArray = new JSONArray(
-                given().contentType(ContentType.JSON)
+        JSONObject testReservation1 = addTestReservation();
+        JSONObject testReservation2 = addTestReservation();
+        JSONObject testReservation3 = addTestReservation();
+
+        JSONArray reservationArray = new JSONArray(given().contentType(ContentType.JSON)
                 .header(new Header("Authorization", "Bearer " + JWT_TOKEN))
                 .get("reservation")
                 .then()
                 .extract()
                 .body()
-                .asString()
-        );
+                .asString());
 
-        for (int i = 1; i <= 4; i++) {
-            Assert.assertEquals(reservationsArray.getJSONObject(i - 1).getJSONObject("guest").getString("login"), "guest" + i);
-        }
-
-        int reservationsNumber = reservationsArray.length();
-
-        addReservationTest();
-        addReservationTest();
-
-        JSONArray withNewReservations = new JSONArray(
-                given().contentType(ContentType.JSON)
-                .header(new Header("Authorization", "Bearer " + JWT_TOKEN))
-                .get("reservation")
-                .then()
-                .extract()
-                .body()
-                .asString()
-        );
-
-        Assert.assertEquals(withNewReservations.length(), reservationsNumber + 2);
+        int lastIndex = reservationArray.length() - 1;
+        Assert.assertEquals(reservationArray.getJSONObject(lastIndex).getString("id"), testReservation3.getString("id"));
+        Assert.assertEquals(reservationArray.getJSONObject(lastIndex - 1).getString("id"), testReservation2.getString("id"));
+        Assert.assertEquals(reservationArray.getJSONObject(lastIndex - 2).getString("id"), testReservation1.getString("id"));
     }
 
     @Test
@@ -141,6 +127,19 @@ public class ReservationTestsByManager {
                 .body("guest.id", containsString(testGuest.getString("id")))
                 .body("apartment.id", containsString(testApartment.getString("id")))
                 .body("reservationStartDate", notNullValue())
+                .statusCode(200);
+    }
+
+    @Test
+    public void deleteReservationTest() {
+        JSONObject testReservation = addTestReservation();
+
+        given().contentType(ContentType.JSON)
+                .header(new Header("Authorization", "Bearer " + JWT_TOKEN))
+                .delete("reservation/" + testReservation.getString("id"))
+                .then()
+                .assertThat()
+                .body("success", equalTo(true))
                 .statusCode(200);
     }
 

@@ -37,7 +37,7 @@ public class PermissionExceptionTest {
     }
 
     @Test
-    public void PermissionExceptionTest() {
+    public void RoleNotMatchTest() {
         String res = given().contentType(ContentType.JSON)
                 .header(new Header("Authorization", "Bearer " + JWT_TOKEN))
                 .get("threestar")

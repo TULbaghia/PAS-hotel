@@ -115,7 +115,6 @@ public class ReservationTestsByGuest {
         );
 
         int lastIndex = guestsReservations.length() - 1;
-
         Assert.assertEquals(guestsReservations.getJSONObject(lastIndex).getJSONObject("guest").getString("login"), testGuest1.getString("login"));
         Assert.assertEquals(guestsReservations.getJSONObject(lastIndex - 1).getJSONObject("guest").getString("login"), testGuest1.getString("login"));
     }

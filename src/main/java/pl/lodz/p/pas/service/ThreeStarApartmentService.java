@@ -55,7 +55,11 @@ public class ThreeStarApartmentService {
     @POST
     @PostThreeApartmentCheckBinding
     public String addApartment(@Valid ThreeStarApartment apartment) {
-        apartmentManager.add(apartment);
+        try {
+            apartmentManager.add(apartment);
+        } catch (ManagerException | RepositoryException e) {
+            throw new RestException(Response.Status.NOT_MODIFIED, new ErrorProp("addApartment", e.getMessage()));
+        }
         return new Mapper().writeAsString(Views.Public.class, apartmentManager.get(apartment.getId()));
     }
 
