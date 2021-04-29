@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:h="http://xmlns.jcp.org/jsf/html"
+        xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+        xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:fragment rendered="#{request.isUserInRole('Admin')}">
+        <ui:include src="menuRole/admin-menu.xhtml"/>
+    </ui:fragment>
+    <ui:fragment rendered="#{request.isUserInRole('Manager')}">
+        <ui:include src="menuRole/manager-menu.xhtml"/>
+    </ui:fragment>
+    <ui:fragment rendered="#{request.isUserInRole('Guest')}">
+        <ui:include src="menuRole/guest-menu.xhtml"/>
+    </ui:fragment>
+
+    <ul class="navbar-nav ml-auto">
+        <li class="p-1">
+            #{msg.user_field_Login}:<br/>
+            #{request.remoteUser}
+        </li>
+        <li class="p-1">
+            #{msg.auth_role}:<br/>
+            <ui:fragment rendered="#{request.isUserInRole('Admin')}">Admin</ui:fragment>
+            <ui:fragment rendered="#{request.isUserInRole('Manager')}">Manager</ui:fragment>
+            <ui:fragment rendered="#{request.isUserInRole('Guest')}">Guest</ui:fragment>
+        </li>
+        <li class="nav-item">
+            <h:form>
+                <h:commandButton styleClass="nav-link" value="#{msg.auth_logout}" action="#{authController.logout()}"/>
+            </h:form>
+        </li>
+    </ul>
+
+</f:view>

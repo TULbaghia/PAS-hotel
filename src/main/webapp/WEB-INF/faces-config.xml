@@ -1,67 +1,159 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<!--
-
-    Licensed to the Apache Software Foundation (ASF) under one
-    or more contributor license agreements.  See the NOTICE file
-    distributed with this work for additional information
-    regarding copyright ownership.  The ASF licenses this file
-    to you under the Apache License, Version 2.0 (the
-    "License"); you may not use this file except in compliance
-    with the License.  You may obtain a copy of the License at
-
-      http://www.apache.org/licenses/LICENSE-2.0
-
-    Unless required by applicable law or agreed to in writing,
-    software distributed under the License is distributed on an
-    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-    KIND, either express or implied.  See the License for the
-    specific language governing permissions and limitations
-    under the License.
-
--->
-<faces-config version="2.3"
-              xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+<faces-config version="2.3" xmlns="http://xmlns.jcp.org/xml/ns/javaee"
               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-              xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_3.xsd">
+              xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee
+    http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_3.xsd">
     <navigation-rule>
         <from-view-id>*</from-view-id>
+        <!-- >>>USER -->
+        <navigation-case>
+            <from-outcome>ListAllUser</from-outcome>
+            <to-view-id>/user/ListAllUser.xhtml</to-view-id>
+            <redirect />
+        </navigation-case>
+        <!-- >>>GUEST -->
+        <navigation-case>
+            <from-outcome>ListAllGuest</from-outcome>
+            <to-view-id>/user/guest/ListAllGuest.xhtml</to-view-id>
+            <redirect />
+        </navigation-case>
         <navigation-case>
             <from-outcome>AddGuest</from-outcome>
-            <to-view-id>/add/AddGuest.xhtml</to-view-id>
+            <to-view-id>/user/guest/AddGuest.xhtml</to-view-id>
             <redirect />
         </navigation-case>
         <navigation-case>
-            <from-outcome>AllUsers</from-outcome>
-            <to-view-id>/list/AllUsers.xhtml</to-view-id>
+            <from-outcome>EditGuest</from-outcome>
+            <to-view-id>/user/guest/EditGuest.xhtml</to-view-id>
             <redirect />
         </navigation-case>
         <navigation-case>
-            <from-outcome>AllApartments</from-outcome>
-            <to-view-id>/list/AllApartments.xhtml</to-view-id>
+            <from-outcome>DetailGuest</from-outcome>
+            <to-view-id>/user/guest/DetailGuest.xhtml</to-view-id>
+            <redirect />
+        </navigation-case>
+        <!-- <<<GUEST -->
+        <!-- >>>MANAGER -->
+        <navigation-case>
+            <from-outcome>ListAllManager</from-outcome>
+            <to-view-id>/user/manager/ListAllManager.xhtml</to-view-id>
             <redirect />
         </navigation-case>
         <navigation-case>
-            <from-outcome>AllReservations</from-outcome>
-            <to-view-id>/list/AllReservations.xhtml</to-view-id>
+            <from-outcome>AddManager</from-outcome>
+            <to-view-id>/user/manager/AddManager.xhtml</to-view-id>
             <redirect />
         </navigation-case>
         <navigation-case>
-            <from-outcome>SelectApartment</from-outcome>
-            <to-view-id>/reservation/SelectApartment.xhtml</to-view-id>
+            <from-outcome>EditManager</from-outcome>
+            <to-view-id>/user/manager/EditManager.xhtml</to-view-id>
             <redirect />
         </navigation-case>
+        <!-- <<<MANAGER -->
+        <!-- >>>ADMIN -->
+        <navigation-case>
+            <from-outcome>ListAllAdmin</from-outcome>
+            <to-view-id>/user/admin/ListAllAdmin.xhtml</to-view-id>
+            <redirect />
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>AddAdmin</from-outcome>
+            <to-view-id>/user/admin/AddAdmin.xhtml</to-view-id>
+            <redirect />
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>EditAdmin</from-outcome>
+            <to-view-id>/user/admin/EditAdmin.xhtml</to-view-id>
+            <redirect />
+        </navigation-case>
+        <!-- <<<ADMIN -->
+        <!-- <<<USER -->
+
+        <!-- >>>APARTMENT -->
+        <navigation-case>
+            <from-outcome>ListAllApartment</from-outcome>
+            <to-view-id>/apartment/ListAllApartment.xhtml</to-view-id>
+            <redirect />
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>DetailApartment</from-outcome>
+            <to-view-id>/apartment/DetailApartment.xhtml</to-view-id>
+            <redirect />
+        </navigation-case>
+        <!-- >>>THREE STAR -->
+        <navigation-case>
+            <from-outcome>ListAllThreeStar</from-outcome>
+            <to-view-id>/apartment/threestar/ListAllThreeStar.xhtml</to-view-id>
+            <redirect />
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>AddThreeStar</from-outcome>
+            <to-view-id>/apartment/threestar/AddThreeStar.xhtml</to-view-id>
+            <redirect />
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>EditThreeStar</from-outcome>
+            <to-view-id>/apartment/threestar/EditThreeStar.xhtml</to-view-id>
+            <redirect />
+        </navigation-case>
+        <!-- <<<THREE STAR -->
+        <!-- >>>FIVE STAR -->
+        <navigation-case>
+            <from-outcome>ListAllFiveStar</from-outcome>
+            <to-view-id>/apartment/fivestar/ListAllFiveStar.xhtml</to-view-id>
+            <redirect />
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>AddFiveStar</from-outcome>
+            <to-view-id>/apartment/fivestar/AddFiveStar.xhtml</to-view-id>
+            <redirect />
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>EditFiveStar</from-outcome>
+            <to-view-id>/apartment/fivestar/EditFiveStar.xhtml</to-view-id>
+            <redirect />
+        </navigation-case>
+        <!-- <<<FIVE STAR -->
+        <!-- <<<APARTMENT -->
+
+        <!-- >>>RESERVATION -->
+        <navigation-case>
+            <from-outcome>ListAllReservation</from-outcome>
+            <to-view-id>/reservation/ListAllReservation.xhtml</to-view-id>
+            <redirect />
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>AddReservation</from-outcome>
+            <to-view-id>/reservation/AddReservation.xhtml</to-view-id>
+            <redirect />
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>EditReservation</from-outcome>
+            <to-view-id>/reservation/EditReservation.xhtml</to-view-id>
+            <redirect />
+        </navigation-case>
+        <!-- <<<RESERVATION -->
         <navigation-case>
             <from-outcome>Index</from-outcome>
             <to-view-id>/index.xhtml</to-view-id>
             <redirect />
         </navigation-case>
-    </navigation-rule>
-    <navigation-rule>
-        <from-view-id>/add/AddGuest.xhtml</from-view-id>
         <navigation-case>
-            <from-outcome>GuestAdded</from-outcome>
-            <to-view-id>/add/GuestAdded.xhtml</to-view-id>
+            <from-outcome>Login</from-outcome>
+            <to-view-id>/login.xhtml</to-view-id>
             <redirect />
         </navigation-case>
     </navigation-rule>
+    <application>
+        <message-bundle>messages</message-bundle>
+        <resource-bundle>
+            <base-name>messages</base-name>
+            <var>msg</var>
+        </resource-bundle>
+        <locale-config>
+            <default-locale>en</default-locale>
+            <supported-locale>en</supported-locale>
+            <supported-locale>pl</supported-locale>
+        </locale-config>
+    </application>
 </faces-config>

@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+<ui:composition template="../../resources/templates/master-template.xhtml">
+    <ui:define name="title">#{msg.user_manager_add_title}</ui:define>
+
+    <ui:define name="content">
+        <h:form styleClass="dispatch-on-load">
+            #{msg.user_field_Login} <h:inputText styleClass="js-login" value="#{addManagerController.manager.login}" required="true" requiredMessage="#{msg.user_field_Login} #{msg.form_isRequired}"/><br/>
+            #{msg.user_field_Password} <h:inputSecret styleClass="js-password" value="#{addManagerController.manager.password}" required="true" requiredMessage="#{msg.user_field_Password} #{msg.form_isRequired}"/><br/>
+            #{msg.user_field_Firstname} <h:inputText styleClass="js-firstname" value="#{addManagerController.manager.firstname}" required="true" requiredMessage="#{msg.user_field_Firstname} #{msg.form_isRequired}"/><br/>
+            #{msg.user_field_Lastname} <h:inputText styleClass="js-lastname" value="#{addManagerController.manager.lastname}" required="true" requiredMessage="#{msg.user_field_Lastname} #{msg.form_isRequired}"/><br/>
+            <h:commandButton value="#{msg.action_add}" action="#{addManagerController.createManager()}"/>
+            <h:commandButton value="#{msg.action_cancel}" action="ListAllManager" immediate="true"/>
+        </h:form>
+    </ui:define>
+</ui:composition>
+</html>

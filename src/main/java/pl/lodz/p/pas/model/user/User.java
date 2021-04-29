@@ -1,22 +1,34 @@
 package pl.lodz.p.pas.model.user;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonView;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
+import pl.lodz.p.pas.model.trait.IdTrait;
+import pl.lodz.p.pas.service.views.Views;
 
-import java.io.Serializable;
-import java.util.UUID;
+import javax.validation.constraints.NotEmpty;
 
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
-public abstract class User implements Serializable {
-
-    private String id;
+@SuperBuilder
+@RequiredArgsConstructor
+@ToString(callSuper = true)
+@EqualsAndHashCode(callSuper = true)
+public class User extends IdTrait {
+    @JsonProperty @NotEmpty
+    @JsonView(Views.Public.class)
     private String login;
-    private String lastname;
+    @JsonProperty @NotEmpty
+    @JsonView({Views.Confidential.class, Views.Registration.class})
     private String password;
-    private boolean isActive;
-
-    public User(String login, String lastname, String password) {
-        this(UUID.randomUUID().toString(), login, lastname, password, true);
-    }
+    @JsonProperty @NotEmpty
+    @JsonView(Views.Public.class)
+    private String firstname;
+    @JsonProperty @NotEmpty
+    @JsonView(Views.Public.class)
+    private String lastname;
+    @Builder.Default
+    @JsonProperty
+    @JsonView(Views.Public.class)
+    private boolean active = true;
 }
